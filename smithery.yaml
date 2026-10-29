@@ -1,0 +1,20 @@
+# Smithery.ai Model Context Protocol (MCP) Manifest
+# https://smithery.ai/docs/config
+
+version: "1.0.0"
+name: "german-b2b-data-suite"
+description: "Model Context Protocol (MCP) server providing LLMs direct, verified access to official German Commercial Registers (Handelsregister), Insolvency court checks, § 5 DDG Impressum & CEO extraction, Bund.de procurement tenders, ZVG-Portal foreclosure auctions, and ZUGFeRD 2.2 / XRechnung 3.0 e-invoicing."
+startCommand:
+  type: stdio
+  config:
+    command: npx
+    args:
+      - "-y"
+      - "@apify/actors-mcp-server"
+      - "--actors"
+      - "AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper"
+    env:
+      APIFY_TOKEN:
+        type: string
+        description: "Your Apify API Token from https://console.apify.com/account/integrations"
+        required: true

@@ -1,0 +1,218 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "German Public Tenders & Procurement Scraper (service.bund.de)",
+    "description": "Extracts federal, state, and municipal public procurement notices from service.bund.de with submission deadlines, contracting authority addresses, and direct document download links.\n\nSynchronous API endpoint returning structured dataset items directly.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Andre Grunert - Enterprise API Integrations",
+      "url": "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "security": [
+    {
+      "ApifyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Apify API Token"
+      }
+    }
+  },
+  "paths": {
+    "/v2/acts/AGrunert~german-public-tenders-vergabe-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "tags": [
+          "4. Public Tenders (Bund.de)"
+        ],
+        "summary": "Scrape official German public procurement tenders, notices and tender documents",
+        "description": "Extracts federal, state, and municipal public procurement notices from service.bund.de with submission deadlines, contracting authority addresses, and direct document download links.",
+        "operationId": "run_tenders_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "keywords"
+                ],
+                "properties": {
+                  "keywords": {
+                    "type": "string",
+                    "description": "Search keywords (e.g. IT-Dienstleistungen, Software, Bauarbeiten)"
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "Berlin"
+                    ],
+                    "description": "Target federal states"
+                  },
+                  "service_type": {
+                    "type": "string",
+                    "enum": [
+                      "ALL",
+                      "LIEFERLEISTUNG",
+                      "DIENSTLEISTUNG",
+                      "BAULEISTUNG"
+                    ],
+                    "default": "ALL",
+                    "description": "Category of tender procurement"
+                  },
+                  "max_items": {
+                    "type": "integer",
+                    "default": 25,
+                    "description": "Maximum notices to extract"
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Fetch deep tender specification details"
+                  }
+                }
+              },
+              "example": {
+                "keywords": "IT-Dienstleistungen Software",
+                "states": [
+                  "Berlin",
+                  "Bayern"
+                ],
+                "service_type": "DIENSTLEISTUNG",
+                "max_items": 10,
+                "include_details": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed successfully. Returns dataset items array directly.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "example": [
+                  {
+                    "tender_id": "b7b8ab7f-044e-4561-a108-963e49e6df32",
+                    "title": "Beschaffung einer Softwareanwendung für Schulkindbetreuung und Schulverpflegung",
+                    "contracting_authority": "Stadt Freiburg i. Br. - Vergabemanagement",
+                    "published_at": "29.10.2026",
+                    "submission_deadline": "01.12.2026",
+                    "location": "79098 Freiburg Baden-Württemberg",
+                    "postal_code": "79098",
+                    "city": "Freiburg",
+                    "state": "Baden-Württemberg",
+                    "service_type": "Dienstleistungen",
+                    "procedure_type": "Verhandlungsverfahren mit öffentlichem Teilnahmewettbewerb (Freiberufliche Leistungen (VOF))",
+                    "cpv_codes": [
+                      "48000000",
+                      "72000000",
+                      "72260000"
+                    ],
+                    "description": "Die Stadt Freiburg im Breisgau beabsichtigt eine integrierte Software-as-a-Service-Lösung (SaaS) für die Bereiche Schulkindbetreuung, Schulverpflegung sowie Personaleinsatzplanung von Vertretungskräften zu beschaffen, einzuführen und zu betreiben. Hintergrund der Ausschreibung sind die zunehmenden fachlichen, organisatorischen und administrativen Anforderungen an die Verwaltung dieser Aufgabenbereiche. Die bestehenden Verfahren werden derzeit durch verschiedene Einzellösungen sowie manuelle Arbeitsabläufe unterstützt und ermöglichen keine durchgängige Bearbeitung der miteinander verbundenen Geschäftsprozesse. Mit der Einführung einer modernen, webbasierten Gesamtlösung für ca. 65 Schulen sollen die Verwaltungsprozesse digitalisiert, standardisiert und stärker miteinander verzahnt werden. Gleichzeitig soll die Software eine serviceorientierte Zusammenarbeit zwischen Verwaltung, Schulen, Einrichtungen der Schulkindbetreuung, Caterern, Sorgeberechtigten sowie weiteren beteiligten Nutzergruppen unterstützen. Die Software muss spätestens zum Beginn des Schuljahres 2027/2028, voraussichtlich zum 11.09.2027, produktiv einsatzbereit sein. Die Vertragslaufzeit beträgt 4 Jahre nach Auftragserteilung (voraussichtlich April 2027) mit Verlängerungsoption von 3 x 2 Jahre. Die maximale Vertragslaufzeit beläuft sich somit auf 10 Jahre. Zur Vertragslaufzeit und Preisgleitklausel siehe Nr. 9 der Leistungsbeschreibung. Die Einzelheiten sind den Vergabeunterlagen zu entnehmen.",
+                    "tender_document_urls": [
+                      "https://bieterzugang.deutsche-evergabe.de/evergabe.bieter/api/supplier/external/deeplink/subproject/6a3e4b50-25ad-4df6-9ba8-65de1227210b"
+                    ],
+                    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/b7b8ab7f-044e-4561-a108-963e49e6df32.html",
+                    "matched_keyword": "Software",
+                    "scraped_at": "2026-10-29T09:29:28.746779+00:00"
+                  },
+                  {
+                    "tender_id": "902631",
+                    "title": "TRNSYS Software und TESS",
+                    "contracting_authority": "Fraunhofer-Institut für Mikrostruktur von Werkstoffen und Systemen IMWS",
+                    "published_at": "28.10.2026",
+                    "submission_deadline": "13.11.2026",
+                    "location": "Offizielle Bezeichnung: Fraunhofer-Gesellschaft zur Förderung der angewandten Forschung e.V. | IMWS vertreten durch: Fraunhofer-Institut für Mikrostruktur von Werkstoffen und Systemen IMWS Postansc...",
+                    "city": "Offizielle Bezeichnung: Fraunhofer-Gesellschaft zur Förderung der angewandten Forschung e.V. | IMWS vertreten durch: Fraunhofer-Institut für Mikrostruktur von Werkstoffen und Systemen IMWS Postansc...",
+                    "service_type": "Lieferleistungen",
+                    "procedure_type": "Öffentliche Ausschreibung (Unterschwellenvergabeordnung (UVgO))",
+                    "cpv_codes": [
+                      "48461000-7"
+                    ],
+                    "description": "TRNSYS Software und TESS\nVergabestelle: Fraunhofer-Institut für Mikrostruktur von Werkstoffen und Systemen IMWS\nLeistungsart: Lieferleistungen\nVerfahren: Öffentliche Ausschreibung (Unterschwellenvergabeordnung (UVgO))\nErfüllungsort: Offizielle Bezeichnung: Fraunhofer-Gesellschaft zur Förderung der angewandten Forschung e.V. | IMWS vertreten durch: Fraunhofer-Institut für Mikrostruktur von Werkstoffen und Systemen IMWS Postansc...\nAngebotsfrist: 13.11.2026\nCPV-Codes: 48461000-7\nVollständige Vergabeunterlagen und Leistungsbeschreibung unter den angegebenen Vergabeplattform-Links abrufbar.",
+                    "tender_document_urls": [
+                      "https://www.evergabe-online.de/tenderdetails.html?id=902631"
+                    ],
+                    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/eVergabe/902631.html",
+                    "matched_keyword": "Software",
+                    "scraped_at": "2026-10-29T09:29:31.537660+00:00"
+                  },
+                  {
+                    "tender_id": "54321-Tender-1a11ef40b9f-69c6334e04f729a9",
+                    "title": "Beschaffung 7 Diagnosegeräte inkl. Abo/Software-Lizenz",
+                    "contracting_authority": "Die Autobahn GmbH des Bundes - NL West",
+                    "published_at": "28.10.2026",
+                    "submission_deadline": "06.11.2026",
+                    "location": "Deutschland Die Autobahn GmbH des Bundes - NL-West Bahnhofsplatz 1, 56410 Montabaur",
+                    "postal_code": "56410",
+                    "city": "Montabaur",
+                    "state": "Rheinland-Pfalz",
+                    "service_type": "Lieferleistungen",
+                    "procedure_type": "Öffentliche Ausschreibung (Dienst- und Lieferleistungen (VOL))",
+                    "cpv_codes": [],
+                    "description": "Beschaffung 7 Diagnosegeräte inkl. Abo/Software-Lizenz",
+                    "tender_document_urls": [
+                      "https://vergabe.autobahn.de/NetServer/PublicationControllerServlet?function=Detail&TWOID=54321-Tender-1a11ef40b9f-69c6334e04f729a9&PublicationType=0"
+                    ],
+                    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/ai-ag-prod/2026/10/54321-Tender-1a11ef40b9f-69c6334e04f729a9.html",
+                    "matched_keyword": "Software",
+                    "scraped_at": "2026-10-29T09:29:30.503137+00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid Apify API token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid token"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Apify usage credits",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Account out of credits"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

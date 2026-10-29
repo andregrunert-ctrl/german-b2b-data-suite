@@ -1,0 +1,266 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "German Real Estate Foreclosure & ZVG-Portal Scraper",
+    "description": "Monitors all official German judicial foreclosure auctions from zvg-portal.de across all 16 federal states with market appraisals, court file numbers, land registry details and auction dates.\n\nSynchronous API endpoint returning structured dataset items directly.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Andre Grunert - Enterprise API Integrations",
+      "url": "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "security": [
+    {
+      "ApifyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Apify API Token"
+      }
+    }
+  },
+  "paths": {
+    "/v2/acts/AGrunert~german-real-estate-foreclosure-zvg-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "tags": [
+          "3. Real Estate Foreclosures (ZVG-Portal)"
+        ],
+        "summary": "Search official judicial foreclosure auctions, appraisals and property values",
+        "description": "Monitors all official German judicial foreclosure auctions from zvg-portal.de across all 16 federal states with market appraisals, court file numbers, land registry details and auction dates.",
+        "operationId": "run_zvg_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "NW"
+                    ],
+                    "description": "German state codes (e.g. NW, BY, BE, BW, HE)"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City or court name filter"
+                  },
+                  "property_type": {
+                    "type": "string",
+                    "enum": [
+                      "ALL",
+                      "WOHNUNG",
+                      "EINFAMILIENHAUS",
+                      "MEHRFAMILIENHAUS",
+                      "GEWERBE",
+                      "GRUNDSTUECK"
+                    ],
+                    "default": "ALL",
+                    "description": "Category of property"
+                  },
+                  "min_market_value": {
+                    "type": "number",
+                    "description": "Minimum property value in EUR"
+                  },
+                  "max_market_value": {
+                    "type": "number",
+                    "description": "Maximum property value in EUR"
+                  },
+                  "max_items": {
+                    "type": "integer",
+                    "default": 25,
+                    "description": "Maximum auction records to return"
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Fetch deep details including appraisal PDF links"
+                  }
+                }
+              },
+              "example": {
+                "states": [
+                  "NW"
+                ],
+                "property_type": "EINFAMILIENHAUS",
+                "max_items": 10,
+                "include_details": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed successfully. Returns dataset items array directly.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "example": [
+                  {
+                    "zvg_id": "41090",
+                    "case_number": "0001 K 0102/2024",
+                    "court": "Amtsgericht Bautzen in Sachsen",
+                    "state": "sn",
+                    "property_type": "denkmalgeschützes Reihenendhaus",
+                    "title": "denkmalgeschützes Reihenendhaus: Pirnaer Straße 29, 01454 Radeberg",
+                    "address": "Pirnaer Straße 29, 01454 Radeberg",
+                    "postal_code": "01454",
+                    "city": "Radeberg",
+                    "market_value_eur": 115000,
+                    "currency": "EUR",
+                    "auction_date": "Donnerstag, 29. Oktober 2026, 09:00 Uhr",
+                    "auction_location": "Saal 135, Amtsgericht Bautzen, Lessingstr. 7, 02625 Bautzen",
+                    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Kamenz von Radeberg, Blatt 3056 lfd. Nr. 1, Flst.-Nr. 203 mit 150 qm der Gemarkung Radeberg",
+                    "is_cancelled": false,
+                    "description": "Grundstück, bebaut mit einem denkmalgeschützten, zu modernisierenden Wohnhaus mit Anbau (Reihenendhaus), zum Zeitpunkt der Begutachtung eigengenutzt, Baujahr gemäß Denkmalliste vor 1800, Verkehrswertermittlung erfolgte aufgrund überwiegender einfacher Außenbesichtigung",
+                    "creditor_info": "BHW Bausparkasse AG, Az: 3672503452, Ansprechpartner: Frau Mestmaecker, Herr Dörrie Tel. 05151/18-4421, 3642",
+                    "pdf_urls": [
+                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109597&zvg_id=41090",
+                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090",
+                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109594&zvg_id=41090"
+                    ],
+                    "documents": [
+                      {
+                        "title": "Amtliche Bekanntmachung",
+                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109597&zvg_id=41090",
+                        "file_type": "pdf",
+                        "file_size": "375.39 kB"
+                      },
+                      {
+                        "title": "Exposee",
+                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090",
+                        "file_type": "pdf",
+                        "file_size": "301.41 kB"
+                      },
+                      {
+                        "title": "Foto",
+                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109594&zvg_id=41090",
+                        "file_type": "pdf",
+                        "file_size": "811.7 kB"
+                      }
+                    ],
+                    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41090&land_abk=sn",
+                    "scraped_at": "2026-10-29T09:28:54.470062+00:00"
+                  },
+                  {
+                    "zvg_id": "41023",
+                    "case_number": "0485 K 0235/2022",
+                    "court": "Amtsgericht Leipzig in Sachsen",
+                    "state": "sn",
+                    "property_type": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen",
+                    "title": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen: Kirchgasse 6 a u. b, 04880 Trossin",
+                    "address": "Kirchgasse 6 a u. b, 04880 Trossin",
+                    "postal_code": "04880",
+                    "city": "Trossin",
+                    "market_value_eur": 124500,
+                    "currency": "EUR",
+                    "auction_date": "Donnerstag, 29. Oktober 2026, 10:00 Uhr",
+                    "auction_location": "Saal 101, 1. OG, Amtsgericht Leipzig, Bernhard-Göring-Str. 64, 04275 Leipzig",
+                    "land_register": "Grundbücher des Amtsgerichts Torgau von Trossin, Blätter 482 - 497 Eigentumswohnungen SE 1-16, Az. 485 K 235 - 250/22",
+                    "is_cancelled": false,
+                    "description": "Kirchgasse 6a, 04880 Trossin: Wohnblock mit insgesamt 16 WE, KG, drei Vollgeschosse, ausgebautes Satteldach, nicht ausgebauter Dachspitz, Baujahr 1983, Stellplätze nicht existent, leerstehend SE Nr. 1: Wohnung EG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 2: Wohnung EG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 3: Wohnung 1. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 4: Wohnung 1. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 5: Wohnung 2. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 6: Wohnung 2. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 7: Wohnung DG links, 3 Zimmer, ca. 56 qm Wohnfläche in einem MFH SE Nr. 8: Wohnung DG rechts, 2 Zimmer, ca. 45 qm Wohnfläche in einem MFH SE Nr. 9: Wohnung EG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 10: Wohnung EG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 11: Wohnung 1. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 12: Wohnung 1. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 13: Wohnung 2. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 14: Wohnung 2. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 15: Wohnung DG links, 3 Zimmer (davon 2 Zimmer nicht ausgebaut), ca. 56 qm Wohnfläche in einem MFH SE Nr. 16: Wohnung DG rechts, 2 Zimmer, ca. 45 qm Wohnfläche in einem MFH Gutachten Download unter www.zvsachsen.de",
+                    "creditor_info": "Keine Kontaktdaten, da keine Einwilligung vorliegt",
+                    "pdf_urls": [
+                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109423&zvg_id=41023"
+                    ],
+                    "documents": [
+                      {
+                        "title": "Amtliche Bekanntmachung",
+                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109423&zvg_id=41023",
+                        "file_type": "pdf",
+                        "file_size": "330.28 kB"
+                      }
+                    ],
+                    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41023&land_abk=sn",
+                    "scraped_at": "2026-10-29T09:28:54.706276+00:00"
+                  },
+                  {
+                    "zvg_id": "41064",
+                    "case_number": "0468 K 0062/2024",
+                    "court": "Amtsgericht Leipzig in Sachsen",
+                    "state": "sn",
+                    "property_type": "Gewerbegrundstück",
+                    "title": "Gewerbegrundstück: Süptitzer Weg 32, 04860 Torgau",
+                    "address": "Süptitzer Weg 32, 04860 Torgau",
+                    "postal_code": "04860",
+                    "city": "Torgau",
+                    "market_value_eur": 36000,
+                    "currency": "EUR",
+                    "auction_date": "Donnerstag, 29. Oktober 2026, 13:00 Uhr",
+                    "auction_location": "Saal 101, 1. OG, Amtsgericht Leipzig, Bernhard-Göring-Str. 64, 04275 Leipzig",
+                    "land_register": "Grundbuch des Amtsgerichts Torgau von Torgau Blatt 6399",
+                    "is_cancelled": false,
+                    "description": "Süptitzer Weg 32, 04860 Torgau: Gewerbegrundstück, ehem. Heizhaus / Halle / Verwaltungsgebäude, Industrieschornstein, Baujahr ca. 1975, verschlissene und stark geschädigte Bausubstanz, Leerstand seit 12 Jahren, auf dem Dach befindliche Photovoltaikanlage wird nicht mitversteigert Gutachten Download unter www.zvsachsen.de",
+                    "creditor_info": "Der Gläubiger / Antragsteller hat der Weitergabe seiner Kontaktdaten im Internet oder durch die Geschäftsstelle nicht zugestimmt.",
+                    "pdf_urls": [
+                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064"
+                    ],
+                    "documents": [
+                      {
+                        "title": "Amtliche Bekanntmachung",
+                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064",
+                        "file_type": "pdf",
+                        "file_size": "198.54 kB"
+                      }
+                    ],
+                    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41064&land_abk=sn",
+                    "scraped_at": "2026-10-29T09:28:54.861320+00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid Apify API token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid token"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Apify usage credits",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Account out of credits"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

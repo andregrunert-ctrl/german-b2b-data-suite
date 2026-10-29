@@ -8,6 +8,10 @@
 [![MCP Protocol](https://img.shields.io/badge/MCP-Ready%20for%20Agents-8A2BE2?style=for-the-badge&logo=anthropic&logoColor=white)](https://modelcontextprotocol.io/)
 [![n8n Certified](https://img.shields.io/badge/n8n-Ready%20Workflows-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)](workflows/n8n_dach_b2b_lead_to_kyb_pipeline.json)
 [![Make.com Certified](https://img.shields.io/badge/Make.com-Blueprints-6D28D9?style=for-the-badge&logo=make&logoColor=white)](workflows/make_com_dach_b2b_blueprint.json)
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-german-b2b.svg?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/n8n-nodes-german-b2b)
+[![RapidAPI](https://img.shields.io/badge/RapidAPI-OpenAPI%203.0-0055FF?style=for-the-badge&logo=rapidapi&logoColor=white)](rapidapi/00_unified_german_b2b_suite_openapi.json)
+[![Smithery](https://img.shields.io/badge/Smithery-MCP%20Indexed-FF5722?style=for-the-badge)](smithery.yaml)
+[![Glama](https://img.shields.io/badge/Glama-MCP%20Directory-00C853?style=for-the-badge)](glama.json)
 [![Compliance: EN 16931 & § 5 DDG](https://img.shields.io/badge/Compliance-EN%2016931%20%7C%20§%205%20DDG%20%7C%20XJustiz-009688?style=for-the-badge)](https://apify.com/AGrunert)
 
 <br/>
@@ -121,12 +125,57 @@ https://mcp.apify.com?actors=AGrunert/german-e-invoice-zugferd-xrechnung-suite,A
 
 ## ⚡ Workflow Automation (n8n & Make.com)
 
+### 📦 Official n8n Community Node Package (`npm`)
+
+For an integrated, native node UI inside your n8n workflow canvas, install our official npm community package:
+
+```bash
+# In your n8n root directory:
+npm install n8n-nodes-german-b2b
+```
+Or in **n8n Settings > Community Nodes**, install `n8n-nodes-german-b2b`.  
+Supports all 6 tools as native Resource & Operation selections with turnkey credential management!  
+👉 **GitHub:** [https://github.com/andregrunert-ctrl/n8n-nodes-german-b2b](https://github.com/andregrunert-ctrl/n8n-nodes-german-b2b)  
+👉 **npm Package:** [https://www.npmjs.com/package/n8n-nodes-german-b2b](https://www.npmjs.com/package/n8n-nodes-german-b2b)
+
+---
+
+### 📋 Ready-to-Use Workflow Blueprints
 Ready-to-use blueprint files are available in [`workflows/`](workflows/):
 
 - **n8n Pipeline:** [`workflows/n8n_dach_b2b_lead_to_kyb_pipeline.json`](workflows/n8n_dach_b2b_lead_to_kyb_pipeline.json)  
   *Automates B2B Lead Scraping ➡️ Impressum CEO Enrichment ➡️ KYB Handelsregister & Insolvency Verification in one flow.*
 - **Make.com Blueprint:** [`workflows/make_com_dach_b2b_blueprint.json`](workflows/make_com_dach_b2b_blueprint.json)  
   *Modular webhook-triggered scenario chaining lead generation and legal entity verification.*
+
+---
+
+## 🌐 RapidAPI Studio & Marketplace Specs (`rapidapi/`)
+
+Want to integrate via RapidAPI or offer the 6 APIs on RapidAPI Hub?  
+We provide fully validated, turnkey **OpenAPI 3.0.3** definitions with real sample payloads in [`rapidapi/`](rapidapi/):
+
+* **Unified Suite (All 6 Tools):** [`rapidapi/00_unified_german_b2b_suite_openapi.json`](rapidapi/00_unified_german_b2b_suite_openapi.json)
+* **Dedicated Individual Specs:**
+  * `01_zugferd_openapi.json`
+  * `02_kyb_openapi.json`
+  * `03_zvg_openapi.json`
+  * `04_tenders_openapi.json`
+  * `05_impressum_openapi.json`
+  * `06_b2b_leads_openapi.json`
+* **1-Minute Publish Guide:** [`rapidapi/RAPIDAPI_PUBLISH_GUIDE.md`](rapidapi/RAPIDAPI_PUBLISH_GUIDE.md)
+
+Simply import `00_unified_german_b2b_suite_openapi.json` in **RapidAPI Studio -> Add New API -> OpenAPI**, configure the Secret Header `Authorization: Bearer <APIFY_TOKEN>`, and publish!
+
+---
+
+## 🤖 AI Agent MCP Registries (Smithery & Glama)
+
+This repository includes native registry manifests for 1-click indexing across all major Model Context Protocol search engines:
+
+* **Smithery.ai:** [`smithery.yaml`](smithery.yaml)
+* **Glama.ai & PulseMCP:** [`glama.json`](glama.json)
+* **Direct Desktop Config:** [`mcp/claude_cursor_mcp_config.json`](mcp/claude_cursor_mcp_config.json)
 
 ---
 

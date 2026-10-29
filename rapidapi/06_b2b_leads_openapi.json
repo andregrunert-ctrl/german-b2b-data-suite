@@ -1,0 +1,213 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "German B2B Leads, Crafts & Business Directory Scraper",
+    "description": "Extracts verified German B2B company leads and local crafts (Handwerker) from leading directories with E.164 phone numbers, physical addresses, postal codes, and verified corporate domains.\n\nSynchronous API endpoint returning structured dataset items directly.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Andre Grunert - Enterprise API Integrations",
+      "url": "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "security": [
+    {
+      "ApifyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Apify API Token"
+      }
+    }
+  },
+  "paths": {
+    "/v2/acts/AGrunert~german-b2b-leads-directory-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "tags": [
+          "6. B2B Directory Leads (11880 & Gelbe Seiten)"
+        ],
+        "summary": "Scrape verified German local businesses and crafts with phone, address and domain",
+        "description": "Extracts verified German B2B company leads and local crafts (Handwerker) from leading directories with E.164 phone numbers, physical addresses, postal codes, and verified corporate domains.",
+        "operationId": "run_leads_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "query",
+                  "location"
+                ],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Industry or trade keyword (e.g. Dachdecker, Steuerberater, Elektriker)"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "City or postal code in Germany (e.g. Berlin, München, 50667)"
+                  },
+                  "require_website": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Filter only companies with website"
+                  },
+                  "require_phone": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Filter only companies with telephone"
+                  },
+                  "max_items": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "Maximum lead records"
+                  },
+                  "include_details": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Extract full contact profiles"
+                  }
+                }
+              },
+              "example": {
+                "query": "Dachdecker",
+                "location": "Berlin",
+                "require_website": true,
+                "require_phone": true,
+                "max_items": 10,
+                "include_details": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed successfully. Returns dataset items array directly.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "example": [
+                  {
+                    "lead_id": "5c8c87af38ac8840",
+                    "company_name": "Bleumortier Elektro GmbH",
+                    "category": "Elektroinstallation",
+                    "industries": [
+                      "Elektroinstallation"
+                    ],
+                    "website": "https://www.elektro-bleumortier.de/",
+                    "domain": "elektro-bleumortier.de",
+                    "phone": "+49 89 22 31 11",
+                    "street": "Ledererstr. 17",
+                    "postal_code": "80331",
+                    "city": "München",
+                    "state": "Bayern",
+                    "country": "DE",
+                    "rating_value": 5,
+                    "review_count": 1,
+                    "description": "Ihr zuverlässiger Elektriker Meisterbetrieb für MünchenElektro Bleumortier GmbH ist seit 1933 ihr kompetenter und zuverlässiger Meisterbetrieb, wenn Sie einen Elektriker brauchen. Wir  bieten Elektroinstallationen nach Renovierung oder Altbausanierung von Wohnungen und Häusern, Installation vom Hausanschluss bis zur Steckdose, Lichttechnik, Installation von elektrischen Fußbodenheizungen, Marmorheizungen und Wärmewellenheizungen, Antennenanlagen, Datenverkabelung und Schwachstromanlagen. Wir sind ein familiengeführter Betrieb, der bereits seit über 90 Jahren für Qualität und Zuverlässigkeit steht. Unsere Firma wurde im Jahr 1933 von Herrn Adolf Bleumortier gegründet, im Jahre 1972 von seinem Sohn Ernst Bleumortier übernommen. Seit 1992 haben Herr Hillreiner und Herr Knoll über 30 Jahre den Betrieb erfolgreich geführt, der nun von den Junior Chef’s Christian Sollmann und Korbinian Knoll übernommen wird. Gerne sind wir auch für Sie da. Ihr Elektro Bleumortier Team.",
+                    "search_term": "Elektroinstallation",
+                    "search_location": "München",
+                    "source": "gelbeseiten",
+                    "source_url": "https://www.gelbeseiten.de/gsbiz/97e88b26-8d5c-4230-b4e8-6eeb190f88ef",
+                    "scraped_at": "2026-10-29T09:26:36.041201+00:00"
+                  },
+                  {
+                    "lead_id": "49dbe040a792adb0",
+                    "company_name": "Friedrich Liebhart GmbH",
+                    "category": "Elektroinstallation",
+                    "industries": [
+                      "Elektroinstallation"
+                    ],
+                    "website": "https://www.liebhart-tv.de/",
+                    "domain": "liebhart-tv.de",
+                    "phone": "+49 89 40 47 33",
+                    "street": "Hofangerstr. 12",
+                    "postal_code": "81735",
+                    "city": "München",
+                    "state": "Bayern",
+                    "country": "DE",
+                    "rating_value": 3,
+                    "review_count": 8,
+                    "description": "Friedrich Liebhart GmbH | ElektroinstallationenWillkommen bei Elektro Liebhart - Ihrem Partner für Elektroinstallationen, Elektroanlageninstallationen, Elektroservice und Elektronikfachgeschäft. Wir sind bei Fragen rund um Hausgeräte - von der Beratung bis zur Installation - rundum für Sie da. Kommen Sie vorbei, wir beraten Sie gerne!",
+                    "search_term": "Elektroinstallation",
+                    "search_location": "München",
+                    "source": "gelbeseiten",
+                    "source_url": "https://www.gelbeseiten.de/gsbiz/d886205a-bf9e-497d-8e3b-13aacc1022b7",
+                    "scraped_at": "2026-10-29T09:18:01.795856+00:00"
+                  },
+                  {
+                    "lead_id": "db354c838c48591c",
+                    "company_name": "Karl Greiner GmbH Elektro",
+                    "category": "Elektroinstallation",
+                    "industries": [
+                      "Elektroinstallation"
+                    ],
+                    "website": "http://www.karl-greiner-gmbh.de/",
+                    "domain": "karl-greiner-gmbh.de",
+                    "phone": "+49 89 42 26 55",
+                    "street": "Stolzhofstr. 28",
+                    "postal_code": "81825",
+                    "city": "München",
+                    "state": "Bayern",
+                    "country": "DE",
+                    "description": "Sie suchen einen erfahrenen Partner im Elektro-, Sanitär- oder Heizungshandwerk? Mit unserem 25 Mitarbeiter starken Team sind wir gerne für Sie da – ob Elektroinstallation, Heizungs- und Wärmepumpenbau, Badrenovierung oder Kundendienst. Als eines der wenigen Unternehmen in unserem Umfeld vereinen wir die Gewerke Elektro, Heizung und Sanitär unter einem Dach. Rufen Sie gerne an!",
+                    "search_term": "Elektroinstallation",
+                    "search_location": "München",
+                    "source": "gelbeseiten",
+                    "source_url": "https://www.gelbeseiten.de/gsbiz/5df492e9-ea58-43c4-ad7c-49616ce6b686",
+                    "scraped_at": "2026-10-29T09:18:01.795867+00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid Apify API token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid token"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Apify usage credits",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Account out of credits"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

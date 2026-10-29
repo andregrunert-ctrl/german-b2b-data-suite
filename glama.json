@@ -1,0 +1,50 @@
+{
+  "$schema": "https://glama.ai/mcp/schema.json",
+  "name": "german-b2b-data-suite",
+  "displayName": "German & DACH B2B Data & Compliance Suite",
+  "description": "Enterprise MCP server connecting Claude Desktop, Cursor AI, and LLM Agents to 6 verified German & DACH data sources: Handelsregister KYB, Insolvenzbekanntmachungen, § 5 DDG Impressum & CEO discovery, Bund.de procurement tenders, ZVG-Portal foreclosure auctions, 11880/Gelbe Seiten directory leads, and ZUGFeRD / XRechnung e-invoicing.",
+  "icon": "https://raw.githubusercontent.com/andregrunert-ctrl/n8n-nodes-german-b2b/main/nodes/GermanB2bSuite/germanB2bSuite.svg",
+  "homepage": "https://github.com/andregrunert-ctrl/german-b2b-data-suite",
+  "repository": "https://github.com/andregrunert-ctrl/german-b2b-data-suite",
+  "categories": [
+    "Data & Analytics",
+    "Finance",
+    "Legal & Compliance",
+    "Sales & Lead Generation"
+  ],
+  "keywords": [
+    "mcp",
+    "germany",
+    "dach",
+    "handelsregister",
+    "kyb",
+    "insolvenz",
+    "impressum",
+    "zugferd",
+    "xrechnung",
+    "zvg",
+    "tenders",
+    "b2b"
+  ],
+  "runtime": "node",
+  "server": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@apify/actors-mcp-server",
+      "--actors",
+      "AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper"
+    ],
+    "env": {
+      "APIFY_TOKEN": {
+        "description": "Apify Personal API Token (starts with apify_api_...)",
+        "required": true
+      }
+    }
+  },
+  "remote": {
+    "type": "sse",
+    "url": "https://mcp.apify.com?actors=AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper&token={APIFY_TOKEN}"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "German & DACH B2B Impressum, Contact & Legal Enricher (§ 5 DDG)",
+    "description": "Crawls German and DACH business domains, resolves required § 5 DDG legal notices (Impressum), and extracts Managing Directors (Geschäftsführer/Vorstand), Commercial Register HRB numbers, court, and VAT IDs (USt-IdNr.).\n\nSynchronous API endpoint returning structured dataset items directly.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Andre Grunert - Enterprise API Integrations",
+      "url": "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "security": [
+    {
+      "ApifyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Apify API Token"
+      }
+    }
+  },
+  "paths": {
+    "/v2/acts/AGrunert~german-impressum-b2b-lead-enricher/run-sync-get-dataset-items": {
+      "post": {
+        "tags": [
+          "5. Impressum & CEO Enricher (§ 5 DDG)"
+        ],
+        "summary": "Enrich German corporate websites with CEO, legal entity, HRB and VAT ID",
+        "description": "Crawls German and DACH business domains, resolves required § 5 DDG legal notices (Impressum), and extracts Managing Directors (Geschäftsführer/Vorstand), Commercial Register HRB numbers, court, and VAT IDs (USt-IdNr.).",
+        "operationId": "run_impressum_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "domains"
+                ],
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of domains to enrich (e.g. ['personio.de', 'celonis.com'])"
+                  },
+                  "extract_contact_page": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Fallback scan of contact/about pages"
+                  },
+                  "max_concurrency": {
+                    "type": "integer",
+                    "default": 5,
+                    "description": "Concurrent web workers"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "personio.de",
+                  "celonis.com"
+                ],
+                "extract_contact_page": true,
+                "max_concurrency": 5
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed successfully. Returns dataset items array directly.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "example": [
+                  {
+                    "domain": "elektro-bleumortier.de",
+                    "input_url": "elektro-bleumortier.de",
+                    "status": "SUCCESS",
+                    "impressum_found": true,
+                    "impressum_url": "https://www.elektro-bleumortier.de/impressum",
+                    "legal_company_name": "Elektro Bleumortier GmbH",
+                    "legal_form": "GmbH",
+                    "representatives": [],
+                    "emails": [
+                      "info@elektro-bleumortier.de"
+                    ],
+                    "phones": [
+                      "089 223111"
+                    ],
+                    "street": "Ledererstraße 17",
+                    "postal_code": "80331",
+                    "city": "München",
+                    "country": "Deutschland",
+                    "vat_id": "DE819320304",
+                    "social_links": {
+                      "instagram": "https://instagram.com/elektrobleumortier"
+                    },
+                    "scraped_at": "2026-10-29T09:26:38.901363+00:00"
+                  },
+                  {
+                    "domain": "biontech.de",
+                    "input_url": "biontech.de",
+                    "status": "SUCCESS",
+                    "impressum_found": true,
+                    "impressum_url": "https://www.biontech.com/de/de/home/imprint.html",
+                    "legal_company_name": "BioNTech SE",
+                    "legal_form": "SE",
+                    "representatives": [
+                      "Prof. Ugur Sahin",
+                      "Annemarie Hanekamp",
+                      "Kylie Jimenez",
+                      "Sierk Poetting",
+                      "Prof. Özlem Türeci",
+                      "Ramón Zapata",
+                      "James Ryan"
+                    ],
+                    "emails": [
+                      "service@biontech.de"
+                    ],
+                    "phones": [
+                      "004961319084",
+                      "+49 6131 9084-0",
+                      "+49 6131 9084-2121"
+                    ],
+                    "street": "An der Goldgrube 12",
+                    "postal_code": "55131",
+                    "city": "Mainz",
+                    "country": "Deutschland",
+                    "register_court": "Amtsgericht Mainz",
+                    "register_type": "HRB",
+                    "register_number": "HRB 48720",
+                    "vat_id": "DE263382495",
+                    "social_links": {
+                      "linkedin": "https://www.linkedin.com/company/biontech-se/",
+                      "twitter": "https://x.com/BioNTech_Group",
+                      "youtube": "https://www.youtube.com/@biontech2008"
+                    },
+                    "scraped_at": "2026-10-29T09:15:32.341699+00:00"
+                  },
+                  {
+                    "domain": "deepl.com",
+                    "input_url": "deepl.com",
+                    "status": "SUCCESS",
+                    "impressum_found": true,
+                    "impressum_url": "https://www.deepl.com/de/publisher",
+                    "legal_company_name": "DeepL SE",
+                    "legal_form": "SE",
+                    "representatives": [
+                      "Dr. Jaroslaw Kutylowski"
+                    ],
+                    "emails": [
+                      "info@deepl.com"
+                    ],
+                    "phones": [],
+                    "street": "Maarweg 165",
+                    "postal_code": "50825",
+                    "city": "Köln",
+                    "country": "Deutschland",
+                    "register_court": "Amtsgericht Köln",
+                    "register_type": "HRB",
+                    "register_number": "HRB 104617",
+                    "vat_id": "DE349242045",
+                    "social_links": {
+                      "linkedin": "https://www.linkedin.com/company/deepl/",
+                      "twitter": "https://twitter.com/DeepLcom",
+                      "facebook": "https://www.facebook.com/DeepLcom/",
+                      "instagram": "https://www.instagram.com/deeplhq/",
+                      "github": "https://github.com/DeepL"
+                    },
+                    "scraped_at": "2026-10-29T09:15:32.465276+00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid Apify API token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid token"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Apify usage credits",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Account out of credits"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

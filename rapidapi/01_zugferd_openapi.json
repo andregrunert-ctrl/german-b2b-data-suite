@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "German E-Invoice (ZUGFeRD & XRechnung) Suite",
+    "description": "Generates PDF/A-3 documents with embedded Factur-X/ZUGFeRD 2.2 CII XML and official German XRechnung 3.0.2 syntax according to EU Directive EN 16931. Also extracts embedded XML and validates against official KoSIT Schematron rules.\n\nSynchronous API endpoint returning structured dataset items directly.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Andre Grunert - Enterprise API Integrations",
+      "url": "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "security": [
+    {
+      "ApifyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Apify API Token"
+      }
+    }
+  },
+  "paths": {
+    "/v2/acts/AGrunert~german-e-invoice-zugferd-xrechnung-suite/run-sync-get-dataset-items": {
+      "post": {
+        "tags": [
+          "1. E-Invoice Suite (ZUGFeRD & XRechnung)"
+        ],
+        "summary": "Generate, extract and validate compliant EN 16931 & Factur-X e-invoices",
+        "description": "Generates PDF/A-3 documents with embedded Factur-X/ZUGFeRD 2.2 CII XML and official German XRechnung 3.0.2 syntax according to EU Directive EN 16931. Also extracts embedded XML and validates against official KoSIT Schematron rules.",
+        "operationId": "run_zugferd_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "operation"
+                ],
+                "properties": {
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "generate_pdf_invoice",
+                      "extract_xml",
+                      "validate_invoice"
+                    ],
+                    "default": "generate_pdf_invoice",
+                    "description": "E-invoicing operation to execute"
+                  },
+                  "profile": {
+                    "type": "string",
+                    "enum": [
+                      "COMFORT",
+                      "XRECHNUNG_3_0",
+                      "EXTENDED",
+                      "BASIC",
+                      "BASIC_WL",
+                      "MINIMUM"
+                    ],
+                    "default": "COMFORT",
+                    "description": "ZUGFeRD / Factur-X profile level"
+                  },
+                  "invoice_data": {
+                    "type": "object",
+                    "description": "Complete invoice structure with seller, buyer, line items and payment means"
+                  },
+                  "file_url": {
+                    "type": "string",
+                    "description": "Public URL to PDF invoice for extraction or validation"
+                  },
+                  "file_base64": {
+                    "type": "string",
+                    "description": "Base64-encoded PDF or XML string"
+                  }
+                }
+              },
+              "example": {
+                "operation": "generate_pdf_invoice",
+                "profile": "COMFORT",
+                "invoice_data": {
+                  "invoice_number": "INV-2026-001",
+                  "issue_date": "2026-10-29",
+                  "due_date": "2026-11-29",
+                  "currency": "EUR",
+                  "seller": {
+                    "name": "Muster Consulting GmbH",
+                    "street": "Hauptstraße 42",
+                    "postal_code": "10115",
+                    "city": "Berlin",
+                    "country_code": "DE",
+                    "vat_id": "DE123456789",
+                    "email": "billing@muster-consulting.de"
+                  },
+                  "buyer": {
+                    "name": "Kunde AG",
+                    "street": "Kundenweg 10",
+                    "postal_code": "80331",
+                    "city": "München",
+                    "country_code": "DE",
+                    "vat_id": "DE987654321"
+                  },
+                  "line_items": [
+                    {
+                      "name": "Cloud Architecture & Integration Consulting",
+                      "quantity": 10.0,
+                      "unit_code": "HUR",
+                      "unit_price": 150.0,
+                      "tax_rate": 19.0
+                    }
+                  ],
+                  "payment_means": {
+                    "code": "30",
+                    "iban": "DE02120300000000202020",
+                    "bic": "BYLADEM1001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed successfully. Returns dataset items array directly.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "example": [
+                  {
+                    "operation": "generate",
+                    "status": "success",
+                    "profile": "EN16931",
+                    "invoice_number": "INV-2026-001",
+                    "issue_date": "2026-10-29",
+                    "total_net_amount": 800,
+                    "total_gross_amount": 952,
+                    "currency": "EUR",
+                    "is_valid": true,
+                    "pdf_key": "INVOICE_INV-2026-001.pdf",
+                    "pdf_download_url": "https://api.apify.com/v2/key-value-stores/lwxaN1HlDEumdxd3a/records/INVOICE_INV-2026-001.pdf?signature=FdKPGwhJYev1ZgKuobQc",
+                    "xml_key": "INVOICE_INV-2026-001.xml",
+                    "xml_download_url": "https://api.apify.com/v2/key-value-stores/lwxaN1HlDEumdxd3a/records/INVOICE_INV-2026-001.xml?signature=1SmClOq25rNjigj2GvNaJ",
+                    "pdf_size_bytes": 34680,
+                    "xml_size_bytes": 6841,
+                    "pdfa_structure_warnings": []
+                  },
+                  {
+                    "operation": "generate",
+                    "status": "success",
+                    "profile": "EN16931",
+                    "invoice_number": "INV-2026-001",
+                    "issue_date": "2026-10-29",
+                    "total_net_amount": 800,
+                    "total_gross_amount": 952,
+                    "currency": "EUR",
+                    "is_valid": true,
+                    "pdf_key": "INVOICE_INV-2026-001.pdf",
+                    "pdf_download_url": "https://api.apify.com/v2/key-value-stores/Q3ZRDwWTvG7r4SmvH/records/INVOICE_INV-2026-001.pdf?signature=1bkM9z5wT74RwAqXX0f3h",
+                    "xml_key": "INVOICE_INV-2026-001.xml",
+                    "xml_download_url": "https://api.apify.com/v2/key-value-stores/Q3ZRDwWTvG7r4SmvH/records/INVOICE_INV-2026-001.xml?signature=1bUP5R4hNZR2xIsd0DRoo",
+                    "pdf_size_bytes": 34680,
+                    "xml_size_bytes": 6841,
+                    "pdfa_structure_warnings": []
+                  },
+                  {
+                    "operation": "generate",
+                    "status": "success",
+                    "profile": "EN16931",
+                    "invoice_number": "RE-2026-0001",
+                    "issue_date": "2026-10-25",
+                    "total_net_amount": 1209,
+                    "total_gross_amount": 1438.71,
+                    "currency": "EUR",
+                    "is_valid": true,
+                    "pdf_key": "INVOICE_RE-2026-0001.pdf",
+                    "pdf_download_url": "https://api.apify.com/v2/key-value-stores/sW3hyBgwB1Y6AX0Kp/records/INVOICE_RE-2026-0001.pdf?signature=1P2JsN3aEsJpM037SaOke",
+                    "xml_key": "INVOICE_RE-2026-0001.xml",
+                    "xml_download_url": "https://api.apify.com/v2/key-value-stores/sW3hyBgwB1Y6AX0Kp/records/INVOICE_RE-2026-0001.xml?signature=YjbF3o5TUr0rkfji6LQ4",
+                    "pdf_size_bytes": 35292,
+                    "xml_size_bytes": 9122,
+                    "pdfa_structure_warnings": []
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid Apify API token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid token"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required - Insufficient Apify usage credits",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Account out of credits"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
