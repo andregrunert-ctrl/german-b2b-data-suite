@@ -77,6 +77,7 @@ curl -s -X POST "${BASE_URL}/AGrunert~german-real-estate-foreclosure-zvg-scraper
   -H "Content-Type: application/json" \
   -d '{
     "states": ["by", "be", "sn"],
+    "property_type": "ALL",
     "min_market_value": 100000,
     "max_items": 3,
     "include_details": true
@@ -89,7 +90,7 @@ echo "==========================================================================
 curl -s -X POST "${BASE_URL}/AGrunert~german-public-tenders-vergabe-scraper/run-sync-get-dataset-items?token=${APIFY_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{
-    "keywords": "Software Cloud KI",
+    "keywords": ["Software", "Cloud", "KI"],
     "states": ["bund", "by", "nw"],
     "max_items": 3,
     "include_details": true

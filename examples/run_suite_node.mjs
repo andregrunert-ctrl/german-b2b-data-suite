@@ -74,6 +74,7 @@ const ACTORS = [
     slug: "AGrunert~german-real-estate-foreclosure-zvg-scraper",
     input: {
       states: ["by", "be", "sn"],
+      property_type: "ALL",
       min_market_value: 100000,
       max_items: 2,
       include_details: true
@@ -83,7 +84,7 @@ const ACTORS = [
     name: "4. German Public Tenders & Procurement Scraper (Bund.de)",
     slug: "AGrunert~german-public-tenders-vergabe-scraper",
     input: {
-      keywords: "Software Cloud KI",
+      keywords: ["Software", "Cloud", "KI"],
       states: ["bund", "by", "nw"],
       max_items: 2,
       include_details: true

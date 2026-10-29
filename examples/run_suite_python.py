@@ -15,6 +15,14 @@ import sys
 import json
 import httpx
 
+# Ensure UTF-8 output on Windows console
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 APIFY_TOKEN = os.environ.get("APIFY_TOKEN")
 if not APIFY_TOKEN:
     print("❌ ERROR: APIFY_TOKEN environment variable is not set!")
@@ -84,7 +92,7 @@ ACTORS = [
         "actor": "AGrunert~german-real-estate-foreclosure-zvg-scraper",
         "input": {
             "states": ["by", "be", "sn"],
-            "property_type": "all",
+            "property_type": "ALL",
             "min_market_value": 100000,
             "max_items": 3,
             "include_details": True
@@ -94,7 +102,7 @@ ACTORS = [
         "id": "4. German Public Tenders & Procurement Scraper (Bund.de)",
         "actor": "AGrunert~german-public-tenders-vergabe-scraper",
         "input": {
-            "keywords": "Software Cloud KI",
+            "keywords": ["Software", "Cloud", "KI"],
             "states": ["bund", "by", "nw"],
             "max_items": 3,
             "include_details": True
@@ -128,6 +136,7 @@ def run_suite():
     print("=" * 80)
 
     client = httpx.Client(timeout=180.0)
+    failed = 0
 
     for item in ACTORS:
         name = item["id"]
@@ -148,12 +157,18 @@ def run_suite():
                     preview = {k: first[k] for k in list(first.keys())[:5]}
                     print(f"  Preview: {json.dumps(preview, ensure_ascii=False)}")
             else:
+                failed += 1
                 print(f"  ❌ API Error ({response.status_code}): {response.text[:200]}")
         except Exception as e:
+            failed += 1
             print(f"  ❌ Request Failed: {e}")
 
     print("\n" + "=" * 80)
-    print("🎉 All 6 actors executed successfully!")
+    if failed == 0:
+        print("🎉 All 6 actors executed successfully!")
+    else:
+        print(f"⚠️ Suite finished with {failed} failure(s).")
+        sys.exit(1)
     print("=" * 80)
 
 if __name__ == "__main__":
