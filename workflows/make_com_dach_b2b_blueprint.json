@@ -62,7 +62,7 @@
         "url": "https://api.apify.com/v2/acts/AGrunert~german-impressum-b2b-lead-enricher/run-sync-get-dataset-items?token={{var.apify_token}}",
         "method": "post",
         "bodyType": "raw",
-        "data": "{\"domains\": [\"{{2.data[].domain}}\"], \"extract_contact_page\": true}",
+        "data": "{\"domains\": [\"{{2.data[1].domain}}\"], \"extract_contact_page\": true}",
         "parseResponse": true
       },
       "metadata": {
@@ -90,7 +90,7 @@
         "url": "https://api.apify.com/v2/acts/AGrunert~german-company-kyb-insolvency-scraper/run-sync-get-dataset-items?token={{var.apify_token}}",
         "method": "post",
         "bodyType": "raw",
-        "data": "{\"company_name\": \"{{3.data[].legal_company_name}}\", \"city\": \"{{3.data[].city}}\", \"register_number\": \"{{3.data[].register_number}}\", \"include_insolvency_check\": true}",
+        "data": "{\"company_name\": \"{{3.data[1].legal_company_name}}\", \"city\": \"{{3.data[1].city}}\", \"register_number\": \"{{3.data[1].register_number}}\", \"include_insolvency_check\": true}",
         "parseResponse": true
       },
       "metadata": {

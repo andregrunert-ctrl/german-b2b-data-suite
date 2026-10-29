@@ -118,7 +118,7 @@
             {
               "id": "out-3",
               "name": "managing_directors",
-              "value": "={{ $node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.representatives }}",
+              "value": "={{ ($node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.representatives && $node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.representatives.length) ? $node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.representatives : ($json.officers || []).map(o => o.full_name) }}",
               "type": "array"
             },
             {

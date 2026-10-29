@@ -4,77 +4,114 @@
     "case_number": "0001 K 0102/2024",
     "court": "Amtsgericht Bautzen in Sachsen",
     "state": "sn",
-    "property_type": "denkmalgeschütztes Reihenendhaus",
-    "title": "denkmalgeschütztes Reihenendhaus: Pirnaer Straße 29, 01454 Radeberg",
+    "property_type": "denkmalgeschützes Reihenendhaus",
+    "title": "denkmalgeschützes Reihenendhaus: Pirnaer Straße 29, 01454 Radeberg",
     "address": "Pirnaer Straße 29, 01454 Radeberg",
     "postal_code": "01454",
     "city": "Radeberg",
-    "market_value_eur": 115000.0,
+    "market_value_eur": 115000,
     "currency": "EUR",
     "auction_date": "Donnerstag, 29. Oktober 2026, 09:00 Uhr",
     "auction_location": "Saal 135, Amtsgericht Bautzen, Lessingstr. 7, 02625 Bautzen",
-    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Kamenz von Radeberg, Blatt 3056, Flst.-Nr. 203 (150 qm)",
+    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Kamenz von Radeberg, Blatt 3056 lfd. Nr. 1, Flst.-Nr. 203 mit 150 qm der Gemarkung Radeberg",
     "is_cancelled": false,
-    "description": "Grundstück bebaut mit einem denkmalgeschützten Wohnhaus mit Anbau, Baujahr vor 1800, Sanierungsbedarf vorhanden.",
-    "creditor_info": "BHW Bausparkasse AG",
+    "description": "Grundstück, bebaut mit einem denkmalgeschützten, zu modernisierenden Wohnhaus mit Anbau (Reihenendhaus), zum Zeitpunkt der Begutachtung eigengenutzt, Baujahr gemäß Denkmalliste vor 1800, Verkehrswertermittlung erfolgte aufgrund überwiegender einfacher Außenbesichtigung",
+    "creditor_info": "BHW Bausparkasse AG, Az: 3672503452, Ansprechpartner: Frau Mestmaecker, Herr Dörrie Tel. 05151/18-4421, 3642",
     "pdf_urls": [
       "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109597&zvg_id=41090",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109594&zvg_id=41090"
+    ],
+    "documents": [
+      {
+        "title": "Amtliche Bekanntmachung",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109597&zvg_id=41090",
+        "file_type": "pdf",
+        "file_size": "375.39 kB"
+      },
+      {
+        "title": "Exposee",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090",
+        "file_type": "pdf",
+        "file_size": "301.41 kB"
+      },
+      {
+        "title": "Foto",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109594&zvg_id=41090",
+        "file_type": "pdf",
+        "file_size": "811.7 kB"
+      }
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41090&land_abk=sn",
-    "scraped_at": "2026-10-29T08:23:28Z"
+    "scraped_at": "2026-10-29T09:28:54.470062+00:00"
   },
   {
-    "zvg_id": "41105",
-    "case_number": "0002 K 0045/2025",
-    "court": "Amtsgericht Torgau in Sachsen",
+    "zvg_id": "41023",
+    "case_number": "0485 K 0235/2022",
+    "court": "Amtsgericht Leipzig in Sachsen",
     "state": "sn",
-    "property_type": "Mehrfamilienhaus mit 16 Eigentumswohnungen",
-    "title": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen: Kirchgasse 6, 04880 Trossin",
+    "property_type": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen",
+    "title": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen: Kirchgasse 6 a u. b, 04880 Trossin",
     "address": "Kirchgasse 6 a u. b, 04880 Trossin",
     "postal_code": "04880",
     "city": "Trossin",
-    "market_value_eur": 280000.0,
+    "market_value_eur": 124500,
     "currency": "EUR",
-    "auction_date": "Dienstag, 03. November 2026, 10:30 Uhr",
-    "auction_location": "Saal 12, Amtsgericht Torgau",
-    "land_register": "Grundbuch von Trossin, Blatt 4512",
+    "auction_date": "Donnerstag, 29. Oktober 2026, 10:00 Uhr",
+    "auction_location": "Saal 101, 1. OG, Amtsgericht Leipzig, Bernhard-Göring-Str. 64, 04275 Leipzig",
+    "land_register": "Grundbücher des Amtsgerichts Torgau von Trossin, Blätter 482 - 497 Eigentumswohnungen SE 1-16, Az. 485 K 235 - 250/22",
     "is_cancelled": false,
-    "description": "Massives Mehrfamilienhaus mit 16 Wohneinheiten, teils vermietet, Solide Rendite-Option für Bestandshalter.",
-    "creditor_info": "Sparkasse Leipzig",
+    "description": "Kirchgasse 6a, 04880 Trossin: Wohnblock mit insgesamt 16 WE, KG, drei Vollgeschosse, ausgebautes Satteldach, nicht ausgebauter Dachspitz, Baujahr 1983, Stellplätze nicht existent, leerstehend SE Nr. 1: Wohnung EG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 2: Wohnung EG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 3: Wohnung 1. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 4: Wohnung 1. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 5: Wohnung 2. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 6: Wohnung 2. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 7: Wohnung DG links, 3 Zimmer, ca. 56 qm Wohnfläche in einem MFH SE Nr. 8: Wohnung DG rechts, 2 Zimmer, ca. 45 qm Wohnfläche in einem MFH SE Nr. 9: Wohnung EG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 10: Wohnung EG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 11: Wohnung 1. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 12: Wohnung 1. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 13: Wohnung 2. OG links, 4 Zimmer, ca. 81 qm Wohnfläche in einem MFH SE Nr. 14: Wohnung 2. OG rechts, 3 Zimmer, ca. 61 qm Wohnfläche in einem MFH SE Nr. 15: Wohnung DG links, 3 Zimmer (davon 2 Zimmer nicht ausgebaut), ca. 56 qm Wohnfläche in einem MFH SE Nr. 16: Wohnung DG rechts, 2 Zimmer, ca. 45 qm Wohnfläche in einem MFH Gutachten Download unter www.zvsachsen.de",
+    "creditor_info": "Keine Kontaktdaten, da keine Einwilligung vorliegt",
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109602&zvg_id=41105"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109423&zvg_id=41023"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41105&land_abk=sn",
-    "scraped_at": "2026-10-29T08:23:30Z"
+    "documents": [
+      {
+        "title": "Amtliche Bekanntmachung",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109423&zvg_id=41023",
+        "file_type": "pdf",
+        "file_size": "330.28 kB"
+      }
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41023&land_abk=sn",
+    "scraped_at": "2026-10-29T09:28:54.706276+00:00"
   },
   {
-    "zvg_id": "41112",
-    "case_number": "0003 K 0089/2024",
-    "court": "Amtsgericht Torgau in Sachsen",
+    "zvg_id": "41064",
+    "case_number": "0468 K 0062/2024",
+    "court": "Amtsgericht Leipzig in Sachsen",
     "state": "sn",
     "property_type": "Gewerbegrundstück",
     "title": "Gewerbegrundstück: Süptitzer Weg 32, 04860 Torgau",
     "address": "Süptitzer Weg 32, 04860 Torgau",
     "postal_code": "04860",
     "city": "Torgau",
-    "market_value_eur": 260000.0,
+    "market_value_eur": 36000,
     "currency": "EUR",
-    "auction_date": "Mittwoch, 11. November 2026, 11:00 Uhr",
-    "auction_location": "Saal 12, Amtsgericht Torgau",
-    "land_register": "Grundbuch von Torgau, Blatt 8920",
+    "auction_date": "Donnerstag, 29. Oktober 2026, 13:00 Uhr",
+    "auction_location": "Saal 101, 1. OG, Amtsgericht Leipzig, Bernhard-Göring-Str. 64, 04275 Leipzig",
+    "land_register": "Grundbuch des Amtsgerichts Torgau von Torgau Blatt 6399",
     "is_cancelled": false,
-    "description": "Gewerbefläche mit Lagerhalle und Büroanbau, befestigte Freifläche, ca. 2.400 qm Grundstücksfläche.",
-    "creditor_info": "Deutsche Bank AG",
+    "description": "Süptitzer Weg 32, 04860 Torgau: Gewerbegrundstück, ehem. Heizhaus / Halle / Verwaltungsgebäude, Industrieschornstein, Baujahr ca. 1975, verschlissene und stark geschädigte Bausubstanz, Leerstand seit 12 Jahren, auf dem Dach befindliche Photovoltaikanlage wird nicht mitversteigert Gutachten Download unter www.zvsachsen.de",
+    "creditor_info": "Der Gläubiger / Antragsteller hat der Weitergabe seiner Kontaktdaten im Internet oder durch die Geschäftsstelle nicht zugestimmt.",
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109614&zvg_id=41112"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41112&land_abk=sn",
-    "scraped_at": "2026-10-29T08:23:32Z"
+    "documents": [
+      {
+        "title": "Amtliche Bekanntmachung",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064",
+        "file_type": "pdf",
+        "file_size": "198.54 kB"
+      }
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41064&land_abk=sn",
+    "scraped_at": "2026-10-29T09:28:54.861320+00:00"
   },
   {
-    "zvg_id": "41120",
-    "case_number": "0001 K 0134/2024",
+    "zvg_id": "41087",
+    "case_number": "0001 K 0046/2023",
     "court": "Amtsgericht Bautzen in Sachsen",
     "state": "sn",
     "property_type": "Einfamilienhaus",
@@ -82,18 +119,40 @@
     "address": "Czornebohstraße 5, 02733 Cunewalde",
     "postal_code": "02733",
     "city": "Cunewalde",
-    "market_value_eur": 135000.0,
+    "market_value_eur": 150000,
     "currency": "EUR",
-    "auction_date": "Dienstag, 17. November 2026, 09:30 Uhr",
-    "auction_location": "Saal 135, Amtsgericht Bautzen",
-    "land_register": "Grundbuch von Cunewalde, Blatt 1120",
+    "auction_date": "Freitag, 30. Oktober 2026, 09:00 Uhr",
+    "auction_location": "Saal 141, Amtsgericht Bautzen, Lessingstr. 7, 02625 Bautzen",
+    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Bautzen von Cunewalde je 1/2 Miteigentumsanteile an Blatt 548, Flurstück Nr. 93/c mit 740 qm der Gemarkung Mittelcunewalde",
     "is_cancelled": false,
-    "description": "Freistehendes Einfamilienhaus mit Garten und Garage, Baujahr ca. 1975, fortlaufend instandgehalten.",
-    "creditor_info": "Commerzbank AG",
+    "description": "Grundstück, bebaut mit einem großzügigen Einfamilienwohnhaus und einer frei stehenden Garage; die Wertermittlung wurde aufgrund einfacher Außenbesichtigung durchgeführt.",
+    "creditor_info": "Gemeinde Cunewalde, Az: 70-00003307, Tel. 035877/230-37 Herr Reinke",
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109628&zvg_id=41120"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109584&zvg_id=41087",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109586&zvg_id=41087",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109585&zvg_id=41087"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41120&land_abk=sn",
-    "scraped_at": "2026-10-29T08:23:35Z"
+    "documents": [
+      {
+        "title": "Amtliche Bekanntmachung",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109584&zvg_id=41087",
+        "file_type": "pdf",
+        "file_size": "375.02 kB"
+      },
+      {
+        "title": "Foto",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109586&zvg_id=41087",
+        "file_type": "pdf",
+        "file_size": "714.31 kB"
+      },
+      {
+        "title": "Exposee",
+        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109585&zvg_id=41087",
+        "file_type": "pdf",
+        "file_size": "273.15 kB"
+      }
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41087&land_abk=sn",
+    "scraped_at": "2026-10-29T09:28:55.034925+00:00"
   }
 ]
