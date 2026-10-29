@@ -1,0 +1,131 @@
+[
+  {
+    "domain": "biontech.de",
+    "input_url": "biontech.de",
+    "status": "SUCCESS",
+    "impressum_found": true,
+    "impressum_url": "https://www.biontech.com/de/de/home/imprint.html",
+    "legal_company_name": "BioNTech SE",
+    "legal_form": "SE",
+    "representatives": [
+      "Prof. Dr. Ugur Sahin",
+      "Dr. Sierk Poetting",
+      "Prof. Dr. Özlem Türeci",
+      "James Ryan"
+    ],
+    "emails": [
+      "service@biontech.de"
+    ],
+    "phones": [
+      "+49 6131 9084-0"
+    ],
+    "street": "An der Goldgrube 12",
+    "postal_code": "55131",
+    "city": "Mainz",
+    "country": "Deutschland",
+    "register_court": "Amtsgericht Mainz",
+    "register_type": "HRB",
+    "register_number": "HRB 48720",
+    "vat_id": "DE263382495",
+    "social_links": {
+      "linkedin": "https://www.linkedin.com/company/biontech-se/",
+      "twitter": "https://x.com/BioNTech_Group"
+    },
+    "scraped_at": "2026-10-29T08:25:42Z"
+  },
+  {
+    "domain": "deepl.com",
+    "input_url": "deepl.com",
+    "status": "SUCCESS",
+    "impressum_found": true,
+    "impressum_url": "https://www.deepl.com/de/imprint",
+    "legal_company_name": "DeepL SE",
+    "legal_form": "SE",
+    "representatives": [
+      "Dr. Jaroslaw Kutylowski"
+    ],
+    "emails": [
+      "support@deepl.com",
+      "legal@deepl.com"
+    ],
+    "phones": [
+      "+49 221 828292-0"
+    ],
+    "street": "Maarweg 165",
+    "postal_code": "50825",
+    "city": "Köln",
+    "country": "Deutschland",
+    "register_court": "Amtsgericht Köln",
+    "register_type": "HRB",
+    "register_number": "HRB 111306",
+    "vat_id": "DE267925184",
+    "social_links": {
+      "linkedin": "https://www.linkedin.com/company/deepl/",
+      "twitter": "https://x.com/DeepLcom"
+    },
+    "scraped_at": "2026-10-29T08:25:44Z"
+  },
+  {
+    "domain": "personio.de",
+    "input_url": "personio.de",
+    "status": "SUCCESS",
+    "impressum_found": true,
+    "impressum_url": "https://www.personio.de/impressum/",
+    "legal_company_name": "Personio SE & Co. KGaA",
+    "legal_form": "KGaA",
+    "representatives": [
+      "Hanno Renner",
+      "Jonas Rieke"
+    ],
+    "emails": [
+      "info@personio.de"
+    ],
+    "phones": [
+      "+49 89 12501005"
+    ],
+    "street": "Rundfunkplatz 4",
+    "postal_code": "80335",
+    "city": "München",
+    "country": "Deutschland",
+    "register_court": "Amtsgericht München",
+    "register_type": "HRB",
+    "register_number": "HRB 288410",
+    "vat_id": "DE300767551",
+    "social_links": {
+      "linkedin": "https://www.linkedin.com/company/personio/"
+    },
+    "scraped_at": "2026-10-29T08:25:46Z"
+  },
+  {
+    "domain": "celonis.com",
+    "input_url": "celonis.com",
+    "status": "SUCCESS",
+    "impressum_found": true,
+    "impressum_url": "https://www.celonis.com/de/impressum/",
+    "legal_company_name": "Celonis SE",
+    "legal_form": "SE",
+    "representatives": [
+      "Bastian Nominacher",
+      "Alexander Rinke",
+      "Martin Klenk"
+    ],
+    "emails": [
+      "info@celonis.com"
+    ],
+    "phones": [
+      "+49 89 4161596-0"
+    ],
+    "street": "Theresienstraße 6",
+    "postal_code": "80333",
+    "city": "München",
+    "country": "Deutschland",
+    "register_court": "Amtsgericht München",
+    "register_type": "HRB",
+    "register_number": "HRB 265215",
+    "vat_id": "DE278788448",
+    "social_links": {
+      "linkedin": "https://www.linkedin.com/company/celonis/"
+    },
+    "scraped_at": "2026-10-29T08:25:48Z"
+  }
+]

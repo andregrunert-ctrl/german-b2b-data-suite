@@ -1,0 +1,102 @@
+[
+  {
+    "lead_id": "5c8c87af38ac8840",
+    "company_name": "Bleumortier Elektro GmbH",
+    "category": "Elektroinstallation",
+    "industries": [
+      "Elektroinstallation",
+      "Meisterbetrieb"
+    ],
+    "website": "https://www.elektro-bleumortier.de/",
+    "domain": "elektro-bleumortier.de",
+    "phone": "+49 89 223111",
+    "street": "Ledererstr. 17",
+    "postal_code": "80331",
+    "city": "München",
+    "state": "Bayern",
+    "country": "DE",
+    "rating_value": 5.0,
+    "review_count": 1,
+    "description": "Meisterbetrieb für Elektroinstallationen seit 1933 in München: Altbausanierung, Lichttechnik und Hausanschluss.",
+    "search_term": "Elektroinstallation",
+    "search_location": "München",
+    "source": "gelbeseiten",
+    "source_url": "https://www.gelbeseiten.de/gsbiz/97e88b26-8d5c-4230-b4e8-6eeb190f88ef",
+    "scraped_at": "2026-10-29T08:00:47Z"
+  },
+  {
+    "lead_id": "7a911e2f128bc103",
+    "company_name": "Friedrich Liebhart GmbH",
+    "category": "Elektroinstallation",
+    "industries": [
+      "Elektroinstallation",
+      "Gebäudetechnik"
+    ],
+    "website": "https://www.liebhart-elektro.de/",
+    "domain": "liebhart-elektro.de",
+    "phone": "+49 89 6800970",
+    "street": "St-Martin-Str. 45",
+    "postal_code": "81541",
+    "city": "München",
+    "state": "Bayern",
+    "country": "DE",
+    "rating_value": 4.8,
+    "review_count": 12,
+    "description": "Elektroanlagen, Smart Home, Photovoltaik und Zähleranlagen für Gewerbe- und Privatkunden.",
+    "search_term": "Elektroinstallation",
+    "search_location": "München",
+    "source": "gelbeseiten",
+    "source_url": "https://www.gelbeseiten.de/gsbiz/liebhart-elektro",
+    "scraped_at": "2026-10-29T08:00:48Z"
+  },
+  {
+    "lead_id": "9b12cc8841a0293e",
+    "company_name": "Karl Greiner GmbH Elektro",
+    "category": "Elektroinstallation",
+    "industries": [
+      "Elektroinstallation",
+      "Netzwerktechnik"
+    ],
+    "website": "https://www.greiner-elektro.de/",
+    "domain": "greiner-elektro.de",
+    "phone": "+49 89 5488560",
+    "street": "Landsberger Str. 182",
+    "postal_code": "80687",
+    "city": "München",
+    "state": "Bayern",
+    "country": "DE",
+    "rating_value": 4.9,
+    "review_count": 8,
+    "description": "Qualifizierter Fachbetrieb für Starkstrom- und Schwachstromanlagen sowie EDV-Verkabelung.",
+    "search_term": "Elektroinstallation",
+    "search_location": "München",
+    "source": "gelbeseiten",
+    "source_url": "https://www.gelbeseiten.de/gsbiz/greiner-elektro",
+    "scraped_at": "2026-10-29T08:00:49Z"
+  },
+  {
+    "lead_id": "3e44fa9201bd8821",
+    "company_name": "TP Networks Dienstleistungs GmbH",
+    "category": "Elektroinstallation",
+    "industries": [
+      "Elektrotechnik",
+      "Telekommunikation"
+    ],
+    "website": "https://www.tp-networks.de/",
+    "domain": "tp-networks.de",
+    "phone": "+49 89 3230790",
+    "street": "Schleißheimer Str. 91",
+    "postal_code": "80797",
+    "city": "München",
+    "state": "Bayern",
+    "country": "DE",
+    "rating_value": 4.7,
+    "review_count": 5,
+    "description": "Systemlösungen für Glasfaser, strukturierte Verkabelung und industrielle Elektroinstallationen.",
+    "search_term": "Elektroinstallation",
+    "search_location": "München",
+    "source": "11880",
+    "source_url": "https://www.11880.com/branchenbuch/muenchen/tp-networks",
+    "scraped_at": "2026-10-29T08:00:50Z"
+  }
+]

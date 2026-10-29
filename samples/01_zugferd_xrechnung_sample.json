@@ -1,0 +1,72 @@
+[
+  {
+    "operation": "generate",
+    "status": "success",
+    "profile": "EN16931",
+    "invoice_number": "RE-2026-0001",
+    "issue_date": "2026-10-25",
+    "due_date": "2026-11-24",
+    "seller_name": "Cloud Solutions GmbH",
+    "seller_vat_id": "DE123456789",
+    "buyer_name": "Musterkunde AG",
+    "buyer_reference": "04011000-12345-34",
+    "total_net_amount": 1700.0,
+    "total_tax_amount": 323.0,
+    "total_gross_amount": 2023.0,
+    "currency": "EUR",
+    "is_valid": true,
+    "pdfa_compliant": true,
+    "pdf_download_url": "https://api.apify.com/v2/key-value-stores/default/records/INVOICE_RE-2026-0001.pdf",
+    "xml_download_url": "https://api.apify.com/v2/key-value-stores/default/records/INVOICE_RE-2026-0001.xml",
+    "pdf_size_bytes": 48210,
+    "xml_size_bytes": 14320,
+    "standards": [
+      "ZUGFeRD 2.2",
+      "Factur-X 1.0",
+      "DIN EN 16931",
+      "PDF/A-3b"
+    ]
+  },
+  {
+    "operation": "validate",
+    "status": "success",
+    "profile": "XRECHNUNG_3_0",
+    "invoice_number": "XREC-2026-9812",
+    "issue_date": "2026-10-28",
+    "seller_name": "Deutsche IT-Beratung GmbH",
+    "buyer_name": "Bundesministerium des Innern",
+    "buyer_reference": "991-33221-54",
+    "total_net_amount": 14500.0,
+    "total_tax_amount": 2755.0,
+    "total_gross_amount": 17255.0,
+    "currency": "EUR",
+    "is_valid": true,
+    "validation_report": {
+      "syntax_valid": true,
+      "schematron_valid": true,
+      "kosit_rule_version": "2026-01-31",
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "operation": "embed",
+    "status": "success",
+    "profile": "COMFORT",
+    "invoice_number": "CORP-INV-4410",
+    "issue_date": "2026-10-27",
+    "seller_name": "B2B SaaS Systems GmbH",
+    "buyer_name": "Siemens Mobility AG",
+    "total_net_amount": 5400.0,
+    "total_tax_amount": 1026.0,
+    "total_gross_amount": 6426.0,
+    "currency": "EUR",
+    "is_valid": true,
+    "embedded_xml_filename": "factur-x.xml",
+    "pdf_a3_readiness": {
+      "xmp_metadata_present": true,
+      "srgb_output_intent_present": true,
+      "af_relationship": "Alternative"
+    }
+  }
+]

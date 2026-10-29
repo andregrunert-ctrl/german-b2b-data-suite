@@ -1,0 +1,136 @@
+[
+  {
+    "company_name": "BioNTech SE",
+    "kyb_risk_status": "CLEAR",
+    "register_court": "Amtsgericht Mainz",
+    "register_type": "HRB",
+    "register_number": "HRB 48720",
+    "legal_form": "SE",
+    "status": "aktuell",
+    "seat": "Mainz",
+    "address": "An der Goldgrube 12, 55131 Mainz",
+    "share_capital": 248552200.0,
+    "currency": "EUR",
+    "business_purpose": "Erforschung und Entwicklung, Produktion und Vermarktung von pharmazeutischen Erzeugnissen, insbesondere Immuntherapeutika und Impfstoffen.",
+    "officers_count": 7,
+    "officers": [
+      {
+        "role": "Vorstand",
+        "full_name": "Prof. Dr. Ugur Sahin",
+        "city": "Mainz",
+        "representation_authority": "vertritt einzeln"
+      },
+      {
+        "role": "Vorstand",
+        "full_name": "Prof. Dr. Özlem Türeci",
+        "city": "Mainz",
+        "representation_authority": "vertritt mit einem anderen Vorstandsmitglied"
+      },
+      {
+        "role": "Vorstand",
+        "full_name": "Dr. Sierk Poetting",
+        "city": "Mainz",
+        "representation_authority": "vertritt mit einem anderen Vorstandsmitglied"
+      },
+      {
+        "role": "Prokurist",
+        "full_name": "Ramón Zapata",
+        "city": "Mainz",
+        "representation_authority": "Gesamtprokura gemeinsam mit einem Vorstandsmitglied"
+      }
+    ],
+    "has_insolvency_record": false,
+    "insolvency_cases_count": 0,
+    "scraped_at": "2026-10-29T08:00:00Z"
+  },
+  {
+    "company_name": "Deutsche Börse Aktiengesellschaft",
+    "kyb_risk_status": "CLEAR",
+    "register_court": "Amtsgericht Frankfurt am Main",
+    "register_type": "HRB",
+    "register_number": "HRB 32232",
+    "legal_form": "AG",
+    "status": "aktuell",
+    "seat": "Frankfurt am Main",
+    "address": "Mergenthalerallee 61, 65760 Eschborn",
+    "share_capital": 190000000.0,
+    "currency": "EUR",
+    "business_purpose": "Betrieb von Wertpapierbörsen, Terminbörsen sowie die Bereitstellung von Systemen und Handelsinfrastruktur für den Kapitalmarkt.",
+    "officers_count": 5,
+    "officers": [
+      {
+        "role": "Vorstandsvorsitzender",
+        "full_name": "Dr. Stephan Leithner",
+        "city": "Frankfurt am Main",
+        "representation_authority": "vertritt mit einem anderen Vorstandsmitglied"
+      },
+      {
+        "role": "Vorstand",
+        "full_name": "Gregor Pottmeyer",
+        "city": "Frankfurt am Main",
+        "representation_authority": "vertritt mit einem anderen Vorstandsmitglied"
+      }
+    ],
+    "has_insolvency_record": false,
+    "insolvency_cases_count": 0,
+    "scraped_at": "2026-10-29T08:05:00Z"
+  },
+  {
+    "company_name": "Celonis SE",
+    "kyb_risk_status": "CLEAR",
+    "register_court": "Amtsgericht München",
+    "register_type": "HRB",
+    "register_number": "HRB 265215",
+    "legal_form": "SE",
+    "status": "aktuell",
+    "seat": "München",
+    "address": "Theresienstraße 6, 80333 München",
+    "share_capital": 120500.0,
+    "currency": "EUR",
+    "business_purpose": "Entwicklung, Vertrieb und Vermarktung von Software zur Analyse und Optimierung von Geschäftsprozessen (Process Mining).",
+    "officers_count": 3,
+    "officers": [
+      {
+        "role": "Vorstand",
+        "full_name": "Bastian Nominacher",
+        "city": "München",
+        "representation_authority": "vertritt gemeinsam mit einem weiteren Vorstandsmitglied"
+      },
+      {
+        "role": "Vorstand",
+        "full_name": "Alexander Rinke",
+        "city": "München",
+        "representation_authority": "vertritt gemeinsam mit einem weiteren Vorstandsmitglied"
+      }
+    ],
+    "has_insolvency_record": false,
+    "insolvency_cases_count": 0,
+    "scraped_at": "2026-10-29T08:10:00Z"
+  },
+  {
+    "company_name": "Wirecard AG",
+    "kyb_risk_status": "WARNING_INSOLVENCY_FOUND",
+    "register_court": "Amtsgericht München",
+    "register_type": "HRB",
+    "register_number": "HRB 169268",
+    "legal_form": "AG",
+    "status": "Insolvenz",
+    "seat": "Aschheim",
+    "address": "Einsteinring 35, 85609 Aschheim",
+    "share_capital": 123490000.0,
+    "currency": "EUR",
+    "business_purpose": "Finanzdienstleistungen und elektronischer Zahlungsverkehr.",
+    "officers_count": 2,
+    "officers": [
+      {
+        "role": "Insolvenzverwalter",
+        "full_name": "Dr. Michael Jaffé",
+        "city": "München",
+        "representation_authority": "Verwaltung und Verwertung der Insolvenzmasse"
+      }
+    ],
+    "has_insolvency_record": true,
+    "insolvency_cases_count": 14,
+    "scraped_at": "2026-10-29T08:15:00Z"
+  }
+]

@@ -1,0 +1,118 @@
+{
+  "name": "DACH B2B Lead Enrichment & Compliance Pipeline Blueprint",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {},
+        "expect": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendARequest",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false,
+        "useCustomHeaders": true,
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-b2b-leads-directory-scraper/run-sync-get-dataset-items?token={{var.apify_token}}",
+        "method": "post",
+        "bodyType": "raw",
+        "data": "{\"search_terms\": [\"{{1.search_term}}\"], \"locations\": [\"{{1.location}}\"], \"max_items\": 10, \"require_website\": true}",
+        "parseResponse": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendARequest",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false,
+        "useCustomHeaders": true,
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-impressum-b2b-lead-enricher/run-sync-get-dataset-items?token={{var.apify_token}}",
+        "method": "post",
+        "bodyType": "raw",
+        "data": "{\"domains\": [\"{{2.data[].domain}}\"], \"extract_contact_page\": true}",
+        "parseResponse": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "http:ActionSendARequest",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false,
+        "useCustomHeaders": true,
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-company-kyb-insolvency-scraper/run-sync-get-dataset-items?token={{var.apify_token}}",
+        "method": "post",
+        "bodyType": "raw",
+        "data": "{\"company_name\": \"{{3.data[].legal_company_name}}\", \"city\": \"{{3.data[].city}}\", \"register_number\": \"{{3.data[].register_number}}\", \"include_insolvency_check\": true}",
+        "parseResponse": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json.schemastore.org/claude-desktop-config.json",
+  "title": "German B2B Data & Compliance Suite - MCP Configuration",
+  "description": "Ready-to-use Model Context Protocol (MCP) server configuration connecting Claude Desktop, Cursor AI, and Windsurf to all 6 German & DACH B2B Apify Actors.",
+  "quickstart_guide": {
+    "claude_desktop": {
+      "file_location_windows": "%APPDATA%\\Claude\\claude_desktop_config.json",
+      "file_location_macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+      "instructions": "Merge the 'mcpServers' configuration block into your claude_desktop_config.json and set your personal APIFY_TOKEN from https://console.apify.com/account/integrations."
+    },
+    "cursor_ai": {
+      "file_location": ".cursor/mcp.json (or Cursor Settings -> Features -> MCP -> Add New MCP Server)",
+      "server_type": "command (stdio) or SSE (Server-Sent Events)",
+      "sse_endpoint_full_suite": "https://mcp.apify.com?actors=AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper&token=YOUR_APIFY_TOKEN"
+    },
+    "windsurf_cascade": {
+      "file_location": "~/.codeium/windsurf/mcp_config.json",
+      "instructions": "Paste the 'mcpServers' block into your Windsurf MCP configuration."
+    }
+  },
+  "mcpServers": {
+    "apify-german-b2b-suite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--actors",
+        "AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
+      }
+    }
+  },
+  "available_actor_tools": [
+    {
+      "actor_slug": "AGrunert/german-e-invoice-zugferd-xrechnung-suite",
+      "name": "german_e_invoice_suite",
+      "description": "Generate DIN 5008 / EN 16931 ZUGFeRD 2.2 / Factur-X PDF/A-3 invoices, validate XRechnung 3.0 Schematron XML, or embed XML payloads into corporate PDF templates.",
+      "sample_prompt": "Generate a compliant ZUGFeRD 2.2 Comfort PDF/A-3 invoice for Acme Corp with 10 hours IT architecture consulting."
+    },
+    {
+      "actor_slug": "AGrunert/german-company-kyb-insolvency-scraper",
+      "name": "german_handelsregister_kyb",
+      "description": "Perform official German KYB audits via Handelsregister (XJustiz 3.5.1) and Insolvenzbekanntmachungen: extracts CEOs, registered share capital, HRB court, and active insolvency proceedings.",
+      "sample_prompt": "Run a full KYB audit on 'BioNTech SE' in Mainz and check if there are any insolvency proceedings."
+    },
+    {
+      "actor_slug": "AGrunert/german-real-estate-foreclosure-zvg-scraper",
+      "name": "german_zvg_foreclosures",
+      "description": "Scrape upcoming foreclosure auctions (Zwangsversteigerungen) from zvg-portal.de across all 16 federal states with exact market values (Verkehrswert in EUR) and official Gutachten PDF URLs.",
+      "sample_prompt": "Find all commercial foreclosure auctions in Bavaria and Berlin with a market value over 250,000 EUR scheduled for the next 60 days."
+    },
+    {
+      "actor_slug": "AGrunert/german-public-tenders-vergabe-scraper",
+      "name": "german_public_tenders",
+      "description": "Extract official German public procurement tenders and contracts from service.bund.de with CPV filters, deadlines, and direct document download links.",
+      "sample_prompt": "Search service.bund.de for open IT, AI, and cloud migration tenders with deadlines in the next 4 weeks."
+    },
+    {
+      "actor_slug": "AGrunert/german-impressum-b2b-lead-enricher",
+      "name": "german_impressum_enricher",
+      "description": "Fast § 5 DDG legal notice scraper for German & DACH domains: extracts managing directors (Geschäftsführer), de-obfuscated emails, telephone numbers, HRB court, and VAT IDs (USt-IdNr.).",
+      "sample_prompt": "Enrich the domain 'personio.de' with its registered CEO, Amtsgericht HRB number, and official VAT ID."
+    },
+    {
+      "actor_slug": "AGrunert/german-b2b-leads-directory-scraper",
+      "name": "german_b2b_leads_directory",
+      "description": "Extract verified German B2B company leads, local trades, crafts (Handwerker), and businesses from Gelbe Seiten & 11880 with E.164 phone numbers, addresses, and clean domains.",
+      "sample_prompt": "Find 20 verified electrical contractors (Elektroinstallation) in Munich with active website domains."
+    }
+  ]
+}

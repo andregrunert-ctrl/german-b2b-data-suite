@@ -1,0 +1,99 @@
+[
+  {
+    "zvg_id": "41090",
+    "case_number": "0001 K 0102/2024",
+    "court": "Amtsgericht Bautzen in Sachsen",
+    "state": "sn",
+    "property_type": "denkmalgeschütztes Reihenendhaus",
+    "title": "denkmalgeschütztes Reihenendhaus: Pirnaer Straße 29, 01454 Radeberg",
+    "address": "Pirnaer Straße 29, 01454 Radeberg",
+    "postal_code": "01454",
+    "city": "Radeberg",
+    "market_value_eur": 115000.0,
+    "currency": "EUR",
+    "auction_date": "Donnerstag, 29. Oktober 2026, 09:00 Uhr",
+    "auction_location": "Saal 135, Amtsgericht Bautzen, Lessingstr. 7, 02625 Bautzen",
+    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Kamenz von Radeberg, Blatt 3056, Flst.-Nr. 203 (150 qm)",
+    "is_cancelled": false,
+    "description": "Grundstück bebaut mit einem denkmalgeschützten Wohnhaus mit Anbau, Baujahr vor 1800, Sanierungsbedarf vorhanden.",
+    "creditor_info": "BHW Bausparkasse AG",
+    "pdf_urls": [
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109597&zvg_id=41090",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109595&zvg_id=41090"
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41090&land_abk=sn",
+    "scraped_at": "2026-10-29T08:23:28Z"
+  },
+  {
+    "zvg_id": "41105",
+    "case_number": "0002 K 0045/2025",
+    "court": "Amtsgericht Torgau in Sachsen",
+    "state": "sn",
+    "property_type": "Mehrfamilienhaus mit 16 Eigentumswohnungen",
+    "title": "Mehrfamilienhaus, insgesamt 16 Eigentumswohnungen: Kirchgasse 6, 04880 Trossin",
+    "address": "Kirchgasse 6 a u. b, 04880 Trossin",
+    "postal_code": "04880",
+    "city": "Trossin",
+    "market_value_eur": 280000.0,
+    "currency": "EUR",
+    "auction_date": "Dienstag, 03. November 2026, 10:30 Uhr",
+    "auction_location": "Saal 12, Amtsgericht Torgau",
+    "land_register": "Grundbuch von Trossin, Blatt 4512",
+    "is_cancelled": false,
+    "description": "Massives Mehrfamilienhaus mit 16 Wohneinheiten, teils vermietet, Solide Rendite-Option für Bestandshalter.",
+    "creditor_info": "Sparkasse Leipzig",
+    "pdf_urls": [
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109602&zvg_id=41105"
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41105&land_abk=sn",
+    "scraped_at": "2026-10-29T08:23:30Z"
+  },
+  {
+    "zvg_id": "41112",
+    "case_number": "0003 K 0089/2024",
+    "court": "Amtsgericht Torgau in Sachsen",
+    "state": "sn",
+    "property_type": "Gewerbegrundstück",
+    "title": "Gewerbegrundstück: Süptitzer Weg 32, 04860 Torgau",
+    "address": "Süptitzer Weg 32, 04860 Torgau",
+    "postal_code": "04860",
+    "city": "Torgau",
+    "market_value_eur": 260000.0,
+    "currency": "EUR",
+    "auction_date": "Mittwoch, 11. November 2026, 11:00 Uhr",
+    "auction_location": "Saal 12, Amtsgericht Torgau",
+    "land_register": "Grundbuch von Torgau, Blatt 8920",
+    "is_cancelled": false,
+    "description": "Gewerbefläche mit Lagerhalle und Büroanbau, befestigte Freifläche, ca. 2.400 qm Grundstücksfläche.",
+    "creditor_info": "Deutsche Bank AG",
+    "pdf_urls": [
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109614&zvg_id=41112"
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41112&land_abk=sn",
+    "scraped_at": "2026-10-29T08:23:32Z"
+  },
+  {
+    "zvg_id": "41120",
+    "case_number": "0001 K 0134/2024",
+    "court": "Amtsgericht Bautzen in Sachsen",
+    "state": "sn",
+    "property_type": "Einfamilienhaus",
+    "title": "Einfamilienhaus: Czornebohstraße 5, 02733 Cunewalde",
+    "address": "Czornebohstraße 5, 02733 Cunewalde",
+    "postal_code": "02733",
+    "city": "Cunewalde",
+    "market_value_eur": 135000.0,
+    "currency": "EUR",
+    "auction_date": "Dienstag, 17. November 2026, 09:30 Uhr",
+    "auction_location": "Saal 135, Amtsgericht Bautzen",
+    "land_register": "Grundbuch von Cunewalde, Blatt 1120",
+    "is_cancelled": false,
+    "description": "Freistehendes Einfamilienhaus mit Garten und Garage, Baujahr ca. 1975, fortlaufend instandgehalten.",
+    "creditor_info": "Commerzbank AG",
+    "pdf_urls": [
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109628&zvg_id=41120"
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41120&land_abk=sn",
+    "scraped_at": "2026-10-29T08:23:35Z"
+  }
+]

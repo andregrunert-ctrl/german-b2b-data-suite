@@ -1,0 +1,76 @@
+[
+  {
+    "tender_id": "b7b8ab7f-044e-4561-a108-963e49e6df32",
+    "title": "Beschaffung einer Softwareanwendung für Schulkindbetreuung und Schulverpflegung",
+    "contracting_authority": "Stadt Freiburg i. Br. - Vergabemanagement",
+    "published_at": "29.10.2026",
+    "submission_deadline": "01.12.2026",
+    "location": "79098 Freiburg Baden-Württemberg",
+    "postal_code": "79098",
+    "city": "Freiburg",
+    "state": "Baden-Württemberg",
+    "service_type": "Dienstleistungen",
+    "procedure_type": "Verhandlungsverfahren mit Teilnahmewettbewerb (VOF)",
+    "cpv_codes": [
+      "48000000",
+      "72000000",
+      "72260000"
+    ],
+    "description": "Einführung einer modernen SaaS-Gesamtlösung für ca. 65 Schulen zur Digitalisierung und Verzahnung von Schulkindbetreuung und Verpflegung.",
+    "tender_document_urls": [
+      "https://bieterzugang.deutsche-evergabe.de/evergabe.bieter/api/supplier/external/deeplink/subproject/6a3e4b50-25ad-4df6-9ba8-65de1227210b"
+    ],
+    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/b7b8ab7f-044e-4561-a108-963e49e6df32.html",
+    "matched_keyword": "Software",
+    "scraped_at": "2026-10-29T08:24:19Z"
+  },
+  {
+    "tender_id": "c1920dfa-8831-419b-90f2-45a892b11209",
+    "title": "Bereitstellung und Lizenzierung der Software MATLAB inkl. Maintenance und Updates",
+    "contracting_authority": "Bundeswehr Universität München",
+    "published_at": "28.10.2026",
+    "submission_deadline": "25.11.2026",
+    "location": "85577 Neubiberg Bayern",
+    "postal_code": "85577",
+    "city": "Neubiberg",
+    "state": "Bayern",
+    "service_type": "Lieferleistungen",
+    "procedure_type": "Offenes Verfahren (VgV)",
+    "cpv_codes": [
+      "48000000",
+      "48460000"
+    ],
+    "description": "Campus-Lizenzierung von MATLAB und Simulink für Forschung und Lehre im Zeitraum 2027.",
+    "tender_document_urls": [
+      "https://www.evergabe-online.de/tenderdetails.html?id=512903"
+    ],
+    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabe/2026/10/c1920dfa-8831-419b-90f2-45a892b11209.html",
+    "matched_keyword": "Software",
+    "scraped_at": "2026-10-29T08:24:20Z"
+  },
+  {
+    "tender_id": "e88390ab-1299-4702-bba3-102938475612",
+    "title": "Cloud-Migration und Kubernetes-Infrastruktur-Support",
+    "contracting_authority": "Informationstechnikzentrum Bund (ITZBund)",
+    "published_at": "27.10.2026",
+    "submission_deadline": "15.12.2026",
+    "location": "53123 Bonn Nordrhein-Westfalen",
+    "postal_code": "53123",
+    "city": "Bonn",
+    "state": "Nordrhein-Westfalen",
+    "service_type": "Dienstleistungen",
+    "procedure_type": "Offenes Verfahren",
+    "cpv_codes": [
+      "72000000",
+      "72222300",
+      "72315000"
+    ],
+    "description": "Unterstützung bei der Modernisierung und Migration behördlicher Fachanwendungen auf OpenShift / Kubernetes Cloud-Plattformen.",
+    "tender_document_urls": [
+      "https://www.evergabe-online.de/tenderdetails.html?id=513019"
+    ],
+    "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/itzbund/2026/10/e88390ab-1299-4702-bba3-102938475612.html",
+    "matched_keyword": "Cloud",
+    "scraped_at": "2026-10-29T08:24:22Z"
+  }
+]

@@ -1,0 +1,217 @@
+{
+  "name": "DACH B2B Lead-to-KYB Automated Enrichment Pipeline",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e0000001-0001-4000-8000-000000000001",
+      "name": "Manual / Scheduled Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-b2b-leads-directory-scraper/run-sync-get-dataset-items?token={{$env.APIFY_TOKEN}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"search_terms\": [\"Elektroinstallation\", \"Photovoltaik\"],\n  \"locations\": [\"München\", \"Nürnberg\"],\n  \"max_items\": 10,\n  \"require_website\": true,\n  \"require_phone\": true\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e0000001-0001-4000-8000-000000000002",
+      "name": "1. Apify: Scrape B2B Leads & Domains",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-impressum-b2b-lead-enricher/run-sync-get-dataset-items?token={{$env.APIFY_TOKEN}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"domains\": [\"{{ $json.domain }}\"],\n  \"extract_contact_page\": true,\n  \"max_concurrency\": 2\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e0000001-0001-4000-8000-000000000003",
+      "name": "2. Apify: § 5 DDG Impressum & CEO Enrichment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/AGrunert~german-company-kyb-insolvency-scraper/run-sync-get-dataset-items?token={{$env.APIFY_TOKEN}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"company_name\": \"{{ $json.legal_company_name || $node['1. Apify: Scrape B2B Leads & Domains'].json.company_name }}\",\n  \"city\": \"{{ $json.city || $node['1. Apify: Scrape B2B Leads & Domains'].json.city }}\",\n  \"register_number\": \"{{ $json.register_number || '' }}\",\n  \"include_insolvency_check\": true,\n  \"include_financial_details\": true\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e0000001-0001-4000-8000-000000000004",
+      "name": "3. Apify: Official KYB & Insolvency Audit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        950,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "out-1",
+              "name": "company_name",
+              "value": "={{ $json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "out-2",
+              "name": "kyb_risk_status",
+              "value": "={{ $json.kyb_risk_status }}",
+              "type": "string"
+            },
+            {
+              "id": "out-3",
+              "name": "managing_directors",
+              "value": "={{ $node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.representatives }}",
+              "type": "array"
+            },
+            {
+              "id": "out-4",
+              "name": "verified_phone",
+              "value": "={{ $node['1. Apify: Scrape B2B Leads & Domains'].json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "out-5",
+              "name": "domain",
+              "value": "={{ $node['1. Apify: Scrape B2B Leads & Domains'].json.domain }}",
+              "type": "string"
+            },
+            {
+              "id": "out-6",
+              "name": "vat_id",
+              "value": "={{ $node['2. Apify: § 5 DDG Impressum & CEO Enrichment'].json.vat_id }}",
+              "type": "string"
+            },
+            {
+              "id": "out-7",
+              "name": "share_capital",
+              "value": "={{ $json.share_capital }}",
+              "type": "number"
+            },
+            {
+              "id": "out-8",
+              "name": "has_active_insolvency",
+              "value": "={{ $json.has_insolvency_record }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e0000001-0001-4000-8000-000000000005",
+      "name": "4. Assemble Verified B2B Lead Record",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Manual / Scheduled Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Apify: Scrape B2B Leads & Domains",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Apify: Scrape B2B Leads & Domains": {
+      "main": [
+        [
+          {
+            "node": "2. Apify: § 5 DDG Impressum & CEO Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Apify: § 5 DDG Impressum & CEO Enrichment": {
+      "main": [
+        [
+          {
+            "node": "3. Apify: Official KYB & Insolvency Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Apify: Official KYB & Insolvency Audit": {
+      "main": [
+        [
+          {
+            "node": "4. Assemble Verified B2B Lead Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
