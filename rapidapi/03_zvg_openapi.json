@@ -59,6 +59,10 @@
                     "type": "string",
                     "description": "City or court name filter"
                   },
+                  "postal_code": {
+                    "type": "string",
+                    "description": "5-digit German postal code filter (e.g. 04109, 10115)"
+                  },
                   "property_type": {
                     "type": "string",
                     "enum": [
@@ -92,6 +96,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Fetch deep details including appraisal PDF links"
+                  },
+                  "include_cancelled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include cancelled or revoked foreclosure notices"
                   }
                 }
               },
@@ -195,38 +204,6 @@
                     ],
                     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41023&land_abk=sn",
                     "scraped_at": "2026-10-29T09:28:54.706276+00:00"
-                  },
-                  {
-                    "zvg_id": "41064",
-                    "case_number": "0468 K 0062/2024",
-                    "court": "Amtsgericht Leipzig in Sachsen",
-                    "state": "sn",
-                    "property_type": "Gewerbegrundstück",
-                    "title": "Gewerbegrundstück: Süptitzer Weg 32, 04860 Torgau",
-                    "address": "Süptitzer Weg 32, 04860 Torgau",
-                    "postal_code": "04860",
-                    "city": "Torgau",
-                    "market_value_eur": 36000,
-                    "currency": "EUR",
-                    "auction_date": "Donnerstag, 29. Oktober 2026, 13:00 Uhr",
-                    "auction_location": "Saal 101, 1. OG, Amtsgericht Leipzig, Bernhard-Göring-Str. 64, 04275 Leipzig",
-                    "land_register": "Grundbuch des Amtsgerichts Torgau von Torgau Blatt 6399",
-                    "is_cancelled": false,
-                    "description": "Süptitzer Weg 32, 04860 Torgau: Gewerbegrundstück, ehem. Heizhaus / Halle / Verwaltungsgebäude, Industrieschornstein, Baujahr ca. 1975, verschlissene und stark geschädigte Bausubstanz, Leerstand seit 12 Jahren, auf dem Dach befindliche Photovoltaikanlage wird nicht mitversteigert Gutachten Download unter www.zvsachsen.de",
-                    "creditor_info": "Der Gläubiger / Antragsteller hat der Weitergabe seiner Kontaktdaten im Internet oder durch die Geschäftsstelle nicht zugestimmt.",
-                    "pdf_urls": [
-                      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064"
-                    ],
-                    "documents": [
-                      {
-                        "title": "Amtliche Bekanntmachung",
-                        "url": "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=sn&file_id=109518&zvg_id=41064",
-                        "file_type": "pdf",
-                        "file_size": "198.54 kB"
-                      }
-                    ],
-                    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=41064&land_abk=sn",
-                    "scraped_at": "2026-10-29T09:28:54.861320+00:00"
                   }
                 ]
               }

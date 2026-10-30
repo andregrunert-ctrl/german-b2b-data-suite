@@ -44,6 +44,7 @@ ACTORS = [
                 "invoice_number": "INV-2026-001",
                 "issue_date": "2026-10-29",
                 "due_date": "2026-11-28",
+                "buyer_reference": "991-12345-56",
                 "currency": "EUR",
                 "seller": {
                     "name": "Muster Consulting GmbH",
@@ -53,7 +54,10 @@ ACTORS = [
                     "country": "DE",
                     "vat_id": "DE123456789",
                     "iban": "DE02120300000000202020",
-                    "email": "billing@muster-consulting.de"
+                    "bic": "BYLADEM1001",
+                    "email": "billing@muster-consulting.de",
+                    "contact_name": "Max Mustermann",
+                    "phone": "+49 30 12345678"
                 },
                 "buyer": {
                     "name": "Kunde AG",
@@ -62,7 +66,7 @@ ACTORS = [
                     "zip_code": "80331",
                     "country": "DE",
                     "vat_id": "DE987654321",
-                    "email": "invoices@kunde.de"
+                    "email": "rechnungseingang@kunde.de"
                 },
                 "line_items": [
                     {

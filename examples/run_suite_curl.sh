@@ -24,6 +24,7 @@ curl -s -X POST "${BASE_URL}/AGrunert~german-e-invoice-zugferd-xrechnung-suite/r
       "invoice_number": "INV-2026-001",
       "issue_date": "2026-10-29",
       "due_date": "2026-11-28",
+      "buyer_reference": "991-12345-56",
       "currency": "EUR",
       "seller": {
         "name": "Cloud Solutions GmbH",
@@ -32,6 +33,10 @@ curl -s -X POST "${BASE_URL}/AGrunert~german-e-invoice-zugferd-xrechnung-suite/r
         "zip_code": "10117",
         "country": "DE",
         "vat_id": "DE123456789",
+        "iban": "DE02120300000000202020",
+        "bic": "BYLADEM1001",
+        "contact_name": "Max Mustermann",
+        "phone": "+49 30 12345678",
         "email": "billing@cloud-solutions.de"
       },
       "buyer": {
@@ -41,7 +46,7 @@ curl -s -X POST "${BASE_URL}/AGrunert~german-e-invoice-zugferd-xrechnung-suite/r
         "zip_code": "80331",
         "country": "DE",
         "vat_id": "DE987654321",
-        "email": "rechnung@kunde.de"
+        "email": "rechnungseingang@kunde.de"
       },
       "line_items": [
         {

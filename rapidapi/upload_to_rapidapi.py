@@ -17,7 +17,7 @@ def upload_to_rapidapi(api_key=None, api_id=None):
         print("[ERROR] No RAPIDAPI_KEY provided.")
         print("Usage:")
         print("  python upload_to_rapidapi.py <RAPIDAPI_KEY> [RAPIDAPI_API_ID]")
-        print("Or set RAPIDAPI_KEY=<your-key> in .env")
+        print("Or set RAPIDAPI_KEY=<your-key> in environment")
         return False
 
     if not os.path.exists(SPEC_PATH):

@@ -61,7 +61,7 @@
       "actor_slug": "AGrunert/german-impressum-b2b-lead-enricher",
       "name": "german_impressum_enricher",
       "description": "Fast § 5 DDG legal notice scraper for German & DACH domains: extracts managing directors (Geschäftsführer), de-obfuscated emails, telephone numbers, HRB court, and VAT IDs (USt-IdNr.).",
-      "sample_prompt": "Enrich the domain 'personio.de' with its registered CEO, Amtsgericht HRB number, and official VAT ID."
+      "sample_prompt": "Enrich the domain 'celonis.com' with its registered CEO, Amtsgericht HRB number, and official VAT ID."
     },
     {
       "actor_slug": "AGrunert/german-b2b-leads-directory-scraper",

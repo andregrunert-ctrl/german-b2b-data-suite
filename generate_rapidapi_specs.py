@@ -1,17 +1,4 @@
-#!/usr/bin/env python3
-"""
-Generate valid OpenAPI 3.0.3 specifications for RapidAPI Studio:
-- 00_unified_german_b2b_suite_openapi.json (All 6 synchronized endpoints)
-- 01_zugferd_openapi.json
-- 02_kyb_openapi.json
-- 03_zvg_openapi.json
-- 04_tenders_openapi.json
-- 05_impressum_openapi.json
-- 06_b2b_leads_openapi.json
-- copy existing zugferd rapidapi-spec.json
-- generate RAPIDAPI_PUBLISH_GUIDE.md
-"""
-
+import copy
 import json
 import os
 import shutil
@@ -38,6 +25,18 @@ zvg_samples = load_sample("03_zvg_foreclosures_sample.json")
 tenders_samples = load_sample("04_public_tenders_sample.json")
 impressum_samples = load_sample("05_impressum_leads_sample.json")
 leads_samples = load_sample("06_b2b_crafts_directory_sample.json")
+
+def sanitize_sample_for_openapi(item):
+    """Truncates massive officer lists in KYB samples to keep OpenAPI specs compact (~30 KB)."""
+    if not isinstance(item, dict):
+        return item
+    clean = copy.deepcopy(item)
+    if "officers" in clean and isinstance(clean["officers"], list):
+        clean["officers"] = clean["officers"][:3]
+    if "handelsregister" in clean and isinstance(clean["handelsregister"], dict):
+        if "officers" in clean["handelsregister"] and isinstance(clean["handelsregister"]["officers"], list):
+            clean["handelsregister"]["officers"] = clean["handelsregister"]["officers"][:3]
+    return clean
 
 # Define tools metadata
 TOOLS = [
@@ -94,25 +93,33 @@ TOOLS = [
                 "invoice_number": "INV-2026-001",
                 "issue_date": "2026-10-30",
                 "due_date": "2026-11-30",
+                "buyer_reference": "991-12345-56",
                 "currency": "EUR",
                 "seller": {
                     "name": "Muster Consulting GmbH",
                     "street": "Hauptstraße 42",
+                    "zip_code": "10115",
                     "postal_code": "10115",
                     "city": "Berlin",
+                    "country": "DE",
                     "country_code": "DE",
                     "vat_id": "DE123456789",
                     "iban": "DE02120300000000202020",
                     "bic": "BYLADEM1001",
+                    "contact_name": "Max Mustermann",
+                    "phone": "+49 30 12345678",
                     "email": "billing@muster-consulting.de"
                 },
                 "buyer": {
                     "name": "Kunde AG",
                     "street": "Kundenweg 10",
+                    "zip_code": "80331",
                     "postal_code": "80331",
                     "city": "München",
+                    "country": "DE",
                     "country_code": "DE",
-                    "vat_id": "DE987654321"
+                    "vat_id": "DE987654321",
+                    "email": "rechnungseingang@kunde.de"
                 },
                 "line_items": [
                     {
@@ -147,6 +154,11 @@ TOOLS = [
                 "company_name": {
                     "type": "string",
                     "description": "Company name or search term (e.g. BioNTech SE, Siemens AG)"
+                },
+                "companies": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Optional list of German companies to verify in bulk batch mode"
                 },
                 "city": {
                     "type": "string",
@@ -204,6 +216,10 @@ TOOLS = [
                     "type": "string",
                     "description": "City or court name filter"
                 },
+                "postal_code": {
+                    "type": "string",
+                    "description": "5-digit German postal code filter (e.g. 04109, 10115)"
+                },
                 "property_type": {
                     "type": "string",
                     "enum": ["ALL", "Eigentumswohnung", "Einfamilienhaus", "Mehrfamilienhaus", "Doppelhaushälfte", "Reihenhaus", "Gewerbe", "Grundstück", "Garage"],
@@ -227,6 +243,11 @@ TOOLS = [
                     "type": "boolean",
                     "default": True,
                     "description": "Fetch deep details including appraisal PDF links"
+                },
+                "include_cancelled": {
+                    "type": "boolean",
+                    "default": False,
+                    "description": "Include cancelled or revoked foreclosure notices"
                 }
             }
         },
@@ -261,6 +282,10 @@ TOOLS = [
                     "items": {"type": "string"},
                     "default": ["Berlin"],
                     "description": "Target federal states"
+                },
+                "city": {
+                    "type": "string",
+                    "description": "City or postal code of performance"
                 },
                 "service_type": {
                     "type": "string",
@@ -304,7 +329,11 @@ TOOLS = [
                 "domains": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "description": "List of domains to enrich (e.g. ['personio.de', 'celonis.com'])"
+                    "description": "List of domains to enrich (e.g. ['biontech.de', 'celonis.com', 'deepl.com'])"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Single domain or website URL (alternative to domains list)"
                 },
                 "extract_contact_page": {
                     "type": "boolean",
@@ -319,7 +348,7 @@ TOOLS = [
             }
         },
         "sample_input": {
-            "domains": ["personio.de", "celonis.com"],
+            "domains": ["biontech.de", "celonis.com", "deepl.com"],
             "extract_contact_page": True,
             "max_concurrency": 5
         },
@@ -344,6 +373,16 @@ TOOLS = [
                 "location": {
                     "type": "string",
                     "description": "City or postal code in Germany (e.g. Berlin, München, 50667)"
+                },
+                "search_terms": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "List of trades, professions, or industry keywords"
+                },
+                "locations": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "List of German cities, regions, or postal codes"
                 },
                 "require_website": {
                     "type": "boolean",
@@ -380,6 +419,7 @@ TOOLS = [
 ]
 
 def make_path_item(tool):
+    compact_samples = [sanitize_sample_for_openapi(s) for s in tool["samples"][:2]] if tool["samples"] else [{"status": "success"}]
     return {
         "post": {
             "tags": [tool["tag"]],
@@ -406,7 +446,7 @@ def make_path_item(tool):
                                     "type": "object"
                                 }
                             },
-                            "example": tool["samples"][:3] if tool["samples"] else [{"status": "success"}]
+                            "example": compact_samples
                         }
                     }
                 },
@@ -481,7 +521,7 @@ unified_spec = {
 unified_file = os.path.join(RAPIDAPI_DIR, "00_unified_german_b2b_suite_openapi.json")
 with open(unified_file, "w", encoding="utf-8") as f:
     json.dump(unified_spec, f, indent=2, ensure_ascii=False)
-print(f"[OK] Generated {unified_file}")
+print(f"[OK] Generated {unified_file} ({os.path.getsize(unified_file)} bytes)")
 
 # 2. BUILD INDIVIDUAL SPECS
 for t in TOOLS:
@@ -523,7 +563,7 @@ for t in TOOLS:
     single_file = os.path.join(RAPIDAPI_DIR, f"{t['file_prefix']}_openapi.json")
     with open(single_file, "w", encoding="utf-8") as f:
         json.dump(single_spec, f, indent=2, ensure_ascii=False)
-    print(f"[OK] Generated {single_file}")
+    print(f"[OK] Generated {single_file} ({os.path.getsize(single_file)} bytes)")
 
 # 3. COPY EXISTING ZUGFERD STANDALONE SPEC IF PRESENT
 if os.path.exists(ZUGFERD_STANDALONE):
@@ -538,9 +578,17 @@ Befolge diese 5 Schritte, um die Suite oder beliebige Einzel-APIs in 60 Sekunden
 
 1. **API Importieren:** Öffne [RapidAPI Studio](https://rapidapi.com/studio) und klicke auf **"Add New API"** -> **"OpenAPI Document"** -> Wähle `rapidapi/00_unified_german_b2b_suite_openapi.json` (oder eine der Einzel-Dateien `01_*` bis `06_*`).
 2. **Gateway-URL prüfen:** Bestätige die Base-URL `https://api.apify.com` unter **API Settings -> Target URL**.
-3. **Secret Header konfigurieren:** Navigiere zu **Gateway -> Transformations / Secret Headers** und füge folgenden Header hinzu:
-   - **Header Name:** `Authorization`
-   - **Header Value:** `Bearer <DEIN_APIFY_TOKEN>` (z. B. `Bearer apify_api_...`)
+3. **Secret Header / Transformation konfigurieren:**
+   - Navigiere zu **Gateway -> Transformations** und klicke auf **"+ Add transformation"**.
+   - **For:** `Request`
+   - **Action:** `Add key`
+   - **Key:** `request.header.Authorization`
+   - **Key value type:** `Static`
+   - **Key value:** `Bearer <DEIN_APIFY_TOKEN>` (z. B. `Bearer apify_api_...`)
+   - **Overwrite value if exists:** `Aktiviert (Häkchen setzen)`
+   - **Scope:** `All Endpoints`
+   - **Plans:** `All Plans`
+   - Klicke auf **"Save"**.
 4. **Preise & Pläne einstellen:** Unter **Plans & Pricing** wählst du Freemium (z. B. 20 Free Requests/Monat, danach 0.05 $ / Call für KYB/Rechnungen).
 5. **Veröffentlichen:** Klicke oben rechts auf **"Publish"** – deine API ist sofort im weltweiten RapidAPI-Marktplatz live, und RapidAPI handhabt Kreditkarten und Billing vollautomatisch!
 """

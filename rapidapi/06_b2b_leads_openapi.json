@@ -57,6 +57,20 @@
                     "type": "string",
                     "description": "City or postal code in Germany (e.g. Berlin, München, 50667)"
                   },
+                  "search_terms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of trades, professions, or industry keywords"
+                  },
+                  "locations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of German cities, regions, or postal codes"
+                  },
                   "require_website": {
                     "type": "boolean",
                     "default": false,
@@ -149,28 +163,6 @@
                     "source": "gelbeseiten",
                     "source_url": "https://www.gelbeseiten.de/gsbiz/d886205a-bf9e-497d-8e3b-13aacc1022b7",
                     "scraped_at": "2026-10-29T09:18:01.795856+00:00"
-                  },
-                  {
-                    "lead_id": "db354c838c48591c",
-                    "company_name": "Karl Greiner GmbH Elektro",
-                    "category": "Elektroinstallation",
-                    "industries": [
-                      "Elektroinstallation"
-                    ],
-                    "website": "http://www.karl-greiner-gmbh.de/",
-                    "domain": "karl-greiner-gmbh.de",
-                    "phone": "+49 89 42 26 55",
-                    "street": "Stolzhofstr. 28",
-                    "postal_code": "81825",
-                    "city": "München",
-                    "state": "Bayern",
-                    "country": "DE",
-                    "description": "Sie suchen einen erfahrenen Partner im Elektro-, Sanitär- oder Heizungshandwerk? Mit unserem 25 Mitarbeiter starken Team sind wir gerne für Sie da – ob Elektroinstallation, Heizungs- und Wärmepumpenbau, Badrenovierung oder Kundendienst. Als eines der wenigen Unternehmen in unserem Umfeld vereinen wir die Gewerke Elektro, Heizung und Sanitär unter einem Dach. Rufen Sie gerne an!",
-                    "search_term": "Elektroinstallation",
-                    "search_location": "München",
-                    "source": "gelbeseiten",
-                    "source_url": "https://www.gelbeseiten.de/gsbiz/5df492e9-ea58-43c4-ad7c-49616ce6b686",
-                    "scraped_at": "2026-10-29T09:18:01.795867+00:00"
                   }
                 ]
               }

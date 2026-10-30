@@ -27,6 +27,7 @@ const ACTORS = [
         invoice_number: "INV-2026-001",
         issue_date: "2026-10-29",
         due_date: "2026-11-28",
+        buyer_reference: "991-12345-56",
         currency: "EUR",
         seller: {
           name: "Cloud Solutions GmbH",
@@ -35,6 +36,10 @@ const ACTORS = [
           zip_code: "10117",
           country: "DE",
           vat_id: "DE123456789",
+          iban: "DE02120300000000202020",
+          bic: "BYLADEM1001",
+          contact_name: "Max Mustermann",
+          phone: "+49 30 12345678",
           email: "billing@cloud-solutions.de"
         },
         buyer: {
@@ -44,7 +49,7 @@ const ACTORS = [
           zip_code: "80331",
           country: "DE",
           vat_id: "DE987654321",
-          email: "invoices@kunde.de"
+          email: "rechnungseingang@kunde.de"
         },
         line_items: [
           {
@@ -117,6 +122,8 @@ async function main() {
   console.log("🚀 Executing German & DACH B2B Data Suite in Node.js");
   console.log("=".repeat(80));
 
+  let failed = 0;
+
   for (const item of ACTORS) {
     console.log(`\n[Calling] ${item.name} (${item.slug})...`);
     const endpoint = `${BASE_URL}/${item.slug}/run-sync-get-dataset-items?token=${APIFY_TOKEN}`;
@@ -129,6 +136,7 @@ async function main() {
       });
 
       if (!res.ok) {
+        failed++;
         const text = await res.text();
         console.error(`  ❌ HTTP ${res.status}: ${text.slice(0, 160)}`);
         continue;
@@ -144,12 +152,18 @@ async function main() {
         console.log(`  Preview:`, JSON.stringify(previewObj));
       }
     } catch (err) {
+      failed++;
       console.error(`  ❌ Fetch Failed:`, err.message);
     }
   }
 
   console.log("\n" + "=".repeat(80));
-  console.log("🎉 All 6 actors executed successfully via Node.js fetch!");
+  if (failed > 0) {
+    console.error(`⚠️ Suite finished with ${failed} failure(s).`);
+    process.exit(1);
+  } else {
+    console.log("🎉 All 6 actors executed successfully via Node.js fetch!");
+  }
   console.log("=".repeat(80));
 }
 

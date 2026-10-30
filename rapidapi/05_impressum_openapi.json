@@ -53,7 +53,11 @@
                     "items": {
                       "type": "string"
                     },
-                    "description": "List of domains to enrich (e.g. ['personio.de', 'celonis.com'])"
+                    "description": "List of domains to enrich (e.g. ['biontech.de', 'celonis.com', 'deepl.com'])"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "Single domain or website URL (alternative to domains list)"
                   },
                   "extract_contact_page": {
                     "type": "boolean",
@@ -69,8 +73,9 @@
               },
               "example": {
                 "domains": [
-                  "personio.de",
-                  "celonis.com"
+                  "biontech.de",
+                  "celonis.com",
+                  "deepl.com"
                 ],
                 "extract_contact_page": true,
                 "max_concurrency": 5
@@ -154,38 +159,6 @@
                       "youtube": "https://www.youtube.com/@biontech2008"
                     },
                     "scraped_at": "2026-10-29T09:15:32.341699+00:00"
-                  },
-                  {
-                    "domain": "deepl.com",
-                    "input_url": "deepl.com",
-                    "status": "SUCCESS",
-                    "impressum_found": true,
-                    "impressum_url": "https://www.deepl.com/de/publisher",
-                    "legal_company_name": "DeepL SE",
-                    "legal_form": "SE",
-                    "representatives": [
-                      "Dr. Jaroslaw Kutylowski"
-                    ],
-                    "emails": [
-                      "info@deepl.com"
-                    ],
-                    "phones": [],
-                    "street": "Maarweg 165",
-                    "postal_code": "50825",
-                    "city": "Köln",
-                    "country": "Deutschland",
-                    "register_court": "Amtsgericht Köln",
-                    "register_type": "HRB",
-                    "register_number": "HRB 104617",
-                    "vat_id": "DE349242045",
-                    "social_links": {
-                      "linkedin": "https://www.linkedin.com/company/deepl/",
-                      "twitter": "https://twitter.com/DeepLcom",
-                      "facebook": "https://www.facebook.com/DeepLcom/",
-                      "instagram": "https://www.instagram.com/deeplhq/",
-                      "github": "https://github.com/DeepL"
-                    },
-                    "scraped_at": "2026-10-29T09:15:32.465276+00:00"
                   }
                 ]
               }
