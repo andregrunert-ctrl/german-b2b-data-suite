@@ -53,24 +53,22 @@
                   "operation": {
                     "type": "string",
                     "enum": [
-                      "generate_pdf_invoice",
-                      "extract_xml",
-                      "validate_invoice"
+                      "generate",
+                      "embed",
+                      "extract"
                     ],
-                    "default": "generate_pdf_invoice",
-                    "description": "E-invoicing operation to execute"
+                    "default": "generate",
+                    "description": "E-invoicing operation to execute (generate, embed, extract)"
                   },
                   "profile": {
                     "type": "string",
                     "enum": [
-                      "COMFORT",
+                      "EN16931",
                       "XRECHNUNG_3_0",
                       "EXTENDED",
-                      "BASIC",
-                      "BASIC_WL",
-                      "MINIMUM"
+                      "BASIC"
                     ],
-                    "default": "COMFORT",
+                    "default": "EN16931",
                     "description": "ZUGFeRD / Factur-X profile level"
                   },
                   "invoice_data": {
@@ -84,16 +82,24 @@
                   "file_base64": {
                     "type": "string",
                     "description": "Base64-encoded PDF or XML string"
+                  },
+                  "xml_url": {
+                    "type": "string",
+                    "description": "URL to raw CII or UBL XML file"
+                  },
+                  "xml_base64": {
+                    "type": "string",
+                    "description": "Base64-encoded CII or UBL XML"
                   }
                 }
               },
               "example": {
-                "operation": "generate_pdf_invoice",
-                "profile": "COMFORT",
+                "operation": "generate",
+                "profile": "EN16931",
                 "invoice_data": {
                   "invoice_number": "INV-2026-001",
-                  "issue_date": "2026-10-29",
-                  "due_date": "2026-11-29",
+                  "issue_date": "2026-10-30",
+                  "due_date": "2026-11-30",
                   "currency": "EUR",
                   "seller": {
                     "name": "Muster Consulting GmbH",
@@ -267,12 +273,12 @@
                   "register_type": {
                     "type": "string",
                     "enum": [
+                      "ALL",
                       "HRB",
                       "HRA",
-                      "VR",
                       "GnR",
                       "PR",
-                      "All"
+                      "VR"
                     ],
                     "default": "HRB",
                     "description": "Court register department"
@@ -3634,9 +3640,9 @@
                       "type": "string"
                     },
                     "default": [
-                      "NW"
+                      "nw"
                     ],
-                    "description": "German state codes (e.g. NW, BY, BE, BW, HE)"
+                    "description": "German state codes (e.g. nw, by, be, bw, he, sn)"
                   },
                   "city": {
                     "type": "string",
@@ -3646,11 +3652,14 @@
                     "type": "string",
                     "enum": [
                       "ALL",
-                      "WOHNUNG",
-                      "EINFAMILIENHAUS",
-                      "MEHRFAMILIENHAUS",
-                      "GEWERBE",
-                      "GRUNDSTUECK"
+                      "Eigentumswohnung",
+                      "Einfamilienhaus",
+                      "Mehrfamilienhaus",
+                      "Doppelhaushälfte",
+                      "Reihenhaus",
+                      "Gewerbe",
+                      "Grundstück",
+                      "Garage"
                     ],
                     "default": "ALL",
                     "description": "Category of property"
@@ -3677,9 +3686,9 @@
               },
               "example": {
                 "states": [
-                  "NW"
+                  "nw"
                 ],
-                "property_type": "EINFAMILIENHAUS",
+                "property_type": "Einfamilienhaus",
                 "max_items": 10,
                 "include_details": true
               }
@@ -3864,8 +3873,15 @@
                 ],
                 "properties": {
                   "keywords": {
-                    "type": "string",
-                    "description": "Search keywords (e.g. IT-Dienstleistungen, Software, Bauarbeiten)"
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "IT-Dienstleistungen",
+                      "Software"
+                    ],
+                    "description": "Search keywords array (e.g. ['IT-Dienstleistungen', 'Software'])"
                   },
                   "states": {
                     "type": "array",
@@ -3881,9 +3897,11 @@
                     "type": "string",
                     "enum": [
                       "ALL",
-                      "LIEFERLEISTUNG",
-                      "DIENSTLEISTUNG",
-                      "BAULEISTUNG"
+                      "Dienstleistungen",
+                      "Bauleistungen",
+                      "Lieferleistungen",
+                      "Informationstechnik",
+                      "Forschung und Entwicklung"
                     ],
                     "default": "ALL",
                     "description": "Category of tender procurement"
@@ -3901,12 +3919,15 @@
                 }
               },
               "example": {
-                "keywords": "IT-Dienstleistungen Software",
+                "keywords": [
+                  "IT-Dienstleistungen",
+                  "Software"
+                ],
                 "states": [
                   "Berlin",
                   "Bayern"
                 ],
-                "service_type": "DIENSTLEISTUNG",
+                "service_type": "Dienstleistungen",
                 "max_items": 10,
                 "include_details": true
               }

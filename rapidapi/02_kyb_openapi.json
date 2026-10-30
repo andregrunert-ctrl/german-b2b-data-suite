@@ -63,12 +63,12 @@
                   "register_type": {
                     "type": "string",
                     "enum": [
+                      "ALL",
                       "HRB",
                       "HRA",
-                      "VR",
                       "GnR",
                       "PR",
-                      "All"
+                      "VR"
                     ],
                     "default": "HRB",
                     "description": "Court register department"

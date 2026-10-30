@@ -55,14 +55,14 @@ TOOLS = [
             "properties": {
                 "operation": {
                     "type": "string",
-                    "enum": ["generate_pdf_invoice", "extract_xml", "validate_invoice"],
-                    "default": "generate_pdf_invoice",
-                    "description": "E-invoicing operation to execute"
+                    "enum": ["generate", "embed", "extract"],
+                    "default": "generate",
+                    "description": "E-invoicing operation to execute (generate, embed, extract)"
                 },
                 "profile": {
                     "type": "string",
-                    "enum": ["COMFORT", "XRECHNUNG_3_0", "EXTENDED", "BASIC", "BASIC_WL", "MINIMUM"],
-                    "default": "COMFORT",
+                    "enum": ["EN16931", "XRECHNUNG_3_0", "EXTENDED", "BASIC"],
+                    "default": "EN16931",
                     "description": "ZUGFeRD / Factur-X profile level"
                 },
                 "invoice_data": {
@@ -76,16 +76,24 @@ TOOLS = [
                 "file_base64": {
                     "type": "string",
                     "description": "Base64-encoded PDF or XML string"
+                },
+                "xml_url": {
+                    "type": "string",
+                    "description": "URL to raw CII or UBL XML file"
+                },
+                "xml_base64": {
+                    "type": "string",
+                    "description": "Base64-encoded CII or UBL XML"
                 }
             }
         },
         "sample_input": {
-            "operation": "generate_pdf_invoice",
-            "profile": "COMFORT",
+            "operation": "generate",
+            "profile": "EN16931",
             "invoice_data": {
                 "invoice_number": "INV-2026-001",
-                "issue_date": "2026-10-29",
-                "due_date": "2026-11-29",
+                "issue_date": "2026-10-30",
+                "due_date": "2026-11-30",
                 "currency": "EUR",
                 "seller": {
                     "name": "Muster Consulting GmbH",
@@ -148,7 +156,7 @@ TOOLS = [
                 },
                 "register_type": {
                     "type": "string",
-                    "enum": ["HRB", "HRA", "VR", "GnR", "PR", "All"],
+                    "enum": ["ALL", "HRB", "HRA", "GnR", "PR", "VR"],
                     "default": "HRB",
                     "description": "Court register department"
                 },
@@ -187,8 +195,8 @@ TOOLS = [
                 "states": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "default": ["NW"],
-                    "description": "German state codes (e.g. NW, BY, BE, BW, HE)"
+                    "default": ["nw"],
+                    "description": "German state codes (e.g. nw, by, be, bw, he, sn)"
                 },
                 "city": {
                     "type": "string",
@@ -196,7 +204,7 @@ TOOLS = [
                 },
                 "property_type": {
                     "type": "string",
-                    "enum": ["ALL", "WOHNUNG", "EINFAMILIENHAUS", "MEHRFAMILIENHAUS", "GEWERBE", "GRUNDSTUECK"],
+                    "enum": ["ALL", "Eigentumswohnung", "Einfamilienhaus", "Mehrfamilienhaus", "Doppelhaushälfte", "Reihenhaus", "Gewerbe", "Grundstück", "Garage"],
                     "default": "ALL",
                     "description": "Category of property"
                 },
@@ -221,8 +229,8 @@ TOOLS = [
             }
         },
         "sample_input": {
-            "states": ["NW"],
-            "property_type": "EINFAMILIENHAUS",
+            "states": ["nw"],
+            "property_type": "Einfamilienhaus",
             "max_items": 10,
             "include_details": True
         },
@@ -241,8 +249,10 @@ TOOLS = [
             "required": ["keywords"],
             "properties": {
                 "keywords": {
-                    "type": "string",
-                    "description": "Search keywords (e.g. IT-Dienstleistungen, Software, Bauarbeiten)"
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "default": ["IT-Dienstleistungen", "Software"],
+                    "description": "Search keywords array (e.g. ['IT-Dienstleistungen', 'Software'])"
                 },
                 "states": {
                     "type": "array",
@@ -252,7 +262,7 @@ TOOLS = [
                 },
                 "service_type": {
                     "type": "string",
-                    "enum": ["ALL", "LIEFERLEISTUNG", "DIENSTLEISTUNG", "BAULEISTUNG"],
+                    "enum": ["ALL", "Dienstleistungen", "Bauleistungen", "Lieferleistungen", "Informationstechnik", "Forschung und Entwicklung"],
                     "default": "ALL",
                     "description": "Category of tender procurement"
                 },
@@ -269,9 +279,9 @@ TOOLS = [
             }
         },
         "sample_input": {
-            "keywords": "IT-Dienstleistungen Software",
+            "keywords": ["IT-Dienstleistungen", "Software"],
             "states": ["Berlin", "Bayern"],
-            "service_type": "DIENSTLEISTUNG",
+            "service_type": "Dienstleistungen",
             "max_items": 10,
             "include_details": True
         },

@@ -49,8 +49,15 @@
                 ],
                 "properties": {
                   "keywords": {
-                    "type": "string",
-                    "description": "Search keywords (e.g. IT-Dienstleistungen, Software, Bauarbeiten)"
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "IT-Dienstleistungen",
+                      "Software"
+                    ],
+                    "description": "Search keywords array (e.g. ['IT-Dienstleistungen', 'Software'])"
                   },
                   "states": {
                     "type": "array",
@@ -66,9 +73,11 @@
                     "type": "string",
                     "enum": [
                       "ALL",
-                      "LIEFERLEISTUNG",
-                      "DIENSTLEISTUNG",
-                      "BAULEISTUNG"
+                      "Dienstleistungen",
+                      "Bauleistungen",
+                      "Lieferleistungen",
+                      "Informationstechnik",
+                      "Forschung und Entwicklung"
                     ],
                     "default": "ALL",
                     "description": "Category of tender procurement"
@@ -86,12 +95,15 @@
                 }
               },
               "example": {
-                "keywords": "IT-Dienstleistungen Software",
+                "keywords": [
+                  "IT-Dienstleistungen",
+                  "Software"
+                ],
                 "states": [
                   "Berlin",
                   "Bayern"
                 ],
-                "service_type": "DIENSTLEISTUNG",
+                "service_type": "Dienstleistungen",
                 "max_items": 10,
                 "include_details": true
               }
