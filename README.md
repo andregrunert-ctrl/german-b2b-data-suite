@@ -25,6 +25,14 @@ Turnkey integration into **Claude Desktop, Cursor AI, Windsurf, LangChain, n8n, 
 
 ---
 
+## 🎥 48-Second Live Video Showcase (1080p HD)
+
+[![Watch German B2B Data Suite Live Video Showcase](https://raw.githubusercontent.com/andregrunert-ctrl/german-b2b-data-suite/main/docs/b2b_showcase_banner.png)](https://youtu.be/ERydgz1hGk8)
+
+*Automate German B2B leads, GDPR-compliant impressum contact enrichment, real-time Handelsregister & insolvency KYB audits, ZVG foreclosures, and public tenders via Apify, n8n, Make.com, or AI Agents (MCP).*
+
+---
+
 ## 🏛️ Architecture & End-to-End B2B Data Flow
 
 Our 6 cloud actors seamlessly chain together to build complete, compliant outbound lead generation, credit risk evaluation, and billing pipelines:
@@ -52,7 +60,7 @@ flowchart LR
 
 | # | Actor Name & Apify Store Link | Primary Capabilities | Standards & Data Sources | Pricing |
 |---|---|---|---|---|
-| **1** | [**German E-Invoice Suite**](https://apify.com/AGrunert/german-e-invoice-zugferd-xrechnung-suite) | Generate DIN 5008 PDF/A-3, embed XML into PDF, or validate incoming invoices | ZUGFeRD 2.2, Factur-X, XRechnung 3.0, EN 16931, KoSIT | Pay-Per-Event ($0.01 / invoice) |
+| **1** | [**German E-Invoice Suite**](https://apify.com/AGrunert/german-e-invoice-zugferd-xrechnung-suite) *(🎥 [Watch 45s Live Demo](https://youtu.be/xkDNnPjQxRo))* | Generate DIN 5008 PDF/A-3, embed XML into PDF, or validate incoming invoices | ZUGFeRD 2.2, Factur-X, XRechnung 3.0, EN 16931, KoSIT | Pay-Per-Event ($0.01 / invoice) |
 | **2** | [**German Company KYB & Insolvency**](https://apify.com/AGrunert/german-company-kyb-insolvency-scraper) | Extract managing directors (Geschäftsführer), registered share capital, HRB & insolvency status | Official Handelsregister (XJustiz 3.5.1), Insolvenzbekanntmachungen | Pay-Per-Event ($0.015 / audit) |
 | **3** | [**German Foreclosures (ZVG-Portal)**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) | Bulk scrape real estate auctions across all 16 states, market values in EUR, and appraisal PDFs | zvg-portal.de, Amtsgerichte | Pay-Per-Event ($0.005 / listing) |
 | **4** | [**German Public Tenders (Bund.de)**](https://apify.com/AGrunert/german-public-tenders-vergabe-scraper) | Monitor public procurement & IT/construction tenders with CPV codes & bidding document URLs | service.bund.de, Bund & Länder | Pay-Per-Event ($0.005 / tender) |
