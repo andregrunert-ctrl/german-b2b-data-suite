@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "German & DACH B2B Data, Compliance & KYB Suite",
-    "description": "The unified German enterprise API suite covering commercial registers (Handelsregister), corporate legal notices (§ 5 DDG Impressum & CEO discovery), federal insolvency court filings, public tenders (service.bund.de), real estate foreclosures (ZVG-Portal), B2B crafts directory leads (11880/Gelbe Seiten), and compliant European e-invoicing (ZUGFeRD 2.2 & XRechnung 3.0).\n\nAll endpoints execute synchronously and return clean, structured JSON datasets directly.",
+    "description": "The unified German enterprise API suite covering commercial registers (Handelsregister), corporate legal notices (§ 5 DDG Impressum & CEO discovery), federal insolvency court filings, public tenders (service.bund.de), real estate foreclosures (ZVG-Portal), B2B crafts directory leads (11880/Gelbe Seiten), and compliant European e-invoicing (ZUGFeRD 2.2 & XRechnung 3.0).\n\nAll endpoints execute synchronously and return clean, structured JSON datasets directly.\n\n🎥 Video Walkthroughs & Live Demos (1080p HD):\n• German B2B Data Suite (48s Live Showcase): https://youtu.be/ERydgz1hGk8\n• German E-Invoice ZUGFeRD Suite (45s Live Showcase): https://youtu.be/xkDNnPjQxRo",
     "version": "1.0.0",
     "contact": {
       "name": "Andre Grunert - Enterprise API Integrations",
