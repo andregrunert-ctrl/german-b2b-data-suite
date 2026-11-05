@@ -210,6 +210,24 @@ bash examples/run_suite_curl.sh
 
 ---
 
+## 📊 Bulk Germany Datasets (Excel / CSV Download)
+
+Looking for turnkey, ready-to-use German B2B and PropTech datasets without writing code or orchestrating APIs? We offer pre-compiled, enriched master datasets formatted specifically for German Microsoft Excel, PowerBI, and data science workflows:
+
+### 🏠 German Real Estate Foreclosures Master Dataset (ZVG-Portal)
+- **Coverage:** Complete, nationwide inventory across all 16 German federal states (*Bayern, NRW, Baden-Württemberg, Berlin, Hessen, Sachsen, etc.*).
+- **Enriched Attributes:** Court (*Amtsgericht*), Case Number (*Aktenzeichen*), Property Type (*Eigentumswohnung, Einfamilienhaus, Mehrfamilienhaus, Gewerbe*), Full Street Address, Postal Code & City, Official Judicial Market Valuation in EUR (market_value_eur as float), Auction Date & Location, Cadaster (*Grundbuchblatt*), and Direct One-Click Links to Official Valuation PDF Appraisals (*Gutachten* & *Bekanntmachungen*).
+- **Excel Formatting:** Formatted .xlsx with frozen header, auto-filters, currency formatting (#.000,00 €), hyperlinked PDF documents, and an automated aggregation sheet (*Marktübersicht nach Bundesland & Objektart*).
+- **Free 50-Item Curated Sample:**
+  - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(UTF-8-BOM, German Excel direct opening)*
+  - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook)*
+  - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json)
+- **Full Nationwide Master Dataset & Live API:**
+  - 🚀 Run live scrapes anytime via [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) (.005 / listing).
+  - 💼 Access custom recurring bulk extracts and productized DaaS delivery on demand.
+
+---
+
 ## 📊 Live Sample Datasets
 
 Explore real sample outputs in [`samples/`](samples/) formatted as JSON and CSV:
