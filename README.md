@@ -222,6 +222,8 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
   - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(UTF-8-BOM, German Excel direct opening)*
   - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook)*
   - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json)
+  - 🤗 [**Hugging Face Hub Dataset**](https://huggingface.co/datasets/AGrunert/german-real-estate-foreclosures-zvg-sample) *(50-Item live sample preview)*
+  - 📊 [**Kaggle Datasets Hub**](https://www.kaggle.com/datasets/andrgrunert/german-real-estate-foreclosures-zvg-sample) *(Data explorer & kernels ready)*
 - **Full Nationwide Master Dataset & Live API:**
   - 🚀 Run live scrapes anytime via [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) (.005 / listing).
   - 💼 Access custom recurring bulk extracts and productized DaaS delivery on demand.
