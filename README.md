@@ -62,7 +62,7 @@ flowchart LR
 |---|---|---|---|---|
 | **1** | [**German E-Invoice Suite**](https://apify.com/AGrunert/german-e-invoice-zugferd-xrechnung-suite) *(🎥 [Watch 45s Live Demo](https://youtu.be/xkDNnPjQxRo))* | Generate DIN 5008 PDF/A-3, embed XML into PDF, or validate incoming invoices | ZUGFeRD 2.2, Factur-X, XRechnung 3.0, EN 16931, KoSIT | Pay-Per-Event ($0.01 / invoice) |
 | **2** | [**German Company KYB & Insolvency**](https://apify.com/AGrunert/german-company-kyb-insolvency-scraper) | Extract managing directors (Geschäftsführer), registered share capital, HRB & insolvency status | Official Handelsregister (XJustiz 3.5.1), Insolvenzbekanntmachungen | Pay-Per-Event ($0.015 / audit) |
-| **3** | [**German Foreclosures (ZVG-Portal)**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) | Bulk scrape real estate auctions across all 16 states, market values in EUR, and appraisal PDFs | zvg-portal.de, Amtsgerichte | Pay-Per-Event ($0.005 / listing) |
+| **3** | [**German Foreclosures (ZVG-Portal)**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) | Bulk scrape real estate auctions across all 16 states, market values in EUR, and appraisal PDFs | zvg-portal.de, Amtsgerichte | Pay-Per-Event ($0.01 / listing) |
 | **4** | [**German Public Tenders (Bund.de)**](https://apify.com/AGrunert/german-public-tenders-vergabe-scraper) | Monitor public procurement & IT/construction tenders with CPV codes & bidding document URLs | service.bund.de, Bund & Länder | Pay-Per-Event ($0.005 / tender) |
 | **5** | [**German Impressum & Contact Enricher**](https://apify.com/AGrunert/german-impressum-b2b-lead-enricher) | Extract C-level executives, de-obfuscated emails, direct phone, HRB court & VAT ID (§ 5 DDG) | § 5 DDG (formerly TMG), § 25 MedienG, DSGVO | Pay-Per-Event ($0.005 / domain) |
 | **6** | [**German B2B Leads & Directory Scraper**](https://apify.com/AGrunert/german-b2b-leads-directory-scraper) | Extract local businesses, crafts (Handwerker), and companies with clean domains & E.164 phones | Gelbe Seiten, 11880, Google-indexed directories | Pay-Per-Event ($0.008 / lead) |
@@ -219,7 +219,7 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
 - **Enriched Attributes:** Court (*Amtsgericht*), Case Number (*Aktenzeichen*), Property Type (*Eigentumswohnung, Einfamilienhaus, Mehrfamilienhaus, Gewerbe*), Full Street Address, Postal Code & City, Official Judicial Market Valuation in EUR (market_value_eur as float), Auction Date & Location, Cadaster (*Grundbuchblatt*), and Direct One-Click Links to Official Valuation PDF Appraisals (*Gutachten* & *Bekanntmachungen*).
 - **Excel Formatting:** Formatted .xlsx with frozen header, auto-filters, currency formatting (#.000,00 €), hyperlinked PDF documents, and an automated aggregation sheet (*Marktübersicht nach Bundesland & Objektart*).
 - **Free 50-Item Curated Sample:**
-  - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(UTF-8-BOM, German Excel direct opening)*
+  - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(RFC 4180 comma-delimited for Pandas, Kaggle & Hugging Face)*
   - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook)*
   - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json)
   - 🤗 [**Hugging Face Hub Dataset**](https://huggingface.co/datasets/AGrunert/german-real-estate-foreclosures-zvg-sample) *(50-Item live sample preview)*
@@ -230,7 +230,7 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
     - 🏢 [**Fiverr Gig 1: German Real Estate Foreclosures (ZVG) in Excel**](https://de.fiverr.com/s/NeWDpEy)
     - ⚖️ [**Fiverr Gig 2: German Companies KYB, Handelsregister & Insolvency Audit**](https://de.fiverr.com/s/yeWblEA)
     - 📑 [**Fiverr Gig 3: ZUGFeRD 2.2 & XRechnung 3.0 E-Invoicing Conversion & Validation**](https://de.fiverr.com/s/1EKL0Z5)
-  - 🚀 **Apify Cloud Scraping Actor:** [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) (.005 / listing).
+  - 🚀 **Apify Cloud Scraping Actor:** [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) ($0.01 / listing).
   - 💼 Access custom recurring bulk extracts and productized DaaS delivery on demand.
 
 ---
