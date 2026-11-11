@@ -224,8 +224,13 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
   - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json)
   - 🤗 [**Hugging Face Hub Dataset**](https://huggingface.co/datasets/AGrunert/german-real-estate-foreclosures-zvg-sample) *(50-Item live sample preview)*
   - 📊 [**Kaggle Datasets Hub**](https://www.kaggle.com/datasets/andrgrunert/german-real-estate-foreclosures-zvg-sample) *(Data explorer & kernels ready)*
-- **Full Nationwide Master Dataset & Live API:**
-  - 🚀 Run live scrapes anytime via [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) (.005 / listing).
+- **Full Nationwide Master Dataset & Live Services:**
+  - 🛒 **Instant Gumroad Download:** [**Get Full Nationwide Master Dataset (.XLSX & .CSV) on Gumroad**](https://grunertandre.gumroad.com/l/qklpqn)
+  - 💼 **Productized Fiverr Gigs:**
+    - 🏢 [**Fiverr Gig 1: German Real Estate Foreclosures (ZVG) in Excel**](https://de.fiverr.com/s/NeWDpEy)
+    - ⚖️ [**Fiverr Gig 2: German Companies KYB, Handelsregister & Insolvency Audit**](https://de.fiverr.com/s/yeWblEA)
+    - 📑 [**Fiverr Gig 3: ZUGFeRD 2.2 & XRechnung 3.0 E-Invoicing Conversion & Validation**](https://de.fiverr.com/s/1EKL0Z5)
+  - 🚀 **Apify Cloud Scraping Actor:** [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) (.005 / listing).
   - 💼 Access custom recurring bulk extracts and productized DaaS delivery on demand.
 
 ---
