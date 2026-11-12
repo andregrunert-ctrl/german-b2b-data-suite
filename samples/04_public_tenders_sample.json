@@ -16,7 +16,7 @@
     "tender_document_urls": [],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/drv/2026/11/54321-Tender-1a09f8261c8-7a5f5ea2bb145ace.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-12T21:47:10.610556+00:00"
+    "scraped_at": "2026-11-12T21:50:01.323177+00:00"
   },
   {
     "tender_id": "dbdae984-ca86-4362-aad9-cbfdaee30969",
@@ -35,7 +35,7 @@
     "tender_document_urls": [],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/10/dbdae984-ca86-4362-aad9-cbfdaee30969.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-12T21:47:10.611753+00:00"
+    "scraped_at": "2026-11-12T21:50:01.323413+00:00"
   },
   {
     "tender_id": "263091",
@@ -54,7 +54,7 @@
     "tender_document_urls": [],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/vmp-bb/2026/11/263091.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-12T21:47:10.612096+00:00"
+    "scraped_at": "2026-11-12T21:50:01.323472+00:00"
   },
   {
     "tender_id": "7091841",
@@ -94,7 +94,7 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7091841.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-12T21:47:10.616438+00:00"
+    "scraped_at": "2026-11-12T21:50:01.323855+00:00"
   },
   {
     "tender_id": "000016040924",
@@ -113,6 +113,6 @@
     "tender_document_urls": [],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/hessen/2026/11/000016040924.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-12T21:47:10.618182+00:00"
+    "scraped_at": "2026-11-12T21:50:01.324052+00:00"
   }
 ]
