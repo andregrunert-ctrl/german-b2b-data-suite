@@ -218,6 +218,7 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
 - **Coverage:** Complete, nationwide inventory across all 16 German federal states (*Bayern, NRW, Baden-Württemberg, Berlin, Hessen, Sachsen, etc.*).
 - **Enriched Attributes:** Court (*Amtsgericht*), Case Number (*Aktenzeichen*), Property Type (*Eigentumswohnung, Einfamilienhaus, Mehrfamilienhaus, Gewerbe*), Full Street Address, Postal Code & City, Official Judicial Market Valuation in EUR (market_value_eur as float), Auction Date & Location, Cadaster (*Grundbuchblatt*), and Direct One-Click Links to Official Valuation PDF Appraisals (*Gutachten* & *Bekanntmachungen*).
 - **Excel Formatting:** Formatted .xlsx with frozen header, auto-filters, currency formatting (#.000,00 €), hyperlinked PDF documents, and an automated aggregation sheet (*Marktübersicht nach Bundesland & Objektart*).
+- **💡 PDF Appraisal Download Note:** `zvg-portal.de` enforces anti-hotlinking security. Direct programmatic downloads require `Referer: item["detail_url"]`. The Gumroad/Fiverr download package includes our turnkey 1-click Python batch downloader (`download_gutachten_pdfs.py`) to download all appraisal PDFs locally!
 - **Free 50-Item Curated Sample:**
   - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(RFC 4180 comma-delimited for Pandas, Kaggle & Hugging Face)*
   - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook)*
