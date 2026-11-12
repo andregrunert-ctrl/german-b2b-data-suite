@@ -1,0 +1,50 @@
+name: Refresh Live B2B & ZVG Samples
+
+on:
+  schedule:
+    # Runs every Monday at 05:00 UTC (06:00/07:00 Europe/Berlin)
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-samples:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install httpx lxml openpyxl huggingface_hub kaggle
+
+      - name: Refresh ZVG & Public Tender samples and sync external hubs
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python scripts/refresh_live_samples.py --sync-hubs
+
+      - name: Verify sample freshness & live URL health
+        run: |
+          python scripts/verify_sample_links.py
+
+      - name: Commit and push updated sample files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add samples/
+          if git diff --staged --quiet; then
+            echo "No sample changes to commit."
+          else
+            git commit -m "chore(samples): weekly automated refresh of live ZVG & tender samples [skip ci]"
+            git push
+          fi
