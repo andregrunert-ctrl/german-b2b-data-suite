@@ -31,7 +31,7 @@
       "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=126739&zvg_id=49125' file_type='pdf' file_size='545.68 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=49125&land_abk=by",
-    "scraped_at": "2026-11-13T08:27:09.550240+00:00"
+    "scraped_at": "2026-11-13T08:29:42.372167+00:00"
   },
   {
     "zvg_id": "14509",
@@ -119,7 +119,7 @@
       "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68324&zvg_id=14509' file_type='pdf' file_size='225.99 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=14509&land_abk=be",
-    "scraped_at": "2026-11-13T08:27:06.972432+00:00"
+    "scraped_at": "2026-11-13T08:29:40.511782+00:00"
   },
   {
     "zvg_id": "7400",
@@ -147,7 +147,7 @@
       "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=br&file_id=10610&zvg_id=7400' file_type='pdf' file_size='331.6 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=7400&land_abk=br",
-    "scraped_at": "2026-11-13T08:27:05.474538+00:00"
+    "scraped_at": "2026-11-13T08:29:40.593996+00:00"
   },
   {
     "zvg_id": "4814",
@@ -177,7 +177,7 @@
       "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=hb&file_id=8327&zvg_id=4814' file_type='pdf' file_size='109.03 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=4814&land_abk=hb",
-    "scraped_at": "2026-11-13T08:27:06.866966+00:00"
+    "scraped_at": "2026-11-13T08:29:40.182779+00:00"
   },
   {
     "zvg_id": "55286",
@@ -207,6 +207,6 @@
       "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134614&zvg_id=55286' file_type='pdf' file_size='1677.65 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=55286&land_abk=he",
-    "scraped_at": "2026-11-13T08:27:13.210155+00:00"
+    "scraped_at": "2026-11-13T08:29:46.474493+00:00"
   }
 ]
