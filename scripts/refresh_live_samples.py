@@ -87,17 +87,71 @@ def clean_ws(text: Optional[str]) -> str:
     return re.sub(r"\s+", " ", s).strip()
 
 
+MOJIBAKE_FIXES: Tuple[Tuple[str, str], ...] = (
+    ("â‚¬", "€"),
+    ("â€“", "–"),
+    ("â€”", "—"),
+    ("â€ž", "„"),
+    ("â€œ", "“"),
+    ("â€š", "‚"),
+    ("â€˜", "‘"),
+    ("â€™", "’"),
+    ("Â§", "§"),
+    ("Â¼", "¼"),
+    ("Â½", "½"),
+    ("Â¾", "¾"),
+    ("Â²", "²"),
+    ("Â³", "³"),
+    ("Â°", "°"),
+    ("Ã¤", "ä"),
+    ("Ã¶", "ö"),
+    ("Ã¼", "ü"),
+    ("ÃŸ", "ß"),
+    ("Ã„", "Ä"),
+    ("Ã–", "Ö"),
+    ("Ãœ", "Ü"),
+)
+
+
 def decode_zvg_html(content: bytes) -> str:
-    """Safely decode ZVG-Portal HTML (UTF-8 with charset hint or CP1252 fallback)."""
-    head_ascii = content[:2048].decode("ascii", errors="ignore").lower()
-    if "charset=iso-8859" in head_ascii or "charset=windows-1252" in head_ascii:
-        text = content.decode("cp1252", errors="replace")
-    else:
+    """Line-by-line UTF-8/CP1252 decoder preserving German umlauts, Euro signs, and en-dashes."""
+    lines: List[str] = []
+    for raw_line in content.split(b"\n"):
         try:
-            text = content.decode("utf-8")
+            lines.append(raw_line.decode("utf-8"))
         except UnicodeDecodeError:
-            text = content.decode("cp1252", errors="replace")
-    return text.replace("\x80", "€").replace("&#128;", "€")
+            lines.append(raw_line.decode("cp1252", errors="replace"))
+    text = "\n".join(lines).replace("&#128;", "€").replace("\x80", "€")
+    for bad, good in MOJIBAKE_FIXES:
+        if bad in text:
+            text = text.replace(bad, good)
+    return text
+
+
+def is_zvg_cancelled(text: Optional[str], *, in_status_field: bool = False) -> bool:
+    if not text:
+        return False
+    low = text.lower()
+    if any(
+        k in low
+        for k in (
+            "aufgehoben",
+            "terminsaufhebung",
+            "einstweilen eingestellt",
+            "verfahren eingestellt",
+            "termin eingestellt",
+            "versteigerung eingestellt",
+            "fällt aus",
+            "faellt aus",
+            "abgesetzt",
+            "termin entfällt",
+            "storniert",
+        )
+    ):
+        return True
+    if in_status_field and "eingestellt" in low:
+        return True
+    return False
 
 
 def parse_german_date(date_str: Optional[str]) -> Optional[date]:
@@ -130,55 +184,104 @@ def parse_german_date(date_str: Optional[str]) -> Optional[date]:
     return None
 
 
+CURRENCY_AMOUNT_RE = re.compile(
+    r"(?<![/\d\w,])"
+    r"("
+    r"\d{1,3}(?:\.\d{3})+,\d{2}"
+    r"|\d{1,3}(?:,\d{3})+(?:,--|,-|[.,]\d{2})"
+    r"|\d{1,3}(?:\.\d{3})+(?:,--|,-)?"
+    r"|\d{1,3}(?:,--|,-)"
+    r"|\d+,\d{2}"
+    r"|\d+\s*(?:Euro\b|EUR\b|€)"
+    r")"
+    r"(?![/\d])",
+    re.IGNORECASE,
+)
+
+
+def _parse_german_number(s: str) -> Optional[float]:
+    s = s.strip().replace(" ", "").replace("\xa0", "")
+    s = re.sub(r"(?i)\s*(?:euro|eur|€)", "", s)
+    if s.endswith(",--"):
+        s = s[:-3]
+    elif s.endswith(",-"):
+        s = s[:-2]
+
+    if re.match(r"^\d{1,3}(?:,\d{3})+,\d{2}$", s):
+        head, tail = s.rsplit(",", 1)
+        s = f"{head.replace(',', '')}.{tail}"
+    elif re.match(r"^\d{1,3}(?:,\d{3})+(?:\.\d{2})?$", s):
+        s = s.replace(",", "")
+    elif "," in s:
+        s = s.replace(".", "").replace(",", ".")
+    elif "." in s:
+        parts = s.split(".")
+        if all(len(p) == 3 for p in parts[1:]):
+            s = s.replace(".", "")
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
 def parse_market_value(raw: Optional[str]) -> Optional[float]:
     if not raw:
         return None
     text = clean_ws(raw)
     if not text or any(k in text.lower() for k in ["wird noch festgesetzt", "keine angabe", "unbekannt", "entfällt"]):
         return None
+    if text.isdigit() and len(text) >= 2:
+        return float(text)
 
-    # Handle adjusted Flurbereinigung / explicit Gesamt totals first
-    sec_b = re.search(r"B:\s*für den bereinigten Zustand.*", text, re.IGNORECASE | re.DOTALL)
-    if sec_b:
-        text = sec_b.group(0)
+    b_split = re.split(r"\bB[\.:]\s*(?:für den|Zustand)", text)
+    if len(b_split) > 1:
+        text = b_split[-1]
 
-    gesamt_m = re.findall(
-        r"(?:Gesamtverkehrswert|Gesamtwert|Gesamt)\s*:?\s*([\d\.,]+)\s*(?:€|EUR|,-|--)?",
+    total_match = re.search(
+        r"(?:Gesamtverkehrswert|Gesamtwert|Gesamt|insgesamt|festgesetzt auf|festgelegt auf|beträgt)"
+        r"[^0-9]{0,25}?"
+        r"("
+        r"\d{1,3}(?:\.\d{3})+,\d{2}"
+        r"|\d{1,3}(?:,\d{3})+(?:,--|,-|[.,]\d{2})?"
+        r"|\d{1,3}(?:\.\d{3})+(?:,--|,-)?"
+        r"|\d{1,3}(?:,--|,-)"
+        r"|\d+,\d{2}"
+        r"|\d+\s*(?:Euro\b|EUR\b|€)"
+        r")"
+        r"(?![/\d])",
         text,
         re.IGNORECASE,
     )
-    if gesamt_m:
-        text = gesamt_m[-1]
+    if total_match:
+        val = _parse_german_number(total_match.group(1))
+        if val is not None:
+            return val
 
-    # Remove Zubehör clauses in parentheses or after davon
-    text = re.sub(r"\([^)]*zubehör[^)]*\)", "", text, flags=re.IGNORECASE)
-    text = re.split(r",?\s*davon\s+entfällt", text, flags=re.IGNORECASE)[0]
+    cleaned = re.sub(r"\([^)]*(?:davon|hiervon|zubehör|anteil)[^)]*\)", " ", text, flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"(?:davon\s+entfällt|hiervon\s+entfallen).*?(?:EUR|Euro|€|\d+,\d{2}|\b\d+\b)(?:[;,.]|\s+auf|\s+das|$)",
+        " ",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
 
-    # Parse German/typo currency tokens
-    amounts: List[float] = []
-    for m in re.finditer(r"(\d{1,3}(?:[.,]\d{3})+|\d+)(?:[.,](\d{2})|,-|--)?", text):
-        full = m.group(0)
-        # Skip likely plot/parcel integers lacking currency context when summing multiple chunks
-        int_part, dec_part = m.group(1), m.group(2)
-        num_str = re.sub(r"[.,]", "", int_part)
-        if dec_part:
-            val = float(f"{num_str}.{dec_part}")
-        else:
-            val = float(num_str)
-        if 1.0 <= val <= 500_000_000.0:
-            # Avoid accidentally summing years like 2026 inside explanatory prose if clear EUR amounts exist
-            if not dec_part and ",-" not in full and "--" not in full and "." not in int_part and "," not in int_part:
-                # Plain integer: accept only when preceded/followed by € or EUR or entire string is numeric
-                ctx_slice = text[max(0, m.start() - 10):min(len(text), m.end() + 10)].lower()
-                if "€" not in ctx_slice and "eur" not in ctx_slice and len(text) > 15:
-                    continue
-            amounts.append(val)
-
-    if not amounts:
+    values = [v for m in CURRENCY_AMOUNT_RE.findall(cleaned) if (v := _parse_german_number(m)) is not None]
+    if not values:
         return None
-    if len(gesamt_m) > 0:
-        return round(amounts[-1], 2)
-    return round(sum(amounts) if len(amounts) > 1 and ("lfd" in text.lower() or "nr." in text.lower() or "flurstück" in text.lower()) else amounts[0], 2)
+    if len(values) == 1:
+        return values[0]
+
+    non_symbolic = [v for v in values if v > 10.0]
+    if not non_symbolic:
+        return values[0]
+    if len(non_symbolic) == 1:
+        return non_symbolic[0]
+    if len(non_symbolic) >= 3:
+        max_v = max(non_symbolic)
+        rest_sum = round(sum(non_symbolic) - max_v, 2)
+        if abs(max_v - rest_sum) < 1.0:
+            return max_v
+    return round(sum(non_symbolic), 2)
 
 
 def clean_case_number(raw: Optional[str]) -> str:
@@ -349,7 +452,10 @@ async def fetch_zvg_state(client: httpx.AsyncClient, state: str) -> List[Dict[st
             current["market_value_eur"] = parse_market_value(val_text)
         elif "Termin" in c0_text:
             current["auction_date"] = val_text
-            if any(k in val_text.lower() for k in ["aufgehoben", "eingestellt", "fällt aus"]):
+            if is_zvg_cancelled(val_text, in_status_field=True):
+                current["is_cancelled"] = True
+        elif any(k in c0_text for k in ("Hinweis", "Status")):
+            if is_zvg_cancelled(val_text, in_status_field=True):
                 current["is_cancelled"] = True
 
         for a in tr.xpath(".//a[contains(@href, 'showAnhang')]"):
@@ -392,13 +498,15 @@ async def enrich_zvg_detail(client: httpx.AsyncClient, sem: asyncio.Semaphore, i
         except Exception:
             return item
 
-    for tr in tree.xpath("//table//tr"):
-        tds = tr.xpath("./td")
-        if len(tds) < 2:
+    tables = tree.xpath("//table")
+    detail_rows = tables[0].xpath("./tr | ./tbody/tr") if tables else tree.xpath("//table//tr")
+    for tr in detail_rows:
+        tds = tr.xpath("./td | ./th")
+        if not tds:
             continue
         label = clean_ws(tds[0].text_content()).rstrip(":").strip()
         label_low = label.lower()
-        val = clean_ws(tds[1].text_content())
+        val = clean_ws(tds[1].text_content()) if len(tds) > 1 else ""
         if val:
             if label == "Beschreibung":
                 item["description"] = val
@@ -417,9 +525,13 @@ async def enrich_zvg_detail(client: httpx.AsyncClient, sem: asyncio.Semaphore, i
                 item["city"] = parsed["city"]
             elif "verkehrswert" in label_low and item.get("market_value_eur") is None:
                 item["market_value_eur"] = parse_market_value(val)
-            elif "termin" in label_low and not item.get("auction_date"):
-                item["auction_date"] = val
-                if any(k in val.lower() for k in ["aufgehoben", "eingestellt", "fällt aus"]):
+            elif "termin" in label_low:
+                if not item.get("auction_date"):
+                    item["auction_date"] = val
+                if is_zvg_cancelled(val, in_status_field=True):
+                    item["is_cancelled"] = True
+            elif any(k in label_low for k in ("hinweis", "status", "art der")):
+                if is_zvg_cancelled(val, in_status_field=("hinweis" in label_low or "status" in label_low)):
                     item["is_cancelled"] = True
 
         for a in tr.xpath(".//a[contains(@href, 'showAnhang')]"):
@@ -433,6 +545,9 @@ async def enrich_zvg_detail(client: httpx.AsyncClient, sem: asyncio.Semaphore, i
                 size_sp = tr.xpath(".//span[contains(@class, 'kleinereSchrift')]/text()")
                 fsize = f" file_size='{clean_ws(size_sp[0])}'" if size_sp and clean_ws(size_sp[0]) else ""
                 item["documents"].append(f"title='{anchor_txt}' url='{abs_pdf}' file_type='pdf'{fsize}")
+
+    if item.get("market_value_eur") is None:
+        item["market_value_eur"] = parse_market_value(item.get("description")) or parse_market_value(item.get("title"))
 
     return item
 
@@ -462,6 +577,91 @@ def build_clean_export_row(r: Dict[str, Any]) -> Dict[str, Any]:
         "detail_url": clean_ws(r.get("detail_url")),
         "description": clean_ws(r.get("description")),
     }
+
+
+def classify_property_category(prop_type: Optional[str], title: Optional[str]) -> str:
+    """Classify main building category BEFORE ancillary keywords like Garage/Stellplatz."""
+    blob = f"{prop_type or ''} {title or ''}".lower()
+    if any(k in blob for k in ("mehrfamilienhaus", "wohn- und geschäftshaus", "wohn-/geschäftshaus", "zins- und geschäftshaus", "mietshaus")):
+        return "Mehrfamilienhaus / Wohn- & Geschäftshaus"
+    if any(k in blob for k in ("einfamilienhaus", "zweifamilienhaus", "villa", "bungalow", "landhaus")):
+        return "Einfamilien- / Zweifamilienhaus"
+    if any(k in blob for k in ("reihenhaus", "doppelhaushälfte", "reihenmittelhaus", "reihenendhaus")):
+        return "Reihenhaus / DHH"
+    if "wohnhaus" in blob:
+        return "Wohnhaus"
+    if any(k in blob for k in ("eigentumswohnung", "wohnungseigentum", "wohnungen")):
+        return "Eigentumswohnung"
+    if any(k in blob for k in ("gewerbe", "büro", "halle", "lager", "industrie", "hotel", "gaststätte", "praxis", "laden")):
+        return "Gewerbe / Büro / Halle"
+    if any(k in blob for k in ("grundstück", "baugrundstück", "flurstück", "acker", "wald", "forst", "erholungsfläche", "garten")):
+        return "Grundstück / Land- & Forstfläche"
+    if any(k in blob for k in ("garage", "stellplatz", "tiefgarage", "carport", "parkplatz")):
+        return "Garage / Stellplatz"
+    return "Sonstige Immobilien"
+
+
+def _write_stat_table(
+    ws2: openpyxl.worksheet.worksheet.Worksheet,
+    start_row: int,
+    first_col_title: str,
+    groups: Dict[str, List[float]],
+    hdr_fill: PatternFill,
+    hdr_font: Font,
+    zebra_fill: PatternFill,
+    border: Border,
+) -> int:
+    cols = [first_col_title, "Auktionen", "Anteil", "Gesamtverkehrswert (€)", "Ø Verkehrswert (€)"]
+    for col_idx, text in enumerate(cols, start=1):
+        c = ws2.cell(start_row, col_idx, text)
+        c.fill = hdr_fill
+        c.font = hdr_font
+        c.border = border
+        c.alignment = Alignment(horizontal="center" if col_idx > 1 else "left", vertical="center")
+    ws2.row_dimensions[start_row].height = 24
+
+    total_count = max(1, sum(len(v) for v in groups.values()))
+    all_non_zero: List[float] = []
+    r_ptr = start_row + 1
+    for name, vals in sorted(groups.items(), key=lambda kv: (-len(kv[1]), -sum(kv[1]))):
+        non_zero = [v for v in vals if v > 0]
+        all_non_zero.extend(non_zero)
+        c1 = ws2.cell(r_ptr, 1, name)
+        c2 = ws2.cell(r_ptr, 2, len(vals))
+        c3 = ws2.cell(r_ptr, 3, len(vals) / total_count)
+        c4 = ws2.cell(r_ptr, 4, round(sum(non_zero), 2))
+        c5 = ws2.cell(r_ptr, 5, round(sum(non_zero) / len(non_zero), 2) if non_zero else 0.0)
+        c2.alignment = Alignment(horizontal="right")
+        c3.alignment = Alignment(horizontal="right")
+        c3.number_format = "0.0%"
+        c4.number_format = "#,##0.00 €"
+        c5.number_format = "#,##0.00 €"
+        for col_idx in range(1, 6):
+            cell = ws2.cell(r_ptr, col_idx)
+            cell.border = border
+            cell.font = Font(name="Calibri", size=10)
+            if r_ptr % 2 == 1:
+                cell.fill = zebra_fill
+        r_ptr += 1
+
+    # Total / GESAMT row
+    tot_fill = PatternFill(start_color="E8EEF7", end_color="E8EEF7", fill_type="solid")
+    tot_font = Font(name="Calibri", size=10, bold=True, color="0F2C59")
+    ws2.cell(r_ptr, 1, "GESAMT")
+    ws2.cell(r_ptr, 2, sum(len(v) for v in groups.values())).alignment = Alignment(horizontal="right")
+    c_pct = ws2.cell(r_ptr, 3, 1.0)
+    c_pct.number_format = "0.0%"
+    c_pct.alignment = Alignment(horizontal="right")
+    c_sum = ws2.cell(r_ptr, 4, round(sum(all_non_zero), 2))
+    c_avg = ws2.cell(r_ptr, 5, round(sum(all_non_zero) / len(all_non_zero), 2) if all_non_zero else 0.0)
+    c_sum.number_format = "#,##0.00 €"
+    c_avg.number_format = "#,##0.00 €"
+    for col_idx in range(1, 6):
+        cell = ws2.cell(r_ptr, col_idx)
+        cell.fill = tot_fill
+        cell.font = tot_font
+        cell.border = border
+    return r_ptr + 2
 
 
 def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
@@ -539,47 +739,68 @@ def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
     ws.freeze_panes = "A2"
     ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(rows) + 1}"
 
-    # Sheet 2: Market statistics
+    # Sheet 2: Market statistics (KPI + Bundesland + Objektart)
     ws2 = wb.create_sheet("Statistik nach Bundesland & Art")
     ws2["A1"] = "GERMAN REAL ESTATE FORECLOSURE INTELLIGENCE - MARKTÜBERSICHT"
     ws2["A1"].font = Font(name="Calibri", size=14, bold=True, color="0F2C59")
 
-    ws2["A3"] = "Bundesland"
-    ws2["B3"] = "Auktionen"
-    ws2["C3"] = "Gesamtverkehrswert (€)"
-    ws2["D3"] = "Ø Verkehrswert (€)"
-    for col in range(1, 5):
-        ws2.cell(3, col).fill = hdr_fill
-        ws2.cell(3, col).font = hdr_font
-
     by_state: Dict[str, List[float]] = defaultdict(list)
+    by_category: Dict[str, List[float]] = defaultdict(list)
+    all_mvs: List[float] = []
+    parsed_dates: List[date] = []
     for row in rows:
-        mv = row.get("market_value_eur")
-        by_state[row["state_name"]].append(float(mv) if mv else 0.0)
+        mv = float(row["market_value_eur"]) if row.get("market_value_eur") else 0.0
+        if mv > 0:
+            all_mvs.append(mv)
+        by_state[row["state_name"]].append(mv)
+        cat = classify_property_category(row.get("property_type"), row.get("title"))
+        by_category[cat].append(mv)
+        dt = parse_german_date(row.get("auction_date"))
+        if dt:
+            parsed_dates.append(dt)
 
-    r_ptr = 4
-    for st_name, vals in sorted(by_state.items(), key=lambda kv: -len(kv[1])):
-        non_zero = [v for v in vals if v > 0]
-        ws2.cell(r_ptr, 1, st_name)
-        ws2.cell(r_ptr, 2, len(vals))
-        c_sum = ws2.cell(r_ptr, 3, round(sum(non_zero), 2))
-        c_avg = ws2.cell(r_ptr, 4, round(sum(non_zero) / len(non_zero), 2) if non_zero else 0.0)
-        c_sum.number_format = "#,##0.00 €"
-        c_avg.number_format = "#,##0.00 €"
-        r_ptr += 1
+    kpis = [
+        ("Auktionen (Sample)", len(rows), "0"),
+        ("Abgedeckte Bundesländer", len(by_state), "0"),
+        ("Gesamtverkehrswert (€)", round(sum(all_mvs), 2), "#,##0.00 €"),
+        ("Ø Verkehrswert (€)", round(sum(all_mvs) / len(all_mvs), 2) if all_mvs else 0.0, "#,##0.00 €"),
+        ("Frühester Versteigerungstermin", min(parsed_dates).strftime("%d.%m.%Y") if parsed_dates else "-", "@"),
+    ]
+    kpi_hdr = ws2.cell(3, 1, "Kennzahl (Live-Snapshot)")
+    kpi_hdr2 = ws2.cell(3, 2, "Wert")
+    for c in (kpi_hdr, kpi_hdr2):
+        c.fill = hdr_fill
+        c.font = hdr_font
+        c.border = border
+    for idx, (label, val, num_fmt) in enumerate(kpis, start=4):
+        c1 = ws2.cell(idx, 1, label)
+        c2 = ws2.cell(idx, 2, val)
+        c1.border = border
+        c2.border = border
+        c2.number_format = num_fmt
+        c2.alignment = Alignment(horizontal="right")
 
-    for col_idx, w in enumerate([28, 14, 24, 22], start=1):
+    next_row = _write_stat_table(ws2, 10, "Bundesland", by_state, hdr_fill, hdr_font, zebra_fill, border)
+    _write_stat_table(ws2, next_row, "Objektart", by_category, hdr_fill, hdr_font, zebra_fill, border)
+
+    for col_idx, w in enumerate([38, 16, 12, 24, 22], start=1):
         ws2.column_dimensions[get_column_letter(col_idx)].width = w
 
     wb.save(out_path)
 
 
-async def refresh_zvg_samples(tomorrow: date) -> Tuple[int, int]:
+async def refresh_zvg_samples(weekly_cutoff: date, today_berlin: date) -> Tuple[int, int]:
     """Scrape active future ZVG auctions nationwide & verify PDFs, write Sample_50 and 03_zvg_foreclosures_sample."""
-    print(f"[ZVG] Refreshing nationwide live auctions (cutoff >= {tomorrow.isoformat()})...")
+    print(f"[ZVG] Refreshing nationwide live auctions (target cutoff >= {weekly_cutoff.isoformat()})...")
     timeout = httpx.Timeout(connect=10.0, read=25.0, write=10.0, pool=30.0)
     async with httpx.AsyncClient(headers=HEADERS, timeout=timeout, follow_redirects=True) as client:
         state_lists = await asyncio.gather(*(fetch_zvg_state(client, st) for st in ALL_STATES))
+        cutoff_candidates = [weekly_cutoff, today_berlin + timedelta(days=3), today_berlin + timedelta(days=1)]
+        chosen_cutoff = cutoff_candidates[-1]
+        valid: List[Dict[str, Any]] = []
+
+        # Collect candidate records >= min fallback cutoff once, enrich details concurrently, then apply strict horizon
+        min_floor = today_berlin + timedelta(days=1)
         raw_by_state: Dict[str, List[Dict[str, Any]]] = {}
         for st, items in zip(ALL_STATES, state_lists):
             future_active = []
@@ -587,21 +808,29 @@ async def refresh_zvg_samples(tomorrow: date) -> Tuple[int, int]:
                 if it.get("is_cancelled"):
                     continue
                 dt = parse_german_date(it.get("auction_date"))
-                if dt is not None and dt >= tomorrow:
+                if dt is not None and dt >= weekly_cutoff:
                     future_active.append(it)
+            if not future_active:
+                for it in items:
+                    if it.get("is_cancelled"):
+                        continue
+                    dt = parse_german_date(it.get("auction_date"))
+                    if dt is not None and dt >= min_floor:
+                        future_active.append(it)
             raw_by_state[st] = future_active
             print(f"  {st.upper()}: {len(future_active)} future active (raw={len(items)})")
 
-        # Round-robin pick candidates across states to ensure geographic diversity (~96 detail fetches)
         candidates: List[Dict[str, Any]] = []
         round_idx = 0
-        while len(candidates) < 100:
+        while len(candidates) < 140:
             added_any = False
             for st in ALL_STATES:
                 bucket = raw_by_state.get(st, [])
                 if round_idx < len(bucket):
                     candidates.append(bucket[round_idx])
                     added_any = True
+                    if len(candidates) >= 140:
+                        break
             if not added_any:
                 break
             round_idx += 1
@@ -609,20 +838,30 @@ async def refresh_zvg_samples(tomorrow: date) -> Tuple[int, int]:
         sem = asyncio.Semaphore(8)
         enriched = await asyncio.gather(*(enrich_zvg_detail(client, sem, it) for it in candidates))
 
-        # Keep clean future records with PDFs & valuation
-        valid: List[Dict[str, Any]] = []
+        pool_valid: List[Dict[str, Any]] = []
         for it in enriched:
             if it.get("is_cancelled"):
                 continue
             dt = parse_german_date(it.get("auction_date"))
-            if dt is None or dt < tomorrow:
+            if dt is None or dt < min_floor:
                 continue
             if not it.get("pdf_urls"):
                 continue
             if not it.get("market_value_eur") or float(it["market_value_eur"]) <= 0:
                 continue
-            valid.append(it)
+            pool_valid.append(it)
 
+        for cand_cutoff in cutoff_candidates:
+            subset = [
+                it for it in pool_valid
+                if (parse_german_date(it.get("auction_date")) or date.min) >= cand_cutoff
+            ]
+            if len(subset) >= 50 or cand_cutoff == cutoff_candidates[-1]:
+                valid = subset
+                chosen_cutoff = cand_cutoff
+                break
+
+        print(f"[ZVG] Selected horizon >= {chosen_cutoff.isoformat()} ({len(valid)} verified future records).")
         if len(valid) < 10:
             raise RuntimeError(f"Too few valid future ZVG records extracted ({len(valid)}); aborting sample overwrite.")
 
@@ -644,7 +883,6 @@ async def refresh_zvg_samples(tomorrow: date) -> Tuple[int, int]:
         if not verified_pdf_top:
             raise RuntimeError("Failed to verify %PDF response on candidate ZVG sample records.")
 
-    # Select balanced 50 for Sample_50
     sample_50_raw = valid[:50]
     sample_50_clean = [build_clean_export_row(it) for it in sample_50_raw]
 
@@ -754,21 +992,141 @@ def is_software_boilerplate(item: Dict[str, Any], kw: str) -> bool:
     return "software" not in desc.lower()
 
 
-async def refresh_tender_samples(tomorrow: date) -> int:
-    print(f"[TENDERS] Refreshing live tenders from service.bund.de (deadline >= {tomorrow.isoformat()})...")
+_TENDER_SKIP_URL_PATTERNS: Tuple[str, ...] = (
+    "facebook.com", "twitter.com", "x.com", "linkedin.com", "xing.com",
+    "youtube.com", "google.com", "mailversand.html", "newsletter",
+    "impressum", "datenschutz", "barrierefreiheit", "leichtesprache",
+    "gebaerdensprache", "kontakt", "#location-map",
+)
+
+
+def extract_tender_detail_fields(cand: Dict[str, Any], detail_html: str) -> Dict[str, Any]:
+    """Enrich a tender candidate dict from a service.bund.de detail page HTML."""
+    base_url = "https://www.service.bund.de"
+    out = dict(cand)
+    dtree = html.fromstring(detail_html)
+
+    dl_items: Dict[str, str] = {}
+    for dt_el in dtree.xpath("//dl//dt"):
+        dd = dt_el.xpath("./following-sibling::dd[1]")
+        if dd:
+            dl_items[clean_ws(dt_el.text_content()).lower()] = clean_ws(dd[0].text_content())
+
+    out["service_type"] = dl_items.get("leistungen und erzeugnisse")
+    proc = dl_items.get("vergabeart")
+    if proc and dl_items.get("vergabeverfahren"):
+        proc = f"{proc} ({dl_items['vergabeverfahren']})"
+    out["procedure_type"] = proc or dl_items.get("vergabeverfahren")
+    if dl_items.get("angebotsfrist"):
+        out["submission_deadline"] = normalize_tender_date(dl_items["angebotsfrist"])
+    if dl_items.get("erfüllungsort"):
+        loc = re.sub(r"^00000\s*", "", clean_ws(re.sub(r"Karte anschauen", "", dl_items["erfüllungsort"], flags=re.I)))
+        out["location"] = loc
+        plz, city, state = parse_tender_location(loc)
+        out["postal_code"], out["city"], out["state"] = plz, city, state
+
+    if dl_items.get("cpv-code"):
+        out["cpv_codes"] = [clean_ws(c) for c in re.split(r"[,;]+", dl_items["cpv-code"]) if clean_ws(c)]
+
+    pre_el = dtree.xpath("//pre")
+    pre_txt = pre_el[0].text_content() if pre_el else ""
+    if pre_txt.strip():
+        out["description"] = clean_ws(pre_txt)
+        dl_m = re.search(
+            r"Frist für den Eingang der (?:Angebote|Teilnahmeanträge)\s*:\s*(\d{2}\.\d{2}\.\d{2,4}(?:\s+\d{1,2}:\d{2}(?:\s*Uhr)?)?)",
+            pre_txt,
+            re.I,
+        )
+        if dl_m:
+            out["submission_deadline"] = normalize_tender_date(dl_m.group(1)) or out["submission_deadline"]
+    else:
+        text_p = dtree.xpath("//div[contains(@class, 'text')]//p[not(contains(@class, 'arbeitgeber')) and not(contains(., 'Hinweis'))]")
+        combined_p = " ".join(clean_ws(p.text_content()) for p in text_p if clean_ws(p.text_content()))
+        if combined_p:
+            out["description"] = combined_p
+
+    if not out.get("description"):
+        out["description"] = f"{out['title']} | Vergabestelle: {out['contracting_authority']}"
+
+    if not out.get("cpv_codes"):
+        cpv_source = pre_txt or out.get("description") or ""
+        out["cpv_codes"] = list(dict.fromkeys(re.findall(r"\b(\d{8}(?:-\d)?)\b", cpv_source)))
+
+    # Collect document & bidding platform URLs from <pre> AND HTML <div class="linklist"> / <section>
+    pre_doc_links: List[str] = []
+    for raw_u in re.findall(r"https?://[^\s<>\"']+", pre_txt):
+        clean_u = re.sub(r";jsessionid=[A-Za-z0-9\._\-]+", "", raw_u.rstrip(".,;:)\"'>"))
+        parsed_u = urlparse(clean_u)
+        path_low = parsed_u.path.rstrip("/").lower()
+        is_generic_unterlagen = path_low in ("/unterlagen", "/portal") and not parsed_u.query
+        if is_generic_unterlagen:
+            continue
+        if any(p in clean_u.lower() for p in ("/unterlagen", "/notice", "/tenderdetails", "/subproject", "/dashboard_off", "publicationcontrollerservlet", ".pdf", ".zip")):
+            if clean_u not in pre_doc_links:
+                pre_doc_links.append(clean_u)
+
+    deep_doc_links: List[str] = []
+    generic_home_links: List[str] = []
+    for a in dtree.xpath("//div[contains(@class, 'linklist')]//a | //section//a"):
+        href = a.get("href", "").strip()
+        if not href or href.startswith("#") or href.startswith("mailto:"):
+            continue
+        clean_h = re.sub(r";jsessionid=[A-Za-z0-9\._\-]+", "", href)
+        abs_url = urljoin(base_url, clean_h)
+        abs_low = abs_url.lower()
+        if any(skip in abs_low for skip in _TENDER_SKIP_URL_PATTERNS):
+            continue
+        anchor_text = clean_ws(a.text_content()).lower()
+        if anchor_text == "mehr informationen":
+            continue
+
+        is_internal_att = (
+            "anlage" in abs_low
+            or "renderanlage" in abs_low
+            or abs_low.endswith((".pdf", ".zip", ".docx", ".xlsx"))
+        )
+        is_external = abs_url.startswith("http") and "service.bund.de" not in abs_low and "govdata.de" not in abs_low
+        if is_internal_att or is_external:
+            parsed_u = urlparse(abs_url)
+            clean_path = parsed_u.path.rstrip("/").lower()
+            is_root_home = (
+                (clean_path in ("", "/netserver", "/vmpcenter", "/vmpcenter/company/welcome.do")
+                 or clean_path.endswith(("/index.jsp", "/index.html", "/index.php", "/welcome.do")))
+                and not parsed_u.query
+            )
+            bucket = generic_home_links if is_root_home else deep_doc_links
+            if abs_url not in bucket:
+                bucket.append(abs_url)
+
+    combined_urls: List[str] = []
+    for u in deep_doc_links + pre_doc_links:
+        if u not in combined_urls:
+            combined_urls.append(u)
+    if not combined_urls:
+        combined_urls = generic_home_links
+    out["tender_document_urls"] = combined_urls
+    return out
+
+
+async def refresh_tender_samples(weekly_cutoff: date, today_berlin: date) -> int:
+    print(f"[TENDERS] Refreshing live tenders from service.bund.de (target deadline >= {weekly_cutoff.isoformat()})...")
     base_url = "https://www.service.bund.de"
     search_url = f"{base_url}/Content/DE/Ausschreibungen/Suche/Formular.html"
-    keywords = ["Software", "Cloud", "IT"]
+    keywords = ["Software", "Cloud", "IT", "Digital"]
 
     timeout = httpx.Timeout(connect=10.0, read=25.0, write=10.0, pool=25.0)
     candidates: List[Dict[str, Any]] = []
     seen_ids: Set[str] = set()
+    seen_keys: Set[Tuple[str, str]] = set()
 
     async with httpx.AsyncClient(headers=HEADERS, timeout=timeout, follow_redirects=True) as client:
         for kw in keywords:
-            if len(candidates) >= 24:
+            if len(candidates) >= 48:
                 break
-            resp = await client.get(search_url, params={"nn": "4641482", "type": "0", "submit": "Finden", "resultsPerPage": "40", "templateQueryString": kw})
+            resp = await client.get(
+                search_url,
+                params={"nn": "4641482", "type": "0", "submit": "Finden", "resultsPerPage": "40", "templateQueryString": kw},
+            )
             if resp.status_code != 200:
                 continue
             tree = html.fromstring(resp.content)
@@ -779,15 +1137,18 @@ async def refresh_tender_samples(tomorrow: date) -> int:
                 detail_url = urljoin(base_url, href)
                 tid_m = re.search(r"/([^/]+?)\.html", detail_url)
                 tid = tid_m.group(1) if tid_m else detail_url
-                if tid in seen_ids:
-                    continue
-                seen_ids.add(tid)
 
                 h3 = card.xpath(".//div[@aria-labelledby='title']//h3")
                 title = clean_ws(h3[0].text_content()) if h3 else f"Tender {tid}"
                 title = re.sub(r"^Ausschreibung\s*", "", title, flags=re.I).strip("'\"„“ ")
                 auth_el = card.xpath(".//div[@aria-labelledby='title']//p")
                 auth = re.sub(r"^Vergabestelle\s*", "", clean_ws(auth_el[0].text_content()), flags=re.I).strip() if auth_el else ""
+                dedup_key = (title.lower(), auth.lower())
+                if tid in seen_ids or dedup_key in seen_keys:
+                    continue
+                seen_ids.add(tid)
+                seen_keys.add(dedup_key)
+
                 pub_el = card.xpath(".//div[@aria-labelledby='date']//p")
                 pub = normalize_tender_date(clean_ws(pub_el[0].text_content())) if pub_el else None
 
@@ -810,70 +1171,50 @@ async def refresh_tender_samples(tomorrow: date) -> int:
                     "matched_keyword": kw,
                     "scraped_at": datetime.now(timezone.utc).isoformat(),
                 })
-                if len(candidates) >= 24:
+                if len(candidates) >= 48:
                     break
 
-        verified: List[Dict[str, Any]] = []
+        min_floor = today_berlin + timedelta(days=1)
+        pool: List[Dict[str, Any]] = []
         for cand in candidates:
-            if len(verified) >= 5:
-                break
             try:
                 dr = await client.get(cand["detail_url"])
                 if dr.status_code != 200:
                     continue
-                dtree = html.fromstring(dr.text)
-                dl_items: Dict[str, str] = {}
-                for dt_el in dtree.xpath("//dl//dt"):
-                    dd = dt_el.xpath("./following-sibling::dd[1]")
-                    if dd:
-                        dl_items[clean_ws(dt_el.text_content()).lower()] = clean_ws(dd[0].text_content())
-
-                cand["service_type"] = dl_items.get("leistungen und erzeugnisse")
-                proc = dl_items.get("vergabeart")
-                if proc and dl_items.get("vergabeverfahren"):
-                    proc = f"{proc} ({dl_items['vergabeverfahren']})"
-                cand["procedure_type"] = proc or dl_items.get("vergabeverfahren")
-                if dl_items.get("angebotsfrist"):
-                    cand["submission_deadline"] = normalize_tender_date(dl_items["angebotsfrist"])
-                if dl_items.get("erfüllungsort"):
-                    loc = re.sub(r"^00000\s*", "", clean_ws(re.sub(r"Karte anschauen", "", dl_items["erfüllungsort"], flags=re.I)))
-                    cand["location"] = loc
-                    plz, city, state = parse_tender_location(loc)
-                    cand["postal_code"], cand["city"], cand["state"] = plz, city, state
-
-                pre_el = dtree.xpath("//pre")
-                if pre_el:
-                    pre_txt = pre_el[0].text_content()
-                    cand["description"] = clean_ws(pre_txt)
-                    if dl_items.get("cpv-code"):
-                        cand["cpv_codes"] = [clean_ws(c) for c in re.split(r"[,;]+", dl_items["cpv-code"]) if clean_ws(c)]
-                    else:
-                        cand["cpv_codes"] = list(dict.fromkeys(re.findall(r"\b(\d{8}(?:-\d)?)\b", pre_txt)))
-                    dl_m = re.search(r"Frist für den Eingang der (?:Angebote|Teilnahmeanträge)\s*:\s*(\d{2}\.\d{2}\.\d{2,4}(?:\s+\d{1,2}:\d{2}(?:\s*Uhr)?)?)", pre_txt, re.I)
-                    if dl_m:
-                        cand["submission_deadline"] = normalize_tender_date(dl_m.group(1)) or cand["submission_deadline"]
-                    raw_urls = re.findall(r"https?://[^\s<>\"']+", pre_txt)
-                    cand["tender_document_urls"] = list(dict.fromkeys(
-                        re.sub(r";jsessionid=[^/?#]+", "", u.rstrip(".,;:)\"'>"))
-                        for u in raw_urls
-                        if any(p in u.lower() for p in ["/unterlagen", "/notice", "/tenderdetails", "/subproject", ".pdf"])
-                    ))
-
-                if not cand["description"]:
-                    cand["description"] = f"{cand['title']} | Vergabestelle: {cand['contracting_authority']}"
-
-                # Skip revoked/cancelled tenders & expired deadlines
-                desc_low = cand["description"].lower()
+                enriched = extract_tender_detail_fields(cand, dr.text)
+                desc_low = enriched["description"].lower()
                 if any(w in desc_low for w in ["aufgehoben wurde", "verfahren eingestellt", "annulliert"]):
                     continue
-                if is_software_boilerplate(cand, cand["matched_keyword"]):
+                if is_software_boilerplate(enriched, enriched["matched_keyword"]):
                     continue
-                dl_date = parse_german_date(cand.get("submission_deadline"))
-                if dl_date is None or dl_date < tomorrow:
+                dl_date = parse_german_date(enriched.get("submission_deadline"))
+                if dl_date is None or dl_date < min_floor:
                     continue
-                verified.append(cand)
+                pool.append(enriched)
             except Exception:
                 continue
+
+        # Sort richest showcase tenders first (live deep doc URLs + CPV codes + rich description)
+        pool.sort(
+            key=lambda it: (
+                bool(it.get("tender_document_urls")),
+                bool(it.get("cpv_codes")),
+                len(it.get("description") or "") >= 120,
+                bool(it.get("postal_code")),
+            ),
+            reverse=True,
+        )
+
+        verified: List[Dict[str, Any]] = []
+        for cand_cutoff in (weekly_cutoff, today_berlin + timedelta(days=3), min_floor):
+            subset = [
+                it for it in pool
+                if (parse_german_date(it.get("submission_deadline")) or date.min) >= cand_cutoff
+            ]
+            if len(subset) >= 5 or cand_cutoff == min_floor:
+                verified = subset[:5]
+                print(f"[TENDERS] Selected horizon >= {cand_cutoff.isoformat()} ({len(subset)} pool candidates).")
+                break
 
     if not verified:
         raise RuntimeError("No active future tenders extracted from service.bund.de.")
@@ -940,13 +1281,14 @@ def sync_external_hubs(today_str: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Refresh live B2B samples in german-b2b-data-suite.")
     parser.add_argument("--sync-hubs", action="store_true", help="Also push Sample 50 to Hugging Face & Kaggle when tokens are set.")
+    parser.add_argument("--min-days", type=int, default=7, help="Target future horizon in days for weekly freshness (default: 7).")
     args = parser.parse_args()
 
     today_berlin = berlin_now().date()
-    tomorrow_berlin = today_berlin + timedelta(days=1)
+    weekly_cutoff = today_berlin + timedelta(days=max(1, args.min_days))
 
-    asyncio.run(refresh_zvg_samples(tomorrow_berlin))
-    asyncio.run(refresh_tender_samples(tomorrow_berlin))
+    asyncio.run(refresh_zvg_samples(weekly_cutoff, today_berlin))
+    asyncio.run(refresh_tender_samples(weekly_cutoff, today_berlin))
 
     if args.sync_hubs:
         sync_external_hubs(today_berlin.isoformat())

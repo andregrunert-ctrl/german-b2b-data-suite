@@ -24,19 +24,23 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install httpx lxml openpyxl huggingface_hub kaggle six python-dateutil
+          pip install httpx lxml openpyxl huggingface_hub kaggle six python-dateutil pytest
           python -c "import httpx, lxml, openpyxl, huggingface_hub; from kaggle.api.kaggle_api_extended import KaggleApi; print('Dependencies ready')"
+
+      - name: Run unit tests
+        run: |
+          python -m pytest -v tests/test_refresh_and_verify.py
 
       - name: Refresh ZVG & Public Tender samples and sync external hubs
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          python scripts/refresh_live_samples.py --sync-hubs
+          python scripts/refresh_live_samples.py --min-days 7 --sync-hubs
 
       - name: Verify sample freshness & live URL health
         run: |
-          python scripts/verify_sample_links.py
+          python scripts/verify_sample_links.py --min-days 7
 
       - name: Commit and push updated sample files
         run: |
