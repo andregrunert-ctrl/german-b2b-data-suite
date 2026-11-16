@@ -234,14 +234,29 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
   - 🚀 **Apify Cloud Scraping Actor:** [**Apify ZVG Scraper Actor**](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) ($0.01 / listing).
   - 💼 Access custom recurring bulk extracts and productized DaaS delivery on demand.
 
+### 🏢 German Handelsregister & KYB Master Sample (50 Verified Companies)
+- **Official Sources:** Live-extracted from `handelsregister.de` (structured XJustiz 3.5.1 `SI` XML & `UT` filings) cross-checked against `insolvenzbekanntmachungen.de`.
+- **Enriched Attributes:** Legal Name, KYB Risk Status (`CLEAR` / `WARNING_INSOLVENCY_FOUND`), Federal State, Register Court (`Amtsgericht`), Register ID (`HRB`), Legal Form, Seat & Street Address, Registered Share Capital in EUR, Managing Directors / Board Members / *Prokuristen*, Business Purpose, and Official Insolvency Proceedings.
+- **Excel Formatting:** Styled 2-sheet `.xlsx` workbook with frozen header, auto-filters, EUR share capital formatting, conditional KYB risk color badges, and federal-state & legal-form distribution tables.
+- **Free 50-Company Curated Sample:**
+  - 📥 [**Download 50-Company KYB Sample (.CSV)**](samples/DE_Handelsregister_KYB_Sample_50.csv) *(RFC 4180 comma-delimited for Pandas, Kaggle & Hugging Face)*
+  - 📥 [**Download 50-Company Showcase Table (`02_handelsregister_kyb_sample.csv`)**](samples/02_handelsregister_kyb_sample.csv) *(50-row drop-in showcase CSV)*
+  - 📥 [**Download 50-Company KYB Workbook (.XLSX)**](samples/DE_Handelsregister_KYB_Sample_50.xlsx) *(Multi-sheet styled Excel workbook)*
+  - 📄 [**Download 50-Company JSON Payload (.JSON)**](samples/DE_Handelsregister_KYB_Sample_50.json)
+  - 🤗 [**Hugging Face Hub Dataset**](https://huggingface.co/datasets/AGrunert/german-company-handelsregister-kyb-sample) *(Public 50-company live KYB sample)*
+  - 📊 [**Kaggle Datasets Hub**](https://www.kaggle.com/datasets/andrgrunert/german-company-handelsregister-kyb-sample) *(Data explorer & kernels ready)*
+- **Automated Live KYB Checks & Custom Bulk Audits:**
+  - 🚀 **Apify Cloud KYB Actor:** [**German Company KYB & Insolvency Scraper**](https://apify.com/AGrunert/german-company-kyb-insolvency-scraper) ($0.015 / audit)
+  - 💼 **Custom Bulk Audit & Excel Delivery on Fiverr:** [**Order Bespoke German Handelsregister & KYB Audit**](https://www.fiverr.com/s/yeWblEA)
+
 ---
 
 ## 📊 Live Sample Datasets
 
-Explore real sample outputs in [`samples/`](samples/) formatted as JSON and CSV:
+Explore real sample outputs in [`samples/`](samples/) formatted as JSON, CSV, and Excel:
 
 - 📄 [`samples/01_zugferd_xrechnung_sample.json`](samples/01_zugferd_xrechnung_sample.json) (EN 16931 PDF/A-3 & Schematron validation)
-- 🏢 [`samples/02_handelsregister_kyb_sample.json`](samples/02_handelsregister_kyb_sample.json) & [`.csv`](samples/02_handelsregister_kyb_sample.csv) (BioNTech, Deutsche Börse, Celonis)
+- 🏢 [`samples/02_handelsregister_kyb_sample.json`](samples/02_handelsregister_kyb_sample.json), [`.csv`](samples/02_handelsregister_kyb_sample.csv) & [**50-Company Styled `.xlsx`**](samples/DE_Handelsregister_KYB_Sample_50.xlsx) (50 verified German corporations incl. BioNTech SE, SAP SE, Siemens AG, Deutsche Börse AG, Celonis SE & insolvency audits)
 - 🏠 [`samples/03_zvg_foreclosures_sample.json`](samples/03_zvg_foreclosures_sample.json) & [`.csv`](samples/03_zvg_foreclosures_sample.csv) (Foreclosures with EUR market values & PDF URLs)
 - 🏛️ [`samples/04_public_tenders_sample.json`](samples/04_public_tenders_sample.json) & [`.csv`](samples/04_public_tenders_sample.csv) (Bund.de public procurement tenders & CPV codes)
 - 🔍 [`samples/05_impressum_leads_sample.json`](samples/05_impressum_leads_sample.json) & [`.csv`](samples/05_impressum_leads_sample.csv) (§ 5 DDG CEOs, emails, phones, HRB & VAT IDs)
