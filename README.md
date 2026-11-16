@@ -93,22 +93,36 @@ Every actor comes with preconfigured, 1-click executable public tasks ready to b
 
 ## 🤖 AI Agent & MCP Setup (Claude, Cursor, Windsurf)
 
-You can connect all 6 tools directly to your LLM agent using the official Model Context Protocol (MCP).
+This repository includes a **standalone, open-source Python Model Context Protocol (MCP) server** ([`src/german_b2b_mcp/server.py`](src/german_b2b_mcp/server.py)) built on the official Python `mcp` SDK (`stdio` transport) and containerized via [`Dockerfile`](Dockerfile).
 
-### 1. Claude Desktop Setup
-Add this to your `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+It exposes **6 typed MCP tools** backed by our Apify Cloud microservices—giving AI agents deterministic access to German/DACH data without exposing any proprietary scraper code:
+
+| MCP Tool Name | Backed Apify Cloud Actor | Purpose |
+|---|---|---|
+| `find_german_b2b_leads` | `AGrunert/german-b2b-leads-directory-scraper` | Gelbe Seiten & 11880 B2B/craft leads + E.164 phone + domains |
+| `enrich_german_impressum` | `AGrunert/german-impressum-b2b-lead-enricher` | § 5 DDG CEOs, emails, phones, HRB court & VAT IDs |
+| `check_german_company_kyb` | `AGrunert/german-company-kyb-insolvency-scraper` | Handelsregister (XJustiz) & Insolvenzbekanntmachungen audit |
+| `search_german_public_tenders` | `AGrunert/german-public-tenders-vergabe-scraper` | `service.bund.de` tenders, CPV codes & deadlines |
+| `search_german_zvg_foreclosures` | `AGrunert/german-real-estate-foreclosure-zvg-scraper` | `zvg-portal.de` foreclosure auctions & Gutachten PDF URLs |
+| `process_german_einvoice` | `AGrunert/german-e-invoice-zugferd-xrechnung-suite` | ZUGFeRD 2.2 / Factur-X / XRechnung 3.0 generation & validation |
+
+### 1. Run Locally via Python (`pip`)
+```bash
+git clone https://github.com/andregrunert-ctrl/german-b2b-data-suite.git
+cd german-b2b-data-suite
+pip install .
+export APIFY_TOKEN="YOUR_APIFY_TOKEN"
+python -m german_b2b_mcp.server
+```
+
+Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows), `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), or `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
-    "apify-german-b2b-suite": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@apify/actors-mcp-server",
-        "--actors",
-        "AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper"
-      ],
+    "german-b2b-data-suite": {
+      "command": "python",
+      "args": ["-m", "german_b2b_mcp.server"],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
       }
@@ -117,8 +131,29 @@ Add this to your `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/L
 }
 ```
 
-### 2. Cursor AI & Windsurf Setup
-In Cursor (`Settings -> Features -> MCP -> Add New MCP Server`) or `.cursor/mcp.json`, use the SSE endpoint:
+### 2. Run via Docker (`stdio`)
+```bash
+docker build -t german-b2b-mcp .
+docker run -i --rm -e APIFY_TOKEN="YOUR_APIFY_TOKEN" german-b2b-mcp
+```
+
+Or configure Claude Desktop / Cursor to launch the container directly:
+```json
+{
+  "mcpServers": {
+    "german-b2b-data-suite": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-e", "APIFY_TOKEN", "german-b2b-mcp"],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
+      }
+    }
+  }
+}
+```
+
+### 3. Optional: Hosted SSE Endpoint (Zero Local Install)
+In Cursor (`Settings -> Features -> MCP -> Add New MCP Server`) or remote MCP clients, you can alternatively use Apify's hosted SSE endpoint:
 ```
 https://mcp.apify.com?actors=AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper&token=YOUR_APIFY_TOKEN
 ```
@@ -179,11 +214,11 @@ Simply import `00_unified_german_b2b_suite_openapi.json` in **RapidAPI Studio ->
 
 ## 🤖 AI Agent MCP Registries (Smithery & Glama)
 
-This repository includes native registry manifests for 1-click indexing across all major Model Context Protocol search engines:
+This repository includes a self-contained Python MCP server (`python -m german_b2b_mcp.server`), a production [`Dockerfile`](Dockerfile) (`python:3.12-slim`), and verified registry manifests:
 
-* **Smithery.ai:** [`smithery.yaml`](smithery.yaml)
-* **Glama.ai & PulseMCP:** [`glama.json`](glama.json)
-* **Direct Desktop Config:** [`mcp/claude_cursor_mcp_config.json`](mcp/claude_cursor_mcp_config.json)
+* **Glama.ai & PulseMCP:** [`glama.json`](glama.json) (schema-validated `maintainers` + Python `stdio` entrypoint)
+* **Smithery.ai:** [`smithery.yaml`](smithery.yaml) (`runtime: "container"` using root [`Dockerfile`](Dockerfile))
+* **Python Package:** [`pyproject.toml`](pyproject.toml) (`german-b2b-mcp`) & [`requirements.txt`](requirements.txt)
 
 ---
 
@@ -297,8 +332,8 @@ Vollständige Konformität mit der gesetzlichen E-Rechnungspflicht ab 2025:
 
 ## 🔒 Security & Privacy Notice
 
-- This showcase repository contains **NO** private API keys or proprietary scraping implementations.
-- All actors run autonomously in the secure [Apify Cloud](https://apify.com) infrastructure.
+- This open-source repository contains our **standalone Python MCP server** ([`src/german_b2b_mcp/server.py`](src/german_b2b_mcp/server.py)), [`Dockerfile`](Dockerfile), integration blueprints, and curated samples—with **NO** private API keys or proprietary scraper internals.
+- All underlying scraping, Handelsregister XJustiz XML parsing, and ZUGFeRD/XRechnung PDF/A-3 generation backends run securely as isolated cloud microservices on [Apify Cloud](https://apify.com) (invoked via `APIFY_TOKEN` using `Authorization: Bearer` headers).
 - Always adhere to local data protection laws (GDPR / DSGVO) when storing and processing business contact information.
 
 ## 📄 License

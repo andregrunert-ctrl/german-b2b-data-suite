@@ -1,5 +1,11 @@
 # Smithery.ai Model Context Protocol (MCP) Manifest
-# https://smithery.ai/docs/config
+# https://smithery.ai/docs/build/project-config
+
+runtime: "container"
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
 
 startCommand:
   type: stdio
@@ -13,13 +19,8 @@ startCommand:
         description: "Your Apify API Token from https://console.apify.com/account/integrations"
   commandFunction: |-
     (config) => ({
-      command: 'npx',
-      args: [
-        '-y',
-        '@apify/actors-mcp-server',
-        '--actors',
-        'AGrunert/german-e-invoice-zugferd-xrechnung-suite,AGrunert/german-company-kyb-insolvency-scraper,AGrunert/german-real-estate-foreclosure-zvg-scraper,AGrunert/german-public-tenders-vergabe-scraper,AGrunert/german-impressum-b2b-lead-enricher,AGrunert/german-b2b-leads-directory-scraper'
-      ],
+      command: 'python',
+      args: ['-m', 'german_b2b_mcp.server'],
       env: {
         APIFY_TOKEN: config.apifyToken
       }

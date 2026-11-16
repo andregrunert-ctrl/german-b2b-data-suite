@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "german-b2b-mcp"
+version = "0.1.0"
+description = "Standalone Model Context Protocol (MCP) server for the German & DACH B2B Data, Compliance & PropTech API Suite powered by Apify Cloud Actors."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "André Grunert" },
+]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "apify",
+    "germany",
+    "dach",
+    "handelsregister",
+    "kyb",
+    "zugferd",
+    "xrechnung",
+    "zvg",
+    "impressum",
+]
+dependencies = [
+    "mcp>=2.0.0,<3.0.0",
+    "httpx>=0.27.0",
+    "pydantic>=2.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "openpyxl>=3.1.0",
+]
+
+[project.scripts]
+german-b2b-mcp = "german_b2b_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
