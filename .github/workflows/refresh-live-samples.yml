@@ -38,6 +38,13 @@ jobs:
         run: |
           python scripts/refresh_live_samples.py --min-days 7 --sync-hubs
 
+      - name: Refresh KYB sample workbook and sync external hubs
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          python scripts/publish_kyb_sample_hubs.py --refresh-timestamps
+
       - name: Verify sample freshness & live URL health
         run: |
           python scripts/verify_sample_links.py --min-days 7

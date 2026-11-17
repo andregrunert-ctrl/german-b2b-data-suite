@@ -7,18 +7,30 @@ and Kaggle Datasets (andrgrunert/german-company-handelsregister-kyb-sample).
 
 from __future__ import annotations
 
+import argparse
 import csv
+import json
 import os
 import shutil
+import sys
 import tempfile
+import time as _time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 SUITE_DIR = Path(__file__).resolve().parent.parent
+SCRIPTS_DIR = Path(__file__).resolve().parent
 SAMPLES_DIR = SUITE_DIR / "samples"
-ENV_PATH = SUITE_DIR.parent / ".env"
-KAGGLE_META_PATH = Path(__file__).resolve().parent / "kaggle_kyb_dataset_metadata.json"
+ENV_PATHS = [
+    SUITE_DIR / ".env",
+    SUITE_DIR.parent / ".env",
+    Path(r"C:\Users\andre\ai-money\.env"),
+]
+KAGGLE_META_PATH = SCRIPTS_DIR / "kaggle_kyb_dataset_metadata.json"
+
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
 
 HF_REPO_ID = "AGrunert/german-company-handelsregister-kyb-sample"
 KAGGLE_DATASET_ID = "andrgrunert/german-company-handelsregister-kyb-sample"
@@ -126,6 +138,24 @@ def load_env_file(path: Path) -> Dict[str, str]:
     return loaded
 
 
+def refresh_local_kyb_timestamps() -> int:
+    """Update `scraped_at` in 02_handelsregister_kyb_sample.json and rebuild CSV/JSON/XLSX artifacts."""
+    from generate_kyb_sample_50 import save_outputs  # noqa: E402
+
+    nested_path = SAMPLES_DIR / "02_handelsregister_kyb_sample.json"
+    if not nested_path.is_file():
+        raise FileNotFoundError(f"Missing nested KYB sample JSON: {nested_path}")
+
+    nested_items: List[Dict[str, object]] = json.loads(nested_path.read_text(encoding="utf-8"))
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    for item in nested_items:
+        item["scraped_at"] = now_iso
+
+    save_outputs(nested_items)
+    print(f"[REFRESH] ✓ Updated scraped_at={now_iso} and rebuilt 50-row KYB CSV/JSON/XLSX artifacts.")
+    return len(nested_items)
+
+
 def validate_local_sample() -> int:
     csv_path = SAMPLES_DIR / "DE_Handelsregister_KYB_Sample_50.csv"
     for fn in DATA_FILES:
@@ -146,7 +176,8 @@ def validate_local_sample() -> int:
 def publish_huggingface(today_str: str) -> str:
     hf_token = os.environ.get("HF_TOKEN", "").strip()
     if not hf_token:
-        raise RuntimeError("HF_TOKEN missing in environment / .env")
+        print("[HF] Skipping Hugging Face sync (HF_TOKEN not set).")
+        return ""
 
     from huggingface_hub import CommitOperationAdd, HfApi
 
@@ -180,7 +211,8 @@ def publish_huggingface(today_str: str) -> str:
 def publish_kaggle(today_str: str) -> str:
     kaggle_token = os.environ.get("KAGGLE_API_TOKEN", "").strip()
     if not kaggle_token:
-        raise RuntimeError("KAGGLE_API_TOKEN missing in environment / .env")
+        print("[KAGGLE] Skipping Kaggle sync (KAGGLE_API_TOKEN not set).")
+        return ""
 
     from kaggle.api.kaggle_api_extended import KaggleApi
 
@@ -225,14 +257,60 @@ def publish_kaggle(today_str: str) -> str:
     return url
 
 
+def _cc_record(task_id: str, status: str, duration_ms: float, msg: str, err: str = "") -> None:
+    try:
+        cc_dir = r"C:\Users\andre\command-center"
+        if os.path.isdir(cc_dir):
+            if cc_dir not in sys.path:
+                sys.path.insert(0, cc_dir)
+            import heartbeat as _hb
+            _hb.record_heartbeat(task_id, status=status, duration_ms=duration_ms, message=msg, error_log=err)
+    except Exception:
+        pass
+
+
 def main() -> None:
-    load_env_file(ENV_PATH)
-    row_count = validate_local_sample()
-    today_str = datetime.now(timezone.utc).date().isoformat()
-    print(f"[PRECHECK] ✓ Verified {row_count} local KYB sample rows.")
-    hf_url = publish_huggingface(today_str)
-    kaggle_url = publish_kaggle(today_str)
-    print(f"[DONE] HF={hf_url} | KAGGLE={kaggle_url}")
+    t0 = _time.perf_counter()
+    parser = argparse.ArgumentParser(description="Refresh & publish KYB Sample 50 to Hugging Face and Kaggle.")
+    parser.add_argument(
+        "--refresh-timestamps",
+        action="store_true",
+        help="Update scraped_at in 02_handelsregister_kyb_sample.json and rebuild CSV/JSON/XLSX before publishing.",
+    )
+    parser.add_argument(
+        "--local-only",
+        action="store_true",
+        help="Rebuild/validate local KYB samples without pushing to external hubs.",
+    )
+    args = parser.parse_args()
+
+    try:
+        for env_p in ENV_PATHS:
+            load_env_file(env_p)
+
+        if args.refresh_timestamps:
+            refresh_local_kyb_timestamps()
+
+        row_count = validate_local_sample()
+        today_str = datetime.now(timezone.utc).date().isoformat()
+        print(f"[PRECHECK] ✓ Verified {row_count} local KYB sample rows.")
+
+        hf_url = ""
+        kaggle_url = ""
+        if not args.local_only:
+            hf_url = publish_huggingface(today_str)
+            kaggle_url = publish_kaggle(today_str)
+        print(f"[DONE] HF={hf_url or 'skipped'} | KAGGLE={kaggle_url or 'skipped'}")
+    except Exception as exc:
+        _cc_record("kyb_sample_hub_sync", "FAILED", (_time.perf_counter() - t0) * 1000.0, str(exc), str(exc))
+        raise
+    else:
+        _cc_record(
+            "kyb_sample_hub_sync",
+            "OK",
+            (_time.perf_counter() - t0) * 1000.0,
+            f"KYB Sample 50 synced (refresh_timestamps={args.refresh_timestamps}, hf={bool(hf_url)}, kaggle={bool(kaggle_url)})",
+        )
 
 
 if __name__ == "__main__":

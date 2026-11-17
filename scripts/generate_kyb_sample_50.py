@@ -16,6 +16,7 @@ from __future__ import annotations
 import asyncio
 import csv
 import json
+import os
 import re
 import sys
 from collections import defaultdict
@@ -31,13 +32,20 @@ SUITE_DIR = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = SUITE_DIR / "samples"
 KYB_ACTOR_DIR = SUITE_DIR.parent / "apify-german-kyb-actor"
 CACHE_PATH = Path(
-    r"C:\Users\andre\.gemini\antigravity\brain\d2a4a448-5b3f-449a-a4d5-6a366b0e4396\scratch\kyb_sample_cache.json"
+    os.environ.get("KYB_CACHE_PATH", str(SAMPLES_DIR / ".kyb_sample_cache.json"))
 )
 
-sys.path.insert(0, str(KYB_ACTOR_DIR))
-from src.core.handelsregister import HandelsregisterClient  # noqa: E402
-from src.core.insolvenz import InsolvenzClient  # noqa: E402
-from src.core.models import KybCheckResult  # noqa: E402
+if str(KYB_ACTOR_DIR) not in sys.path:
+    sys.path.insert(0, str(KYB_ACTOR_DIR))
+
+try:
+    from src.core.handelsregister import HandelsregisterClient  # type: ignore # noqa: E402
+    from src.core.insolvenz import InsolvenzClient  # type: ignore # noqa: E402
+    from src.core.models import KybCheckResult  # type: ignore # noqa: E402
+except ImportError:
+    HandelsregisterClient = None  # type: ignore[assignment,misc]
+    InsolvenzClient = None  # type: ignore[assignment,misc]
+    KybCheckResult = None  # type: ignore[assignment,misc]
 
 
 CANDIDATE_COMPANIES: List[Tuple[str, Optional[str], Optional[str]]] = [
@@ -419,6 +427,10 @@ def write_kyb_sample_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
 
 
 async def fetch_50_companies(target_count: int = 50) -> List[Dict[str, Any]]:
+    if HandelsregisterClient is None or InsolvenzClient is None or KybCheckResult is None:
+        raise RuntimeError(
+            f"apify-german-kyb-actor package not found at {KYB_ACTOR_DIR}; live Handelsregister scraping requires the actor repo."
+        )
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     cached: Dict[str, Dict[str, Any]] = {}
     if CACHE_PATH.exists():

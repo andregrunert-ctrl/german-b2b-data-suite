@@ -1238,6 +1238,18 @@ async def refresh_tender_samples(weekly_cutoff: date, today_berlin: date) -> int
 # ---------------------------------------------------------------------------
 
 def sync_external_hubs(today_str: str) -> None:
+    for env_candidate in (ROOT_DIR / ".env", ROOT_DIR.parent / ".env", Path(r"C:\Users\andre\ai-money\.env")):
+        if env_candidate.is_file():
+            for line in env_candidate.read_text(encoding="utf-8", errors="replace").splitlines():
+                raw = line.strip()
+                if not raw or raw.startswith("#") or "=" not in raw:
+                    continue
+                k, v = raw.split("=", 1)
+                key = k.strip()
+                val = v.strip().strip('"').strip("'")
+                if key and val and key not in os.environ:
+                    os.environ[key] = val
+
     hf_token = os.environ.get("HF_TOKEN", "").strip()
     if hf_token:
         from huggingface_hub import CommitOperationAdd, HfApi
@@ -1278,7 +1290,22 @@ def sync_external_hubs(today_str: str) -> None:
         print("[HUB] Skipping Kaggle sync (KAGGLE_API_TOKEN not set).")
 
 
+def _cc_record(task_id: str, status: str, duration_ms: float, msg: str, err: str = "") -> None:
+    try:
+        import sys as _sys
+        cc_dir = r"C:\Users\andre\command-center"
+        if os.path.isdir(cc_dir):
+            if cc_dir not in _sys.path:
+                _sys.path.insert(0, cc_dir)
+            import heartbeat as _hb
+            _hb.record_heartbeat(task_id, status=status, duration_ms=duration_ms, message=msg, error_log=err)
+    except Exception:
+        pass
+
+
 def main() -> None:
+    import time as _time
+    _t0 = _time.perf_counter()
     parser = argparse.ArgumentParser(description="Refresh live B2B samples in german-b2b-data-suite.")
     parser.add_argument("--sync-hubs", action="store_true", help="Also push Sample 50 to Hugging Face & Kaggle when tokens are set.")
     parser.add_argument("--min-days", type=int, default=7, help="Target future horizon in days for weekly freshness (default: 7).")
@@ -1287,11 +1314,17 @@ def main() -> None:
     today_berlin = berlin_now().date()
     weekly_cutoff = today_berlin + timedelta(days=max(1, args.min_days))
 
-    asyncio.run(refresh_zvg_samples(weekly_cutoff, today_berlin))
-    asyncio.run(refresh_tender_samples(weekly_cutoff, today_berlin))
+    try:
+        asyncio.run(refresh_zvg_samples(weekly_cutoff, today_berlin))
+        asyncio.run(refresh_tender_samples(weekly_cutoff, today_berlin))
 
-    if args.sync_hubs:
-        sync_external_hubs(today_berlin.isoformat())
+        if args.sync_hubs:
+            sync_external_hubs(today_berlin.isoformat())
+    except Exception as exc:
+        _cc_record("daas_sample_refresh", "FAILED", (_time.perf_counter() - _t0) * 1000.0, str(exc), str(exc))
+        raise
+    else:
+        _cc_record("daas_sample_refresh", "OK", (_time.perf_counter() - _t0) * 1000.0, f"DaaS samples refreshed (sync_hubs={args.sync_hubs})")
 
 
 if __name__ == "__main__":
