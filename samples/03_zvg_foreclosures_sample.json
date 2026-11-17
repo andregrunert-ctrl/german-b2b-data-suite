@@ -29,7 +29,7 @@
       "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125925&zvg_id=48902' file_type='pdf' file_size='372.24 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=48902&land_abk=by",
-    "scraped_at": "2026-11-17T11:36:40.518583+00:00"
+    "scraped_at": "2026-11-17T13:12:56.921347+00:00"
   },
   {
     "zvg_id": "14516",
@@ -63,7 +63,7 @@
       "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68502&zvg_id=14516' file_type='pdf' file_size='2516.94 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=14516&land_abk=be",
-    "scraped_at": "2026-11-17T11:36:35.041150+00:00"
+    "scraped_at": "2026-11-17T13:12:46.945861+00:00"
   },
   {
     "zvg_id": "4820",
@@ -93,7 +93,7 @@
       "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=hb&file_id=8343&zvg_id=4820' file_type='pdf' file_size='432.84 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=4820&land_abk=hb",
-    "scraped_at": "2026-11-17T11:36:33.441759+00:00"
+    "scraped_at": "2026-11-17T13:12:46.590427+00:00"
   },
   {
     "zvg_id": "55325",
@@ -125,7 +125,7 @@
       "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134737&zvg_id=55325' file_type='pdf' file_size='365.15 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=55325&land_abk=he",
-    "scraped_at": "2026-11-17T11:36:50.423303+00:00"
+    "scraped_at": "2026-11-17T13:13:04.445355+00:00"
   },
   {
     "zvg_id": "13465",
@@ -155,6 +155,6 @@
       "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=ni&file_id=33080&zvg_id=13465' file_type='pdf' file_size='214.65 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=13465&land_abk=ni",
-    "scraped_at": "2026-11-17T11:36:38.680351+00:00"
+    "scraped_at": "2026-11-17T13:12:55.904999+00:00"
   }
 ]

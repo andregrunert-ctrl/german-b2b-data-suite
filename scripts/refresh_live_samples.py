@@ -25,6 +25,7 @@ import json
 import os
 import re
 import shutil
+import sys
 import tempfile
 from collections import defaultdict
 from datetime import date, datetime, time, timedelta, timezone
@@ -38,6 +39,22 @@ import openpyxl
 from lxml import html
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
+
+SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from upsell_helpers import (  # noqa: E402
+    APIFY_PROFILE_URL,
+    APIFY_ZVG_URL,
+    FIVERR_ZVG_URL,
+    FULL_RECORDS_FILENAME,
+    GUMROAD_ZVG_URL,
+    apply_sheet1_upsell_banner,
+    apply_sheet2_upsell_infobox,
+    wrap_sample_json_with_meta,
+    write_full_records_txt,
+)
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = ROOT_DIR / "samples"
@@ -664,7 +681,12 @@ def _write_stat_table(
     return r_ptr + 2
 
 
-def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
+def write_sample_50_xlsx(
+    rows: List[Dict[str, Any]],
+    out_path: Path,
+    *,
+    include_upsell: bool = False,
+) -> None:
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Zwangsversteigerungen 2026"
@@ -700,15 +722,33 @@ def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
     thin = Side(style="thin", color="D9E1EC")
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
 
+    header_row = 1
+    if include_upsell:
+        header_row = apply_sheet1_upsell_banner(
+            ws,
+            col_count=len(headers),
+            primary_text=(
+                f"⚡ KOSTENLOSES 50er-SAMPLE — Tagesaktuelles Komplettpaket (2.965+ aktive Termine, alle 16 Bundesländer, "
+                f"HTML-Explorer & PDF-Downloader) auf Gumroad: {GUMROAD_ZVG_URL}"
+            ),
+            primary_url=GUMROAD_ZVG_URL,
+            secondary_text=(
+                f"🚀 Live-API & On-Demand-Filter via Apify Actor ($5 Free Credits): {APIFY_ZVG_URL} | "
+                f"Alle 6 Actors: {APIFY_PROFILE_URL} | Fiverr: {FIVERR_ZVG_URL}"
+            ),
+            secondary_url=APIFY_ZVG_URL,
+        )
+
     for col_idx, (label, _, width) in enumerate(headers, start=1):
-        c = ws.cell(row=1, column=col_idx, value=label)
+        c = ws.cell(row=header_row, column=col_idx, value=label)
         c.fill = hdr_fill
         c.font = hdr_font
         c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
         ws.column_dimensions[get_column_letter(col_idx)].width = width
-    ws.row_dimensions[1].height = 28
+    ws.row_dimensions[header_row].height = 28
 
-    for r_idx, row in enumerate(rows, start=2):
+    data_start = header_row + 1
+    for r_idx, row in enumerate(rows, start=data_start):
         gw_url = make_gateway_url(row)
         for col_idx, (_, key, _) in enumerate(headers, start=1):
             val = row.get(key)
@@ -736,8 +776,8 @@ def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
                 cell.value = val if val != "" else None
                 cell.alignment = Alignment(vertical="top", wrap_text=(key in ("title", "description", "address")))
 
-    ws.freeze_panes = "A2"
-    ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(rows) + 1}"
+    ws.freeze_panes = f"A{data_start}"
+    ws.auto_filter.ref = f"A{header_row}:{get_column_letter(len(headers))}{len(rows) + header_row}"
 
     # Sheet 2: Market statistics (KPI + Bundesland + Objektart)
     ws2 = wb.create_sheet("Statistik nach Bundesland & Art")
@@ -780,7 +820,30 @@ def write_sample_50_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
         c2.number_format = num_fmt
         c2.alignment = Alignment(horizontal="right")
 
-    next_row = _write_stat_table(ws2, 10, "Bundesland", by_state, hdr_fill, hdr_font, zebra_fill, border)
+    tables_start_row = 10
+    if include_upsell:
+        tables_start_row = apply_sheet2_upsell_infobox(
+            ws2,
+            start_row=10,
+            col_span=5,
+            title="VOLLSTÄNDIGES KOMPLETTPAKET (2.965+ AKTIVE TERMINE) & LIVE-APIS",
+            rows_spec=[
+                (
+                    f"🛒 Komplettpaket auf Gumroad (2.965+ aktive Termine, XLSX/CSV/JSON, HTML-Explorer & PDF-Downloader): {GUMROAD_ZVG_URL}",
+                    GUMROAD_ZVG_URL,
+                ),
+                (
+                    f"🚀 Apify ZVG Cloud-Actor (Live-Filterung, Pay-Per-Event & $5 Free Credits): {APIFY_ZVG_URL}",
+                    APIFY_ZVG_URL,
+                ),
+                (
+                    f"💼 Alle 6 German B2B Actors ({APIFY_PROFILE_URL}) & Individueller Fiverr-Service ({FIVERR_ZVG_URL})",
+                    APIFY_PROFILE_URL,
+                ),
+            ],
+        )
+
+    next_row = _write_stat_table(ws2, tables_start_row, "Bundesland", by_state, hdr_fill, hdr_font, zebra_fill, border)
     _write_stat_table(ws2, next_row, "Objektart", by_category, hdr_fill, hdr_font, zebra_fill, border)
 
     for col_idx, w in enumerate([38, 16, 12, 24, 22], start=1):
@@ -886,15 +949,31 @@ async def refresh_zvg_samples(weekly_cutoff: date, today_berlin: date) -> Tuple[
     sample_50_raw = valid[:50]
     sample_50_clean = [build_clean_export_row(it) for it in sample_50_raw]
 
+    zvg_json_payload = wrap_sample_json_with_meta(
+        sample_50_clean,
+        dataset_kind="DE_Zwangsversteigerungen_Sample_50",
+        actor_url=APIFY_ZVG_URL,
+        fiverr_url=FIVERR_ZVG_URL,
+        note=(
+            "Curated 50-item sample of active German judicial foreclosure auctions. "
+            "Get all 2,965+ live nationwide listings (Excel, CSV, JSON, HTML Explorer & PDF Batch Downloader) "
+            f"on Gumroad: {GUMROAD_ZVG_URL}"
+        ),
+    )
     (SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.json").write_text(
-        json.dumps(sample_50_clean, indent=2, ensure_ascii=False), encoding="utf-8"
+        json.dumps(zvg_json_payload, indent=2, ensure_ascii=False), encoding="utf-8"
     )
     csv50_fields = list(sample_50_clean[0].keys())
     with (SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=csv50_fields)
         w.writeheader()
         w.writerows(sample_50_clean)
-    write_sample_50_xlsx(sample_50_clean, SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.xlsx")
+    write_sample_50_xlsx(
+        sample_50_clean,
+        SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.xlsx",
+        include_upsell=True,
+    )
+    write_full_records_txt(SAMPLES_DIR)
 
     # Save 03_zvg_foreclosures_sample.{json,csv}
     top5 = verified_pdf_top[:5]
@@ -1237,7 +1316,61 @@ async def refresh_tender_samples(weekly_cutoff: date, today_berlin: date) -> int
 # External Hub Sync (Hugging Face & Kaggle)
 # ---------------------------------------------------------------------------
 
+ZVG_HF_README = """---
+language:
+- de
+license: cc0-1.0
+multilinguality:
+- monolingual
+size_categories:
+- n<1K
+task_categories:
+- tabular-regression
+- tabular-classification
+tags:
+- real-estate
+- germany
+- b2b
+- zvg
+- foreclosures
+- proptech
+- investment
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: DE_Zwangsversteigerungen_Sample_50.csv
+pretty_name: German Real Estate Foreclosures (ZVG-Portal) Sample
+---
+
+# 🏠 German Real Estate Foreclosures (ZVG-Portal) Sample (50 Live Auctions)
+
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![Full Dataset on Gumroad](https://img.shields.io/badge/Gumroad-Full%202%2C965%2B%20Auctions-FF90E8?logo=gumroad&logoColor=black)](https://grunertandre.gumroad.com/l/qklpqn)
+[![Apify ZVG Actor](https://img.shields.io/badge/Apify-ZVG%20Cloud%20Actor-FF7626?logo=apify&logoColor=white)](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper)
+[![GitHub Suite](https://img.shields.io/badge/GitHub-German%20B2B%20Suite-blue?logo=github)](https://github.com/andregrunert-ctrl/german-b2b-data-suite)
+
+This repository contains a weekly-refreshed, curated 50-row sample of active judicial real estate foreclosure auctions (*Zwangsversteigerungen*) across Germany, extracted directly from `zvg-portal.de`.
+
+> **⚡ Want all 2,965+ active future auctions across all 16 German states?**
+> - **Instant Download (Excel, CSV, JSON, HTML Explorer & PDF Batch Downloader):** [Get the Full 2026 Master Dataset on Gumroad](https://grunertandre.gumroad.com/l/qklpqn)
+> - **Live On-Demand API & Filtering:** [Apify ZVG Foreclosure Scraper Actor](https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper) ($5/mo free Apify Starter credits)
+> - **All 6 German B2B & PropTech Cloud Actors:** [apify.com/AGrunert](https://apify.com/AGrunert)
+> - **Custom Bulk Extraction (Fiverr):** [Order Custom ZVG Excel Delivery](https://de.fiverr.com/s/NeWDpEy)
+
+---
+
+## 📌 Included Files
+
+- `00_GET_FULL_2965_RECORDS.txt` — Direct instructions & links for the 2,965+ complete Gumroad dataset and Apify live actors
+- `DE_Zwangsversteigerungen_Sample_50.csv` — Strict RFC 4180 UTF-8 CSV ready for `pandas.read_csv()` and HF Dataset Viewer
+- `DE_Zwangsversteigerungen_Sample_50.xlsx` — Multi-sheet styled Excel workbook with 1-click ZVG-Portal PDF links & market statistics
+- `DE_Zwangsversteigerungen_Sample_50.json` — Structured JSON payload with `_meta_full_dataset_download` metadata & `records` array
+"""
+
+
 def sync_external_hubs(today_str: str) -> None:
+    write_full_records_txt(SAMPLES_DIR)
     for env_candidate in (ROOT_DIR / ".env", ROOT_DIR.parent / ".env", Path(r"C:\Users\andre\ai-money\.env")):
         if env_candidate.is_file():
             for line in env_candidate.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -1250,20 +1383,30 @@ def sync_external_hubs(today_str: str) -> None:
                 if key and val and key not in os.environ:
                     os.environ[key] = val
 
+    hub_files = [
+        FULL_RECORDS_FILENAME,
+        "DE_Zwangsversteigerungen_Sample_50.csv",
+        "DE_Zwangsversteigerungen_Sample_50.xlsx",
+        "DE_Zwangsversteigerungen_Sample_50.json",
+    ]
+
     hf_token = os.environ.get("HF_TOKEN", "").strip()
     if hf_token:
         from huggingface_hub import CommitOperationAdd, HfApi
 
         api = HfApi(token=hf_token)
-        ops = []
-        for fn in ["DE_Zwangsversteigerungen_Sample_50.csv", "DE_Zwangsversteigerungen_Sample_50.xlsx", "DE_Zwangsversteigerungen_Sample_50.json"]:
-            ops.append(CommitOperationAdd(path_in_repo=fn, path_or_fileobj=str(SAMPLES_DIR / fn)))
-        api.create_commit(
-            repo_id="AGrunert/german-real-estate-foreclosures-zvg-sample",
-            repo_type="dataset",
-            operations=ops,
-            commit_message=f"chore(auto-refresh): weekly active future ZVG Sample 50 ({today_str})",
-        )
+        with tempfile.TemporaryDirectory() as hf_tmp:
+            readme_path = Path(hf_tmp) / "README.md"
+            readme_path.write_text(ZVG_HF_README, encoding="utf-8")
+            ops = [CommitOperationAdd(path_in_repo="README.md", path_or_fileobj=str(readme_path))]
+            for fn in hub_files:
+                ops.append(CommitOperationAdd(path_in_repo=fn, path_or_fileobj=str(SAMPLES_DIR / fn)))
+            api.create_commit(
+                repo_id="AGrunert/german-real-estate-foreclosures-zvg-sample",
+                repo_type="dataset",
+                operations=ops,
+                commit_message=f"chore(auto-refresh): weekly active future ZVG Sample 50 + upsell links ({today_str})",
+            )
         print("[HUB] ✓ Updated Hugging Face Hub dataset (atomic commit).")
     else:
         print("[HUB] Skipping Hugging Face sync (HF_TOKEN not set).")
@@ -1276,13 +1419,13 @@ def sync_external_hubs(today_str: str) -> None:
         k_api.authenticate()
         with tempfile.TemporaryDirectory() as tmp:
             tmp_dir = Path(tmp)
-            for fn in ["DE_Zwangsversteigerungen_Sample_50.csv", "DE_Zwangsversteigerungen_Sample_50.xlsx", "DE_Zwangsversteigerungen_Sample_50.json"]:
+            for fn in hub_files:
                 shutil.copy2(SAMPLES_DIR / fn, tmp_dir / fn)
             shutil.copy2(Path(__file__).resolve().parent / "kaggle_dataset_metadata.json", tmp_dir / "dataset-metadata.json")
             k_api.dataset_metadata_update("andrgrunert/german-real-estate-foreclosures-zvg-sample", str(tmp_dir))
             k_api.dataset_create_version(
                 folder=str(tmp_dir),
-                version_notes=f"Automated weekly refresh: 50 verified future ZVG auctions ({today_str})",
+                version_notes=f"Automated weekly refresh: 50 verified future ZVG auctions + full 2,965+ links ({today_str})",
                 dir_mode="skip",
             )
         print("[HUB] ✓ Published new Kaggle Dataset version.")

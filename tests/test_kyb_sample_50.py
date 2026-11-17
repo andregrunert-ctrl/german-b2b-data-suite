@@ -46,12 +46,15 @@ def test_to_flat_row_and_xlsx_workbook(tmp_path):
     wb = openpyxl.load_workbook(out_xlsx, data_only=True)
     assert wb.sheetnames == ["Handelsregister KYB 2026", "KYB Statistik nach Land & Form"]
     ws1 = wb["Handelsregister KYB 2026"]
-    assert ws1.freeze_panes == "A2"
-    assert ws1.cell(2, 1).value == "BioNTech SE"
-    assert ws1.cell(2, 10).value == 259027487.0
+    assert ws1.freeze_panes == "A4"
+    assert "https://grunertandre.gumroad.com/l/qklpqn" in str(ws1["A1"].value)
+    assert ws1.cell(3, 1).value == "Unternehmen"
+    assert ws1.cell(4, 1).value == "BioNTech SE"
+    assert ws1.cell(4, 10).value == 259027487.0
     ws2 = wb["KYB Statistik nach Land & Form"]
     cells = "\n".join(str(v) for r in ws2.iter_rows(values_only=True) for v in r if v is not None)
     assert "Rheinland-Pfalz" in cells
+    assert "https://grunertandre.gumroad.com/l/qklpqn" in cells
     wb.close()
 
 
@@ -72,8 +75,13 @@ def test_generated_sample_50_artifacts_integrity():
     json_rows = json.loads((samples_dir / "02_handelsregister_kyb_sample.json").read_text(encoding="utf-8"))
     assert len(json_rows) == 50
 
+    kyb_sample_json = json.loads((samples_dir / "DE_Handelsregister_KYB_Sample_50.json").read_text(encoding="utf-8"))
+    assert kyb_sample_json.get("_meta_full_dataset_download") == "https://grunertandre.gumroad.com/l/qklpqn"
+    assert len(kyb_sample_json.get("records") or []) == 50
+    assert (samples_dir / "00_GET_FULL_2965_RECORDS.txt").is_file()
+
     wb = openpyxl.load_workbook(samples_dir / "DE_Handelsregister_KYB_Sample_50.xlsx", data_only=True)
     assert wb.sheetnames == ["Handelsregister KYB 2026", "KYB Statistik nach Land & Form"]
     ws1 = wb["Handelsregister KYB 2026"]
-    assert ws1.max_row == 51
+    assert ws1.max_row == 53
     wb.close()

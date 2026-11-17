@@ -1,0 +1,26 @@
+================================================================================
+  GET THE FULL NATIONWIDE DATASET (2,965+ ACTIVE RECORDS) & LIVE APIFY ACTORS
+================================================================================
+
+You downloaded the free 50-row curated preview sample.
+Need the complete daily-updated dataset or automated live API access?
+
+1. COMPLETE ZVG FORECLOSURE MASTER DATASET (2,965+ Active Auctions, All 16 States)
+   - Formats: Formatted Excel (.xlsx), CSV, JSON, Interactive HTML Explorer,
+     plus 1-click PDF Appraisal Batch Downloader (download_gutachten_pdfs.py)
+   - Zero expired or cancelled auctions (verified >= today)
+   -> Instant Download on Gumroad: https://grunertandre.gumroad.com/l/qklpqn
+
+2. LIVE APIFY CLOUD ACTORS (6 Specialized DACH B2B & PropTech APIs, 13 Public Tasks)
+   - Free $5/month Apify Starter credits included for external accounts!
+   - All 6 Actors Overview:           https://apify.com/AGrunert
+   - ZVG Foreclosure Scraper API:     https://apify.com/AGrunert/german-real-estate-foreclosure-zvg-scraper
+   - Handelsregister & KYB Audit API: https://apify.com/AGrunert/german-company-kyb-insolvency-scraper
+   - ZUGFeRD / XRechnung E-Invoice:   https://apify.com/AGrunert/german-e-invoice-zugferd-xrechnung-suite
+
+3. CUSTOM BULK EXTRACTS, AI AGENT MCP & n8n AUTOMATION
+   - Custom ZVG Excel Delivery (Fiverr):       https://de.fiverr.com/s/NeWDpEy
+   - Custom KYB / Due Diligence (Fiverr):      https://www.fiverr.com/s/yeWblEA
+   - Standalone Python MCP Server (PyPI):      pip install german-b2b-mcp / uvx german-b2b-mcp
+   - Official n8n Community Node (npm):        npm install n8n-nodes-german-b2b
+   - Open-Source Integration Suite (GitHub):   https://github.com/andregrunert-ctrl/german-b2b-data-suite

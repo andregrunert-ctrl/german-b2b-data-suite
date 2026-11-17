@@ -28,6 +28,21 @@ import openpyxl
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
+SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from upsell_helpers import (  # noqa: E402
+    APIFY_KYB_URL,
+    APIFY_PROFILE_URL,
+    FIVERR_KYB_URL,
+    GUMROAD_ZVG_URL,
+    apply_sheet1_upsell_banner,
+    apply_sheet2_upsell_infobox,
+    wrap_sample_json_with_meta,
+    write_full_records_txt,
+)
+
 SUITE_DIR = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = SUITE_DIR / "samples"
 KYB_ACTOR_DIR = SUITE_DIR.parent / "apify-german-kyb-actor"
@@ -270,7 +285,12 @@ def to_flat_row(nested_item: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def write_kyb_sample_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
+def write_kyb_sample_xlsx(
+    rows: List[Dict[str, Any]],
+    out_path: Path,
+    *,
+    include_upsell: bool = True,
+) -> None:
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Handelsregister KYB 2026"
@@ -307,15 +327,33 @@ def write_kyb_sample_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
     thin = Side(style="thin", color="D9E1EC")
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
 
+    header_row = 1
+    if include_upsell:
+        header_row = apply_sheet1_upsell_banner(
+            ws,
+            col_count=len(headers),
+            primary_text=(
+                f"⚡ KOSTENLOSES 50er-KYB-SAMPLE — Live Handelsregister & Insolvenz-API ($5 Free Credits): {APIFY_KYB_URL} "
+                f"| ZVG-Masterpaket (2.965+ Termine): {GUMROAD_ZVG_URL}"
+            ),
+            primary_url=APIFY_KYB_URL,
+            secondary_text=(
+                f"🚀 Komplettpaket (2.965+ Termine) auf Gumroad: {GUMROAD_ZVG_URL} | "
+                f"Alle 6 German B2B Actors: {APIFY_PROFILE_URL} | Fiverr Audit: {FIVERR_KYB_URL}"
+            ),
+            secondary_url=GUMROAD_ZVG_URL,
+        )
+
     for col_idx, (label, _, width) in enumerate(headers, start=1):
-        c = ws.cell(row=1, column=col_idx, value=label)
+        c = ws.cell(row=header_row, column=col_idx, value=label)
         c.fill = hdr_fill
         c.font = hdr_font
         c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
         ws.column_dimensions[get_column_letter(col_idx)].width = width
-    ws.row_dimensions[1].height = 28
+    ws.row_dimensions[header_row].height = 28
 
-    for r_idx, row in enumerate(rows, start=2):
+    data_start = header_row + 1
+    for r_idx, row in enumerate(rows, start=data_start):
         for col_idx, (_, key, _) in enumerate(headers, start=1):
             val = row.get(key)
             cell = ws.cell(row=r_idx, column=col_idx)
@@ -351,8 +389,8 @@ def write_kyb_sample_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
                     wrap_text=(key in ("company_name", "address", "managing_directors_sample", "business_purpose")),
                 )
 
-    ws.freeze_panes = "A2"
-    ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(rows) + 1}"
+    ws.freeze_panes = f"A{data_start}"
+    ws.auto_filter.ref = f"A{header_row}:{get_column_letter(len(headers))}{len(rows) + header_row}"
 
     # Sheet 2: Market & Compliance Overview
     ws2 = wb.create_sheet("KYB Statistik nach Land & Form")
@@ -418,7 +456,30 @@ def write_kyb_sample_xlsx(rows: List[Dict[str, Any]], out_path: Path) -> None:
             r_ptr += 1
         return r_ptr + 2
 
-    next_r = write_group_table(11, "Bundesland", by_state)
+    tables_start = 11
+    if include_upsell:
+        tables_start = apply_sheet2_upsell_infobox(
+            ws2,
+            start_row=11,
+            col_span=3,
+            title="LIVE KYB-AUTOMATION & DATEN-KOMPLETTPAKETE",
+            rows_spec=[
+                (
+                    f"🚀 Apify KYB & Insolvenz-Actor ($0.015/Audit, $5 Free Credits): {APIFY_KYB_URL}",
+                    APIFY_KYB_URL,
+                ),
+                (
+                    f"🛒 ZVG Komplettpaket auf Gumroad (2.965+ aktive Termine): {GUMROAD_ZVG_URL}",
+                    GUMROAD_ZVG_URL,
+                ),
+                (
+                    f"💼 Alle 6 German B2B Actors ({APIFY_PROFILE_URL}) | Individueller Fiverr KYB-Audit ({FIVERR_KYB_URL})",
+                    FIVERR_KYB_URL,
+                ),
+            ],
+        )
+
+    next_r = write_group_table(tables_start, "Bundesland", by_state)
     write_group_table(next_r, "Rechtsform", by_form)
     for col_idx, w in enumerate([44, 18, 14], start=1):
         ws2.column_dimensions[get_column_letter(col_idx)].width = w
@@ -595,16 +656,27 @@ def save_outputs(nested_items: List[Dict[str, Any]]) -> None:
             w.writeheader()
             w.writerows(flat_rows)
 
-    # 2. DE_Handelsregister_KYB_Sample_50.json + 02_handelsregister_kyb_sample.json
+    # 2. DE_Handelsregister_KYB_Sample_50.json (with upsell meta) + 02_handelsregister_kyb_sample.json
+    kyb_json_payload = wrap_sample_json_with_meta(
+        flat_rows,
+        dataset_kind="DE_Handelsregister_KYB_Sample_50",
+        actor_url=APIFY_KYB_URL,
+        fiverr_url=FIVERR_KYB_URL,
+        note=(
+            "Curated 50-company German Handelsregister & Insolvency KYB sample. "
+            f"Run unlimited live KYB checks at {APIFY_KYB_URL} or get the 2,965+ ZVG Foreclosures Master Dataset at {GUMROAD_ZVG_URL}"
+        ),
+    )
     (SAMPLES_DIR / "DE_Handelsregister_KYB_Sample_50.json").write_text(
-        json.dumps(flat_rows, indent=2, ensure_ascii=False), encoding="utf-8"
+        json.dumps(kyb_json_payload, indent=2, ensure_ascii=False), encoding="utf-8"
     )
     (SAMPLES_DIR / "02_handelsregister_kyb_sample.json").write_text(
         json.dumps(nested_items, indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
-    # 3. DE_Handelsregister_KYB_Sample_50.xlsx
-    write_kyb_sample_xlsx(flat_rows, SAMPLES_DIR / "DE_Handelsregister_KYB_Sample_50.xlsx")
+    # 3. DE_Handelsregister_KYB_Sample_50.xlsx + 00_GET_FULL_2965_RECORDS.txt
+    write_kyb_sample_xlsx(flat_rows, SAMPLES_DIR / "DE_Handelsregister_KYB_Sample_50.xlsx", include_upsell=True)
+    write_full_records_txt(SAMPLES_DIR)
     print(f"\n✓ Wrote 50-row Handelsregister KYB datasets to {SAMPLES_DIR}", flush=True)
 
 

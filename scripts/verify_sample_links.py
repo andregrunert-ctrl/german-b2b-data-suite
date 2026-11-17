@@ -40,22 +40,30 @@ def main() -> None:
         assert gw.status_code == 200, f"Gateway healthcheck failed: {gw.status_code}"
         print(f"[OK] zvg.html gateway HTTP {gw.status_code} ({len(gw.content)} bytes)")
 
-        # 1. Verify Sample 50 JSON, XLSX Sheet 2 statistics & Sample 03 JSON
-        s50 = json.loads((SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.json").read_text(encoding="utf-8"))
+        # 1. Verify Sample 50 JSON (+ upsell metadata), XLSX Sheet 1/2 upsell + statistics & Sample 03 JSON
+        s50_raw = json.loads((SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.json").read_text(encoding="utf-8"))
+        assert isinstance(s50_raw, dict) and s50_raw.get("_meta_full_dataset_download") == "https://grunertandre.gumroad.com/l/qklpqn", (
+            "DE_Zwangsversteigerungen_Sample_50.json missing _meta_full_dataset_download!"
+        )
+        s50 = s50_raw.get("records") or []
         assert len(s50) >= 20, f"Expected >= 20 rows in Sample 50, got {len(s50)}"
         for row in s50:
             dt = parse_german_date(row.get("auction_date"))
             assert dt is not None and dt >= min_cutoff, f"Expired/insufficient Sample 50 horizon (< {min_cutoff}): {row.get('zvg_id')} {row.get('auction_date')}"
             assert float(row.get("market_value_eur") or 0) > 0, f"Invalid market_value_eur in {row.get('zvg_id')}"
 
+        assert (SAMPLES_DIR / "00_GET_FULL_2965_RECORDS.txt").is_file(), "Missing 00_GET_FULL_2965_RECORDS.txt!"
         wb = openpyxl.load_workbook(SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.xlsx", data_only=True)
         assert "Statistik nach Bundesland & Art" in wb.sheetnames, "Missing XLSX Sheet 2!"
+        sheet1_banner = str(wb["Zwangsversteigerungen 2026"]["A1"].value or "")
+        assert "https://grunertandre.gumroad.com/l/qklpqn" in sheet1_banner, "XLSX Sheet 1 missing Gumroad banner!"
         sheet2_vals = "\n".join(
             str(v) for r in wb["Statistik nach Bundesland & Art"].iter_rows(values_only=True) for v in r if v is not None
         )
         assert "Bundesland" in sheet2_vals and "Objektart" in sheet2_vals and "GESAMT" in sheet2_vals, (
             "XLSX Sheet 2 missing Bundesland/Objektart statistics or GESAMT row!"
         )
+        assert "https://grunertandre.gumroad.com/l/qklpqn" in sheet2_vals, "XLSX Sheet 2 missing Gumroad Info-Box!"
         wb.close()
 
         s03 = json.loads((SAMPLES_DIR / "03_zvg_foreclosures_sample.json").read_text(encoding="utf-8"))

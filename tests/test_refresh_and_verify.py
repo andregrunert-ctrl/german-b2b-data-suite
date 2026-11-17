@@ -75,19 +75,36 @@ def test_write_sample_50_xlsx_restores_bundesland_and_objektart_stats(tmp_path):
         },
     ]
     out_xlsx = tmp_path / "sample.xlsx"
-    rls.write_sample_50_xlsx(rows, out_xlsx)
+    rls.write_sample_50_xlsx(rows, out_xlsx, include_upsell=True)
 
     wb = openpyxl.load_workbook(out_xlsx, data_only=True)
+    ws1 = wb["Zwangsversteigerungen 2026"]
+    assert ws1.freeze_panes == "A4"
+    assert "https://grunertandre.gumroad.com/l/qklpqn" in str(ws1["A1"].value)
+    assert ws1["A1"].hyperlink is not None and ws1["A1"].hyperlink.target == "https://grunertandre.gumroad.com/l/qklpqn"
+    assert ws1.cell(3, 1).value == "ZVG-ID"
+    assert ws1.cell(4, 1).value == "101"
+
     assert "Statistik nach Bundesland & Art" in wb.sheetnames
     ws2 = wb["Statistik nach Bundesland & Art"]
     all_cells = [str(v) for row in ws2.iter_rows(values_only=True) for v in row if v is not None]
     joined = "\n".join(all_cells)
+    assert "https://grunertandre.gumroad.com/l/qklpqn" in joined
     assert "Bundesland" in joined
     assert "Objektart" in joined
     assert "Einfamilien- / Zweifamilienhaus" in joined
     assert "Garage" not in joined
     assert "Eigentumswohnung" in joined
     assert "GESAMT" in joined
+    wb.close()
+
+    # Paid Master XLSX mode (include_upsell=False) must NOT embed the free-sample Gumroad banner
+    out_master = tmp_path / "master.xlsx"
+    rls.write_sample_50_xlsx(rows, out_master, include_upsell=False)
+    wb_m = openpyxl.load_workbook(out_master, data_only=True)
+    assert wb_m["Zwangsversteigerungen 2026"].freeze_panes == "A2"
+    assert wb_m["Zwangsversteigerungen 2026"].cell(1, 1).value == "ZVG-ID"
+    wb_m.close()
 
 
 def test_parse_tender_detail_html_extracts_non_pre_div_text_cpv_and_links():

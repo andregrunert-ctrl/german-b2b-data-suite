@@ -4,6 +4,7 @@
 ### Official Open-Source Integration Hub for Apify Actors, AI Agents (MCP), n8n & Make.com
 
 [![Apify Store](https://img.shields.io/badge/Apify%20Store-Live%20Actors-FF7626?style=for-the-badge&logo=apify&logoColor=white)](https://apify.com/AGrunert)
+[![PyPI version](https://img.shields.io/pypi/v/german-b2b-mcp?style=for-the-badge&logo=pypi&logoColor=white)](https://pypi.org/project/german-b2b-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![MCP Protocol](https://img.shields.io/badge/MCP-Ready%20for%20Agents-8A2BE2?style=for-the-badge&logo=anthropic&logoColor=white)](https://modelcontextprotocol.io/)
 [![n8n Certified](https://img.shields.io/badge/n8n-Ready%20Workflows-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)](workflows/n8n_dach_b2b_lead_to_kyb_pipeline.json)
@@ -106,29 +107,36 @@ It exposes **6 typed MCP tools** backed by our Apify Cloud microservices—givin
 | `search_german_zvg_foreclosures` | `AGrunert/german-real-estate-foreclosure-zvg-scraper` | `zvg-portal.de` foreclosure auctions & Gutachten PDF URLs |
 | `process_german_einvoice` | `AGrunert/german-e-invoice-zugferd-xrechnung-suite` | ZUGFeRD 2.2 / Factur-X / XRechnung 3.0 generation & validation |
 
-### 1. Run Locally via Python (`pip`)
+### 1. Run via PyPI (`pip` / `uvx`) — Recommended for Claude, Cursor, Glama & Smithery
 ```bash
-git clone https://github.com/andregrunert-ctrl/german-b2b-data-suite.git
-cd german-b2b-data-suite
-pip install .
-export APIFY_TOKEN="YOUR_APIFY_TOKEN"
-python -m german_b2b_mcp.server
+pip install german-b2b-mcp
+export APIFY_TOKEN="YOUR_APIFY_TOKEN"  # Free token ($5/mo credits): https://console.apify.com/account/integrations
+german-b2b-mcp
 ```
 
-Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows), `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), or `.cursor/mcp.json`:
+Or run zero-install via `uvx` in `%APPDATA%\Claude\claude_desktop_config.json` (Windows), `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS), or `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "german-b2b-data-suite": {
-      "command": "python",
-      "args": ["-m", "german_b2b_mcp.server"],
+      "command": "uvx",
+      "args": ["german-b2b-mcp"],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
       }
     }
   }
 }
+```
+
+Or run from source after cloning:
+```bash
+git clone https://github.com/andregrunert-ctrl/german-b2b-data-suite.git
+cd german-b2b-data-suite
+pip install .
+export APIFY_TOKEN="YOUR_APIFY_TOKEN"
+python -m german_b2b_mcp.server
 ```
 
 ### 2. Run via Docker (`stdio`)
@@ -256,12 +264,13 @@ Looking for turnkey, ready-to-use German B2B and PropTech datasets without writi
 - **💡 PDF Appraisal Download Note:** `zvg-portal.de` enforces anti-hotlinking security. Direct programmatic downloads require `Referer: item["detail_url"]`. The Gumroad/Fiverr download package includes our turnkey 1-click Python batch downloader (`download_gutachten_pdfs.py`) to download all appraisal PDFs locally!
 - **Free 50-Item Curated Sample:**
   - 📥 [**Download 50-Item SEO Sample (.CSV)**](samples/DE_Zwangsversteigerungen_Sample_50.csv) *(RFC 4180 comma-delimited for Pandas, Kaggle & Hugging Face)*
-  - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook)*
-  - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json)
+  - 📥 [**Download 50-Item SEO Sample (.XLSX)**](samples/DE_Zwangsversteigerungen_Sample_50.xlsx) *(Multi-sheet styled workbook with live Gumroad & Apify links)*
+  - 📄 [**Download 50-Item JSON Payload**](samples/DE_Zwangsversteigerungen_Sample_50.json) *(Includes `_meta_full_dataset_download` pointer)*
+  - 📝 [**Full 2,965+ Records Guide (`00_GET_FULL_2965_RECORDS.txt`)**](samples/00_GET_FULL_2965_RECORDS.txt)
   - 🤗 [**Hugging Face Hub Dataset**](https://huggingface.co/datasets/AGrunert/german-real-estate-foreclosures-zvg-sample) *(50-Item live sample preview)*
   - 📊 [**Kaggle Datasets Hub**](https://www.kaggle.com/datasets/andrgrunert/german-real-estate-foreclosures-zvg-sample) *(Data explorer & kernels ready)*
-- **Full Nationwide Master Dataset & Live Services:**
-  - 🛒 **Instant Gumroad Download:** [**Get Full Nationwide Master Dataset (.XLSX & .CSV) on Gumroad**](https://grunertandre.gumroad.com/l/qklpqn)
+- **Full Nationwide Master Dataset (2,965+ Active Auctions) & Live Services:**
+  - 🛒 **Instant Gumroad Download:** [**Get Full Nationwide Master Dataset (2,965+ Active Auctions, .XLSX, .CSV, .JSON, HTML Explorer & PDF Downloader) on Gumroad**](https://grunertandre.gumroad.com/l/qklpqn)
   - 💼 **Productized Fiverr Gigs:**
     - 🏢 [**Fiverr Gig 1: German Real Estate Foreclosures (ZVG) in Excel**](https://de.fiverr.com/s/NeWDpEy)
     - ⚖️ [**Fiverr Gig 2: German Companies KYB, Handelsregister & Insolvency Audit**](https://de.fiverr.com/s/yeWblEA)

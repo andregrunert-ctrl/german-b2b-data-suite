@@ -32,10 +32,13 @@ KAGGLE_META_PATH = SCRIPTS_DIR / "kaggle_kyb_dataset_metadata.json"
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
+from upsell_helpers import FULL_RECORDS_FILENAME, write_full_records_txt  # noqa: E402
+
 HF_REPO_ID = "AGrunert/german-company-handelsregister-kyb-sample"
 KAGGLE_DATASET_ID = "andrgrunert/german-company-handelsregister-kyb-sample"
 
 DATA_FILES = [
+    FULL_RECORDS_FILENAME,
     "DE_Handelsregister_KYB_Sample_50.csv",
     "DE_Handelsregister_KYB_Sample_50.xlsx",
     "DE_Handelsregister_KYB_Sample_50.json",
@@ -60,6 +63,11 @@ tags:
 - corporate-registry
 - compliance
 - dach
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: DE_Handelsregister_KYB_Sample_50.csv
 pretty_name: German Company Handelsregister & KYB Sample (50 Companies)
 ---
 
@@ -113,9 +121,11 @@ A curated, live-verified 50-company Know-Your-Business (KYB) dataset of German c
 
 ---
 
-## Live API, Cloud Automation & Custom KYB Audits
+## Live API, Cloud Automation & Full Master Datasets
 
-- **Apify Cloud KYB Actor (Pay-Per-Event API):** [German Company KYB & Insolvency Scraper](https://apify.com/AGrunert/german-company-kyb-insolvency-scraper)
+- **Apify Cloud KYB Actor (Pay-Per-Event API, $5 Free Monthly Credits):** [German Company KYB & Insolvency Scraper](https://apify.com/AGrunert/german-company-kyb-insolvency-scraper)
+- **All 6 German B2B & PropTech Cloud Actors:** [apify.com/AGrunert](https://apify.com/AGrunert)
+- **Full ZVG Foreclosures Master Dataset (2,965+ Active Auctions on Gumroad):** [Get Complete 2026 Edition](https://grunertandre.gumroad.com/l/qklpqn)
 - **Order Bespoke KYB Bulk Lists & Due Diligence (Fiverr):** [Custom German Handelsregister & KYB Audit](https://www.fiverr.com/s/yeWblEA)
 - **Open-Source Integration Suite (Python, n8n, Make.com, MCP):** [GitHub: german-b2b-data-suite](https://github.com/andregrunert-ctrl/german-b2b-data-suite)
 """
@@ -290,6 +300,8 @@ def main() -> None:
 
         if args.refresh_timestamps:
             refresh_local_kyb_timestamps()
+        else:
+            write_full_records_txt(SAMPLES_DIR)
 
         row_count = validate_local_sample()
         today_str = datetime.now(timezone.utc).date().isoformat()

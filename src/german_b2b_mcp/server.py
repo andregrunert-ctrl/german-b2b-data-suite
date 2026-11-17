@@ -70,8 +70,9 @@ async def run_apify_actor(
             "MISSING_APIFY_TOKEN",
             (
                 "APIFY_TOKEN environment variable is missing or empty. "
-                "Create a personal token at https://console.apify.com/account/integrations "
-                "and configure APIFY_TOKEN when launching the MCP server."
+                "Create a free personal token ($5/month starter credits) at "
+                "https://console.apify.com/account/integrations, explore all 6 actors & 13 public tasks at "
+                "https://apify.com/AGrunert, and configure APIFY_TOKEN when launching german-b2b-mcp."
             ),
             actor_slug=actor_slug,
         )

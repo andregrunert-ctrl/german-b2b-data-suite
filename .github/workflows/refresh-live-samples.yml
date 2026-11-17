@@ -29,7 +29,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          python -m pytest -v tests/test_refresh_and_verify.py
+          python -m pytest -v tests/test_refresh_and_verify.py tests/test_kyb_sample_50.py
 
       - name: Refresh ZVG & Public Tender samples and sync external hubs
         env:

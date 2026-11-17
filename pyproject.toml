@@ -31,6 +31,13 @@ dependencies = [
     "pydantic>=2.10.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+Documentation = "https://github.com/andregrunert-ctrl/german-b2b-data-suite#readme"
+Repository = "https://github.com/andregrunert-ctrl/german-b2b-data-suite"
+"Bug Tracker" = "https://github.com/andregrunert-ctrl/german-b2b-data-suite/issues"
+"Apify Store" = "https://apify.com/AGrunert"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
