@@ -1,69 +1,101 @@
 [
   {
-    "zvg_id": "48902",
-    "case_number": "0001 K 0054/2023",
+    "zvg_id": "49230",
+    "case_number": "0001 K 0143/2025",
     "state": "by",
-    "court": "Amtsgericht Coburg in Bayern",
-    "property_type": "siehe Beschreibung",
-    "title": "siehe Beschreibung: Ketschendorfer Straße 70 c, 96450 Coburg",
-    "address": "Ketschendorfer Straße 70 c, 96450 Coburg",
-    "postal_code": "96450",
-    "city": "Coburg",
-    "market_value_eur": 122000.0,
+    "court": "Amtsgericht Landshut in Bayern",
+    "property_type": "Einfamilienhaus, Garage",
+    "title": "Einfamilienhaus, Garage: Weidenweg 6, 94431 Pilsting, Großköllnbach",
+    "address": "Weidenweg 6, 94431 Pilsting, Großköllnbach",
+    "postal_code": "94431",
+    "city": "Pilsting",
+    "market_value_eur": 353000.0,
     "currency": "EUR",
-    "auction_date": "Dienstag, 24. November 2026, 08:00 Uhr",
-    "auction_location": "Sitzungssaal G, Ketschendorfer Str. 1, 96450 Coburg",
-    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Coburg von Coburg Miteigentumsanteil verbunden mit Sondereigentum ME-Anteil Sondereigentums-Art SE-Nr. Blatt 2382/100.000 Wohnung 2 20638 an Grundstück Gemarkung Flurstück Wirtschaftsart u. Lage Anschrift Hektar Coburg 2286/3 Gebäude- und Freifläche Ketschendorfer Straße 70 a-c 0,3341 Für jeden Miteigentumsanteil ist ein Grundbuchblatt angelegt (Bd. 538 Bl. 20637 bis Bl. 20654); (Bd. 540 Bl. 20690 bis Bl. 20724). Das hier eingetragene Miteigentum ist durch die zu den anderen Miteigentumsanteilen gehörenden Sondereigentumsrechte beschränkt. Zur Veräußerung - nicht aber an Ehegatten oder Verwandte in gerader Linie, im Wege der Zwangsversteigerung oder durch den Konkursverwalter, durch einen Grundpfandgläubiger oder zur Erstveräußerung - ist die Zustimmung des Verwalters erforderlich. Im übrigen wird wegen Gegenstand und Inhalt des Sondereigentums auf die Bewilligung vom 11. Juli 1984 - URNr. 1707 Notar Dr. Gerstner, Coburg - Bezug genommen. An 13 Kfz-Abstellplätzen bestehen Sondernutzungsrechte. Gemäß Bewilligung vom 26. Mai 1987. Der hier vorgetragenen Einheit ist das Sondernutzungsrecht an dem Kfz-Stellplatz Nr. 8 zugewiesen; gemäß Bewilligung vom 26.05.1987 URNr. 989-K-87 Notar Kuhn, Coburg Coburg ist eine kreisfreie Mittelstadt im bayerischen Regierungsbezirk Oberfranken und Sitz des Landratsamtes Coburg.",
+    "auction_date": "Montag, 30. November 2026, 09:00 Uhr",
+    "auction_location": "Amtsgericht Landshut, Sitzungssaal 4, Maximilianstr.20, 84028 Landshut",
+    "land_register": "Eingetragen im Grundbuch des Amtsgerichts Landau a.d. Isar von Großköllnbach lfd.Nr. Gemarkung Flurstück Wirtschaftsart u. Lage Anschrift Hektar Blatt 1 Großköllnbach Großköllnbach 427 Wohnhaus, Nebengebäude, Garten Großköllnbach, Weidenweg 6 0,0496 1289 2 Großköllnbach 428/7 Gebäude- und Freifläche Großköllnbach, Nähe Weidenweg 0,0579 1289",
     "status_notes": null,
     "is_cancelled": false,
-    "description": "Objektbeschreibung/Lage (lt Angabe d. Sachverständigen): 2-Zimmer-Wohnung mit Terrasse, gelegen im Untergeschoss (Souterrain) des massiven, unterkellerten Mehrfamilienhauses Ketschendorfer Str. 70 c (Haus C); Wfl. ca. 51,75 m² zzgl. 1 Kfz-Stellplatz und 1 Kellerabteil, Gebäudebaujahr um 1985 tlw. Renovierungsbedarf und Instandhaltungsrückstau;",
-    "creditor_info": null,
+    "description": "Lfd. Nr. 1 zweigeschossiges Einfamilienhaus (EG, DG, Spitzboden), unterkellert mit angebauter Garage, BJ 1979; Lfd. Nr. 2 Gartenland zu 579 qm;",
+    "creditor_info": "Gutachten auch einsehbar unter www.hanmark.de",
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125927&zvg_id=48902",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125926&zvg_id=48902",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125925&zvg_id=48902"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=127154&zvg_id=49230",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=127155&zvg_id=49230"
     ],
     "documents": [
-      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125927&zvg_id=48902' file_type='pdf' file_size='144.35 kB'",
-      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125926&zvg_id=48902' file_type='pdf' file_size='1047.8 kB'",
-      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=125925&zvg_id=48902' file_type='pdf' file_size='372.24 kB'"
+      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=127154&zvg_id=49230' file_type='pdf' file_size='275.49 kB'",
+      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=by&file_id=127155&zvg_id=49230' file_type='pdf' file_size='1614.63 kB'"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=48902&land_abk=by",
-    "scraped_at": "2026-11-17T13:12:56.921347+00:00"
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=49230&land_abk=by",
+    "scraped_at": "2026-11-23T15:29:21.020438+00:00"
   },
   {
-    "zvg_id": "14516",
-    "case_number": "0030 K 0060/2024",
+    "zvg_id": "14360",
+    "case_number": "0070 K 0017/2025",
     "state": "be",
-    "court": "Amtsgericht Wedding in Berlin",
-    "property_type": "Eigentumswohnung (3 bis 4 Zimmer)",
-    "title": "Eigentumswohnung (3 bis 4 Zimmer): Fontanestraße 1, 13467 Berlin",
-    "address": "Fontanestraße 1, 13467 Berlin",
-    "postal_code": "13467",
+    "court": "Amtsgericht Charlottenburg in Berlin",
+    "property_type": "Eigentumswohnung (1 bis 2 Zimmer)",
+    "title": "Eigentumswohnung (1 bis 2 Zimmer): Leibnizstraße 70, 10625 Berlin",
+    "address": "Leibnizstraße 70, 10625 Berlin",
+    "postal_code": "10625",
     "city": "Berlin",
-    "market_value_eur": 410000.0,
+    "market_value_eur": 340000.0,
     "currency": "EUR",
-    "auction_date": "Dienstag, 24. November 2026, 11:00 Uhr",
-    "auction_location": "Amtsgericht Wedding, Brunnenplatz 1, 13357 Berlin, III / 350",
-    "land_register": "Hermsdorf 7434",
+    "auction_date": "Montag, 30. November 2026, 09:00 Uhr",
+    "auction_location": "Amtsgericht Charlottenburg, Amtsgerichtsplatz 1, 14057 Berlin, Saal 120",
+    "land_register": "Stadt Charlottenburg Blatt 60031",
     "status_notes": null,
     "is_cancelled": false,
-    "description": "Es handelt sich laut Gutachten um eine 3-Zimmer-Wohnung mit ca. 99,50 m² Wohnfläche nebst Balkon und Kellerraum sowie zugeordnetem Sondernutzungsrecht an einer Parkplatzfläche.",
-    "creditor_info": "Weitere Informationen werden aus Datenschutzgründen nicht erteilt.",
+    "description": "Eigentumswohnung Nr. 14 im Objekt Leibnizstraße 70Die Wohnung ist belegen im Quergebäude, 2. Obergeschoss eines fünfgeschossigen, vollunterkellerten Wohn- und Geschäftshauses. Sie verfügt über 2 1/2 Zimmer, Küche, Bad, Flur und Abstellraum.Sondernutzungsrechte sind nicht vereinbart.Weitere Einzelheiten können dem Sachverständigengutachten (Stand 7/2025) entnommen werden. Eine Innenbesichtigung hat stattgefunden.Baujahr: 1902 (Wiederaufbau 1959)Wohnfläche: 81,76 m²",
+    "creditor_info": null,
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68504&zvg_id=14516",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68503&zvg_id=14516",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68505&zvg_id=14516",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68502&zvg_id=14516"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66865&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66866&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66869&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66871&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66870&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66868&zvg_id=14360",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66867&zvg_id=14360"
     ],
     "documents": [
-      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68504&zvg_id=14516' file_type='pdf' file_size='120.23 kB'",
-      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68503&zvg_id=14516' file_type='pdf' file_size='150.39 kB'",
-      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68505&zvg_id=14516' file_type='pdf' file_size='821.42 kB'",
-      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=68502&zvg_id=14516' file_type='pdf' file_size='2516.94 kB'"
+      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66865&zvg_id=14360' file_type='pdf' file_size='269.14 kB'",
+      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66866&zvg_id=14360' file_type='pdf' file_size='1949.36 kB'",
+      "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66869&zvg_id=14360' file_type='pdf' file_size='1170.33 kB'",
+      "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66871&zvg_id=14360' file_type='pdf' file_size='102.09 kB'",
+      "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66870&zvg_id=14360' file_type='pdf' file_size='179.9 kB'",
+      "title='Foto' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66868&zvg_id=14360' file_type='pdf' file_size='329.7 kB'",
+      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=be&file_id=66867&zvg_id=14360' file_type='pdf' file_size='1460.88 kB'"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=14516&land_abk=be",
-    "scraped_at": "2026-11-17T13:12:46.945861+00:00"
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=14360&land_abk=be",
+    "scraped_at": "2026-11-23T15:29:18.114904+00:00"
+  },
+  {
+    "zvg_id": "7408",
+    "case_number": "0002 K 0170/2026",
+    "state": "br",
+    "court": "Amtsgericht Potsdam in Brandenburg",
+    "property_type": "Einfamilienhaus",
+    "title": "Einfamilienhaus: Görsdorf 6a, 15936 Dahmetal, Görsdorf",
+    "address": "Görsdorf 6a, 15936 Dahmetal, Görsdorf",
+    "postal_code": "15936",
+    "city": "Dahmetal",
+    "market_value_eur": 200000.0,
+    "currency": "EUR",
+    "auction_date": "Dienstag, 01. Dezember 2026, 13:00 Uhr",
+    "auction_location": "Amtsgericht Potsdam, Hegelallee 8, 14467 Potsdam, Saal 215",
+    "land_register": "Görsdorf Bl. 343",
+    "status_notes": null,
+    "is_cancelled": false,
+    "description": "Gemarkung Flur, Flurstück Wirtschaftsart u. Lage Anschrift m² Görsdorf Flur 2, Flurstück 571 Gebäude- und Freifläche Görsdorf 6a 836 - Objektbeschreibung/Lage (lt Angabe d. Sachverständigen): Das Grundstück ist in Görsdorf 6a, 15936 Dahmetal OT Görsdorf, gelegen und mit einem einseitig angebauten, nicht unterkellerten, eingeschossigen Einfamilienhaus mit ausgebautem Dachgeschoss bebaut (Bj. ca. 2013, Wfl. ca. 125 m²). Es ist Bestandteil eines Bodendenkmals. Nach Kenntnis des Gerichts ist das Objekt eigengenutzt. Der Sachverständige konnte es nur von außen besichtigen. Der Bau- und Unterhaltungszustand ist, soweit von außen erkennbar, insgesamt gut.",
+    "creditor_info": "Rechtsanwälte Wallruch und Stahn, Zeichen: 221/24, Tel.: 03573/3690000",
+    "pdf_urls": [
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=br&file_id=10622&zvg_id=7408"
+    ],
+    "documents": [
+      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=br&file_id=10622&zvg_id=7408' file_type='pdf' file_size='348.33 kB'"
+    ],
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=7408&land_abk=br",
+    "scraped_at": "2026-11-23T15:29:17.714532+00:00"
   },
   {
     "zvg_id": "4820",
@@ -93,68 +125,38 @@
       "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=hb&file_id=8343&zvg_id=4820' file_type='pdf' file_size='432.84 kB'"
     ],
     "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=4820&land_abk=hb",
-    "scraped_at": "2026-11-17T13:12:46.590427+00:00"
+    "scraped_at": "2026-11-23T15:29:17.514611+00:00"
   },
   {
-    "zvg_id": "55325",
-    "case_number": "0007 K 0035/2024",
+    "zvg_id": "55186",
+    "case_number": "0093 K 0040/2025",
     "state": "he",
-    "court": "Amtsgericht Büdingen in Hessen",
-    "property_type": "Zweifamilienhaus",
-    "title": "Zweifamilienhaus: Krötenburgstraße 5, 63667 Nidda",
-    "address": "Krötenburgstraße 5, 63667 Nidda",
-    "postal_code": "63667",
-    "city": "Nidda",
-    "market_value_eur": 204000.0,
+    "court": "Amtsgericht Wetzlar in Hessen",
+    "property_type": "unbebautes Grundstück",
+    "title": "unbebautes Grundstück: Hofäcker und Königstal, 35630 Ehringshausen",
+    "address": "Hofäcker und Königstal, 35630 Ehringshausen",
+    "postal_code": "35630",
+    "city": "Ehringshausen",
+    "market_value_eur": 89000.0,
     "currency": "EUR",
-    "auction_date": "Dienstag, 24. November 2026, 09:30 Uhr",
-    "auction_location": "Amtsgericht Büdingen, Stiegelwiese 1, 63654 Büdingen, Raum: Saal 1",
-    "land_register": "Nidda Blatt 4420",
+    "auction_date": "Montag, 30. November 2026, 09:30 Uhr",
+    "auction_location": "Amtsgericht Wetzlar, Wertherstr. 2, 35578 Wetzlar, Raum: 104 (Geb. A)",
+    "land_register": "Ehringshausen Blatt 3440",
     "status_notes": null,
     "is_cancelled": false,
-    "description": "Baujahr 1950/60, Modernisierungsstau",
+    "description": "zwei unbebaute Grundstücke",
     "creditor_info": null,
     "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134735&zvg_id=55325",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134736&zvg_id=55325",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134737&zvg_id=55325"
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134325&zvg_id=55186",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134326&zvg_id=55186",
+      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134327&zvg_id=55186"
     ],
     "documents": [
-      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134735&zvg_id=55325' file_type='pdf' file_size='62.62 kB'",
-      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134736&zvg_id=55325' file_type='pdf' file_size='1268.76 kB'",
-      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134737&zvg_id=55325' file_type='pdf' file_size='365.15 kB'"
+      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134325&zvg_id=55186' file_type='pdf' file_size='93.3 kB'",
+      "title='Gutachten' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134326&zvg_id=55186' file_type='pdf' file_size='1330.25 kB'",
+      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=he&file_id=134327&zvg_id=55186' file_type='pdf' file_size='574.87 kB'"
     ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=55325&land_abk=he",
-    "scraped_at": "2026-11-17T13:13:04.445355+00:00"
-  },
-  {
-    "zvg_id": "13465",
-    "case_number": "0007 K 0018/2025",
-    "state": "ni",
-    "court": "Amtsgericht Peine in Niedersachsen",
-    "property_type": "Einfamilienhaus",
-    "title": "Einfamilienhaus: Ernst-Reuter-Straße 8, 31224 Peine",
-    "address": "Ernst-Reuter-Straße 8, 31224 Peine",
-    "postal_code": "31224",
-    "city": "Peine",
-    "market_value_eur": 179000.0,
-    "currency": "EUR",
-    "auction_date": "Dienstag, 24. November 2026, 09:00 Uhr",
-    "auction_location": "Amtsgericht Peine, Am Amthof 4, 31224 Peine, Raum: Saal 47",
-    "land_register": "Peine Blatt 13063",
-    "status_notes": null,
-    "is_cancelled": false,
-    "description": "Voll unterkellertes ca. 1957 errichtetes Einfamilienhaus, ca. 118 m² Wohnfläche, Garage und kleinem Anbau.",
-    "creditor_info": null,
-    "pdf_urls": [
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=ni&file_id=33081&zvg_id=13465",
-      "https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=ni&file_id=33080&zvg_id=13465"
-    ],
-    "documents": [
-      "title='Amtliche Bekanntmachung' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=ni&file_id=33081&zvg_id=13465' file_type='pdf' file_size='103.26 kB'",
-      "title='Exposee' url='https://www.zvg-portal.de/index.php?button=showAnhang&land_abk=ni&file_id=33080&zvg_id=13465' file_type='pdf' file_size='214.65 kB'"
-    ],
-    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=13465&land_abk=ni",
-    "scraped_at": "2026-11-17T13:12:55.904999+00:00"
+    "detail_url": "https://www.zvg-portal.de/index.php?button=showZvg&zvg_id=55186&land_abk=he",
+    "scraped_at": "2026-11-23T15:29:24.203996+00:00"
   }
 ]
