@@ -52,6 +52,7 @@ from upsell_helpers import (  # noqa: E402
     GUMROAD_ZVG_URL,
     apply_sheet1_upsell_banner,
     apply_sheet2_upsell_infobox,
+    add_upgrade_column_to_csv_rows,
     wrap_sample_json_with_meta,
     write_full_records_txt,
 )
@@ -963,11 +964,11 @@ async def refresh_zvg_samples(weekly_cutoff: date, today_berlin: date) -> Tuple[
     (SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.json").write_text(
         json.dumps(zvg_json_payload, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    csv50_fields = list(sample_50_clean[0].keys())
+    csv50_fields, csv50_rows = add_upgrade_column_to_csv_rows(sample_50_clean)
     with (SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.csv").open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=csv50_fields)
         w.writeheader()
-        w.writerows(sample_50_clean)
+        w.writerows(csv50_rows)
     write_sample_50_xlsx(
         sample_50_clean,
         SAMPLES_DIR / "DE_Zwangsversteigerungen_Sample_50.xlsx",

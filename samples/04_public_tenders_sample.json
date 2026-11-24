@@ -25,7 +25,7 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7102123.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-23T15:29:30.526030+00:00"
+    "scraped_at": "2026-11-24T20:38:19.952359+00:00"
   },
   {
     "tender_id": "7102067",
@@ -53,7 +53,7 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7102067.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-23T15:29:30.526128+00:00"
+    "scraped_at": "2026-11-24T20:38:19.952661+00:00"
   },
   {
     "tender_id": "003906a0-1c87-4e2c-8737-6b3fb49f0d2b",
@@ -76,7 +76,7 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/healyhudson/2026/11/003906a0-1c87-4e2c-8737-6b3fb49f0d2b.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-23T15:29:30.526261+00:00"
+    "scraped_at": "2026-11-24T20:38:19.953241+00:00"
   },
   {
     "tender_id": "7100599",
@@ -102,7 +102,7 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7100599.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-23T15:29:30.526432+00:00"
+    "scraped_at": "2026-11-24T20:38:19.954370+00:00"
   },
   {
     "tender_id": "7100344",
@@ -129,6 +129,6 @@
     ],
     "detail_url": "https://www.service.bund.de/IMPORTE/Ausschreibungen/evergabede/2026/11/7100344.html",
     "matched_keyword": "Software",
-    "scraped_at": "2026-11-23T15:29:30.526529+00:00"
+    "scraped_at": "2026-11-24T20:38:19.954866+00:00"
   }
 ]

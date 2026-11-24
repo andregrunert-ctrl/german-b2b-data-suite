@@ -75,7 +75,12 @@ def apply_sheet1_upsell_banner(
     thin_blue = Side(style="thin", color="93C5FD")
 
     ws.merge_cells(f"A1:{last_col}1")
-    c1 = ws.cell(row=1, column=1, value=primary_text)
+    banner_text = (
+        primary_text
+        if primary_text.startswith("UPGRADE_TO_FULL_DATABASE:")
+        else f'UPGRADE_TO_FULL_DATABASE: "{primary_url}" — {primary_text}'
+    )
+    c1 = ws.cell(row=1, column=1, value=banner_text)
     c1.hyperlink = primary_url
     c1.fill = gold_fill
     c1.font = Font(name="Calibri", size=11, bold=True, color="0F2C59", underline="single")
@@ -153,6 +158,20 @@ def apply_sheet2_upsell_infobox(
     return cur + 1
 
 
+def add_upgrade_column_to_csv_rows(
+    rows: Sequence[Dict[str, Any]],
+    *,
+    upgrade_url: str = GUMROAD_ZVG_URL,
+) -> Tuple[List[str], List[Dict[str, Any]]]:
+    """Prepend `UPGRADE_TO_FULL_DATABASE` as the first CSV column so Python/pandas users see it immediately."""
+    if not rows:
+        return ["UPGRADE_TO_FULL_DATABASE"], []
+    base_fields = [k for k in rows[0].keys() if k != "UPGRADE_TO_FULL_DATABASE"]
+    fieldnames = ["UPGRADE_TO_FULL_DATABASE", *base_fields]
+    enriched = [{"UPGRADE_TO_FULL_DATABASE": upgrade_url, **r} for r in rows]
+    return fieldnames, enriched
+
+
 def wrap_sample_json_with_meta(
     records: List[Dict[str, Any]],
     *,
@@ -162,8 +181,9 @@ def wrap_sample_json_with_meta(
     note: str,
     extra_meta: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """Wrap sample records with explicit `_meta_full_dataset_download` conversion metadata."""
+    """Wrap sample records with explicit `UPGRADE_TO_FULL_DATABASE` & `_meta_full_dataset_download` metadata."""
     payload: Dict[str, Any] = {
+        "UPGRADE_TO_FULL_DATABASE": GUMROAD_ZVG_URL,
         "_meta_dataset_type": dataset_kind,
         "_meta_sample_records": len(records),
         "_meta_full_dataset_active_records": "2,965+",

@@ -39,6 +39,7 @@ from upsell_helpers import (  # noqa: E402
     GUMROAD_ZVG_URL,
     apply_sheet1_upsell_banner,
     apply_sheet2_upsell_infobox,
+    add_upgrade_column_to_csv_rows,
     wrap_sample_json_with_meta,
     write_full_records_txt,
 )
@@ -649,12 +650,12 @@ def save_outputs(nested_items: List[Dict[str, Any]]) -> None:
     flat_rows = [to_flat_row(it) for it in nested_items]
 
     # 1. DE_Handelsregister_KYB_Sample_50.csv + 02_handelsregister_kyb_sample.csv
-    fields = list(flat_rows[0].keys())
+    fields, csv_rows = add_upgrade_column_to_csv_rows(flat_rows)
     for csv_name in ("DE_Handelsregister_KYB_Sample_50.csv", "02_handelsregister_kyb_sample.csv"):
         with (SAMPLES_DIR / csv_name).open("w", encoding="utf-8-sig", newline="") as f:
             w = csv.DictWriter(f, fieldnames=fields)
             w.writeheader()
-            w.writerows(flat_rows)
+            w.writerows(csv_rows)
 
     # 2. DE_Handelsregister_KYB_Sample_50.json (with upsell meta) + 02_handelsregister_kyb_sample.json
     kyb_json_payload = wrap_sample_json_with_meta(

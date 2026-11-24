@@ -1,4 +1,5 @@
 {
+  "UPGRADE_TO_FULL_DATABASE": "https://grunertandre.gumroad.com/l/qklpqn",
   "_meta_dataset_type": "DE_Handelsregister_KYB_Sample_50",
   "_meta_sample_records": 50,
   "_meta_full_dataset_active_records": "2,965+",
@@ -8,7 +9,7 @@
   "_meta_fiverr_gig": "https://www.fiverr.com/s/yeWblEA",
   "_meta_github_repo": "https://github.com/andregrunert-ctrl/german-b2b-data-suite",
   "_meta_note": "Curated 50-company German Handelsregister & Insolvency KYB sample. Run unlimited live KYB checks at https://apify.com/AGrunert/german-company-kyb-insolvency-scraper or get the 2,965+ ZVG Foreclosures Master Dataset at https://grunertandre.gumroad.com/l/qklpqn",
-  "_meta_generated_at_utc": "2026-11-23T15:30:51Z",
+  "_meta_generated_at_utc": "2026-11-24T20:38:58Z",
   "records": [
     {
       "company_name": "BioNTech SE",
@@ -31,7 +32,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "SAP SE",
@@ -54,7 +55,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Siemens Aktiengesellschaft",
@@ -77,7 +78,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Deutsche Börse Aktiengesellschaft",
@@ -100,7 +101,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "BASF SE",
@@ -123,7 +124,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Zalando SE",
@@ -146,7 +147,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "N26 Bank SE",
@@ -169,7 +170,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Deutsche Post AG",
@@ -192,7 +193,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Mercedes-Benz Group AG",
@@ -215,7 +216,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Bayer Aktiengesellschaft",
@@ -238,7 +239,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Covestro AG",
@@ -261,7 +262,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "LANXESS Aktiengesellschaft",
@@ -284,7 +285,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Deutsche Lufthansa Aktiengesellschaft",
@@ -307,7 +308,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "DeepL SE",
@@ -330,7 +331,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Ströer SE & Co. KGaA",
@@ -353,7 +354,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Henkel AG & Co. KGaA",
@@ -376,7 +377,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "GEA Group Aktiengesellschaft",
@@ -399,7 +400,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Rheinmetall Aktiengesellschaft",
@@ -422,7 +423,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Beiersdorf Aktiengesellschaft",
@@ -445,7 +446,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Fielmann Group AG",
@@ -468,7 +469,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Aurubis AG",
@@ -491,7 +492,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Heidelberg Materials AG",
@@ -514,7 +515,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "RWE Aktiengesellschaft",
@@ -537,7 +538,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "E.ON SE",
@@ -560,7 +561,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Brenntag SE",
@@ -583,7 +584,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Evonik Industries AG",
@@ -606,7 +607,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "HOCHTIEF Aktiengesellschaft",
@@ -629,7 +630,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Esprit Europe GmbH",
@@ -652,7 +653,7 @@
       "insolvency_cases_count": 1,
       "insolvency_details": "01.08.2024 Düsseldorf 500 IN 103/24",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Vonovia SE",
@@ -675,7 +676,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Fresenius SE & Co. KGaA",
@@ -698,7 +699,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Sartorius Aktiengesellschaft",
@@ -721,7 +722,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Symrise AG",
@@ -744,7 +745,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Continental Aktiengesellschaft",
@@ -767,7 +768,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Hannover Rück SE",
@@ -790,7 +791,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "TUI AG",
@@ -813,7 +814,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Talanx Aktiengesellschaft",
@@ -836,7 +837,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Salzgitter Aktiengesellschaft",
@@ -859,7 +860,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "TeamViewer SE",
@@ -882,7 +883,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Carl Zeiss Meditec AG",
@@ -905,7 +906,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "FUCHS SE",
@@ -928,7 +929,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Bilfinger SE",
@@ -951,7 +952,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Bechtle Aktiengesellschaft",
@@ -974,7 +975,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "AIXTRON SE",
@@ -997,7 +998,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "KION GROUP AG",
@@ -1020,7 +1021,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "flatexDEGIRO SE",
@@ -1043,7 +1044,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "HUGO BOSS AG",
@@ -1066,7 +1067,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "HelloFresh SE",
@@ -1089,7 +1090,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "Deutsche Telekom AG",
@@ -1112,7 +1113,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "DEUTSCHE BANK AKTIENGESELLSCHAFT",
@@ -1135,7 +1136,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     },
     {
       "company_name": "VOLKSWAGEN AKTIENGESELLSCHAFT",
@@ -1158,7 +1159,7 @@
       "insolvency_cases_count": 0,
       "insolvency_details": "",
       "handelsregister_url": "https://www.handelsregister.de/rp_web/welcome.xhtml",
-      "scraped_at": "2026-11-23T15:30:51Z"
+      "scraped_at": "2026-11-24T20:38:58Z"
     }
   ]
 }

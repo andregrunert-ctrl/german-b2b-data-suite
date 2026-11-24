@@ -30,6 +30,8 @@ Turnkey integration into **Claude Desktop, Cursor AI, Windsurf, LangChain, n8n, 
 
 [![Watch German B2B Data Suite Live Video Showcase](https://raw.githubusercontent.com/andregrunert-ctrl/german-b2b-data-suite/main/docs/b2b_showcase_banner.png)](https://youtu.be/ERydgz1hGk8)
 
+> 🚀 **Try it live without coding in the Apify Cloud:** Run all 6 specialized Actors & 13 ready-to-use Public Tasks directly in the cloud (incl. $5/month free Starter credits) at [**apify.com/AGrunert**](https://apify.com/AGrunert).
+
 *Automate German B2B leads, GDPR-compliant impressum contact enrichment, real-time Handelsregister & insolvency KYB audits, ZVG foreclosures, and public tenders via Apify, n8n, Make.com, or AI Agents (MCP).*
 
 ---
